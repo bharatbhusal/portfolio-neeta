@@ -1,0 +1,136 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
+
+import { Reveal } from "@/components/animations/reveal";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useGSAP } from "@/hooks/useGSAP";
+import type { Project, SiteData } from "@/types/portfolio";
+
+type HeroProps = {
+	site: SiteData;
+	featuredProject?: Project;
+};
+
+export function Hero({ site, featuredProject }: HeroProps) {
+	const scopeRef = useRef<HTMLElement | null>(null);
+	useGSAP({ scope: scopeRef });
+
+	return (
+		<section
+			ref={scopeRef}
+			className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+		>
+			<div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+				<div className="space-y-8">
+					<Reveal>
+						<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+							{site.hero.eyebrow}
+						</p>
+					</Reveal>
+
+					<div className="space-y-5">
+						<Reveal>
+							<h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-7xl">
+								{site.hero.title}
+							</h1>
+						</Reveal>
+						<Reveal>
+							<p className="max-w-2xl text-lg leading-8 text-muted-foreground lg:text-xl">
+								{site.hero.summary}
+							</p>
+						</Reveal>
+						<Reveal>
+							<p className="max-w-xl text-sm leading-6 text-foreground/80">
+								{site.hero.accent}
+							</p>
+						</Reveal>
+					</div>
+
+					<Reveal className="flex flex-wrap gap-3">
+						{site.hero.actions.map((action) => (
+							<Button
+								key={action.href}
+								asChild
+								variant={action.variant}
+								size="lg"
+							>
+								<Link href={action.href}>
+									{action.label}
+									<ArrowUpRight className="size-4" />
+								</Link>
+							</Button>
+						))}
+					</Reveal>
+
+					<div className="grid gap-3 sm:grid-cols-3">
+						{site.about.stats.map((stat) => (
+							<div
+								key={stat.label}
+								data-reveal
+								className="rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur"
+							>
+								<p className="text-sm text-muted-foreground">
+									{stat.label}
+								</p>
+								<p className="mt-2 text-2xl font-semibold tracking-tight">
+									{stat.value}
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<Card
+					data-hover-lift
+					className="overflow-hidden border-border/60 bg-card/70 backdrop-blur"
+				>
+					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60">
+						<Image
+							src={site.hero.image}
+							alt={site.name}
+							fill
+							className="object-cover"
+							priority
+							sizes="(min-width: 1024px) 40vw, 100vw"
+						/>
+						<div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+					</div>
+					<CardContent className="space-y-6 py-6">
+						<div className="space-y-2">
+							<p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
+								Featured Work
+							</p>
+							<p className="text-lg font-medium">
+								{featuredProject?.title ?? site.tagline}
+							</p>
+							<p className="text-sm leading-6 text-muted-foreground">
+								{featuredProject?.summary ?? site.about.bio}
+							</p>
+						</div>
+
+						{featuredProject ? (
+							<div className="flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background/55 px-4 py-3">
+								<div>
+									<p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
+										{featuredProject.category}
+									</p>
+									<p className="mt-1 text-sm font-medium">
+										{featuredProject.client}
+									</p>
+								</div>
+								<Button asChild size="sm" variant="outline">
+									<Link href="/work">Explore</Link>
+								</Button>
+							</div>
+						) : null}
+					</CardContent>
+				</Card>
+			</div>
+		</section>
+	);
+}

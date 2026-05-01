@@ -1,0 +1,25 @@
+{
+	"photographs": [
+		{
+			"title": "Morning Light",
+			"location": "Kathmandu",
+			"year": "2026",
+			"image": "/images/photo-morning.svg",
+			"summary": "A study of soft shadows and reflected light on quiet streets."
+		},
+		{
+			"title": "Studio Desk",
+			"location": "Kathmandu",
+			"year": "2025",
+			"image": "/images/photo-desk.svg",
+			"summary": "The tools, notes, and textures that shape the studio process."
+		},
+		{
+			"title": "Evening Walk",
+			"location": "Patan",
+			"year": "2025",
+			"image": "/images/photo-evening.svg",
+			"summary": "An atmospheric frame built from color, distance, and slow movement."
+		}
+	]
+}

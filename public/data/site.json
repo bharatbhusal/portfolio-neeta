@@ -1,0 +1,91 @@
+{
+	"name": "Neeta Bhusal",
+	"role": "Designer / Developer / Visual Storyteller",
+	"tagline": "Minimal systems with an artistic edge.",
+	"description": "Neeta Bhusal creates calm, tactile digital experiences grounded in structure, clarity, and a teal-led visual language.",
+	"location": "Kathmandu, Nepal",
+	"email": "hello@neetabhusal.com",
+	"phone": "+977 9800000000",
+	"seo": {
+		"title": "Neeta Bhusal | Portfolio",
+		"description": "A production-ready portfolio for Neeta Bhusal, blending minimal design with artistic motion and data-driven content.",
+		"url": "https://neetabhusal.com",
+		"ogImage": "/images/hero-portrait.svg"
+	},
+	"nav": [
+		{
+			"label": "Home",
+			"href": "/"
+		},
+		{
+			"label": "Work",
+			"href": "/work"
+		},
+		{
+			"label": "About",
+			"href": "/about"
+		},
+		{
+			"label": "Contact",
+			"href": "/contact"
+		}
+	],
+	"social": [
+		{
+			"label": "Instagram",
+			"href": "https://instagram.com"
+		},
+		{
+			"label": "LinkedIn",
+			"href": "https://linkedin.com"
+		},
+		{
+			"label": "Behance",
+			"href": "https://behance.net"
+		}
+	],
+	"hero": {
+		"eyebrow": "Selected Portfolio 2026",
+		"title": "Minimal, thoughtful web experiences with a teal pulse.",
+		"summary": "I design and build portfolio experiences that feel editorial, precise, and quietly expressive across desktop and mobile screens.",
+		"accent": "Clean structure, soft motion, and data-driven content.",
+		"image": "/images/hero-portrait.svg",
+		"actions": [
+			{
+				"label": "View Work",
+				"href": "/work",
+				"variant": "default"
+			},
+			{
+				"label": "Start a Project",
+				"href": "/contact",
+				"variant": "outline"
+			}
+		]
+	},
+	"about": {
+		"bio": "Neeta Bhusal is a Kathmandu-based creative practitioner working across digital strategy, interface design, and front-end development.",
+		"vision": "Build digital spaces that feel calm at first glance and rewarding at every layer of exploration.",
+		"mission": "Translate thoughtful ideas into resilient, accessible, and visually memorable experiences.",
+		"values": [
+			"Clarity over noise",
+			"Art direction with intention",
+			"Interfaces that scale gracefully",
+			"Motion that guides, never distracts"
+		],
+		"stats": [
+			{
+				"label": "Projects",
+				"value": "24"
+			},
+			{
+				"label": "Years",
+				"value": "6"
+			},
+			{
+				"label": "Disciplines",
+				"value": "3"
+			}
+		]
+	}
+}

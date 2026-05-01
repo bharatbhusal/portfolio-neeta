@@ -1,0 +1,74 @@
+{
+	"projects": [
+		{
+			"slug": "lumen-studio",
+			"title": "Lumen Studio",
+			"category": "Graphic Design",
+			"summary": "Studio identity for a lighting atelier.",
+			"story": "A calm system that lets crafted objects breathe—balancing craft and clarity.",
+			"description": "Editorial rhythm, tactile surfaces, and a precise component language translated the brand into a calm digital storefront.",
+			"year": "2026",
+			"client": "Lumen Studio",
+			"image": "/images/project-lumen.svg",
+			"link": "https://example.com/lumen",
+			"featured": true,
+			"tags": ["Identity", "Print", "Brand"]
+		},
+		{
+			"slug": "madhubani-series",
+			"title": "Madhubani Series",
+			"category": "Traditional Art",
+			"summary": "Hand-painted panels inspired by folk symbolism.",
+			"story": "Exploring cultural motifs through a contemporary palette—stories painted in detail.",
+			"description": "A small series of paintings drawing from Madhubani line-work and iconography, reimagined for posters and prints.",
+			"year": "2025",
+			"client": "Personal",
+			"image": "/images/project-madhubani.svg",
+			"link": "https://example.com/madhubani",
+			"featured": true,
+			"tags": ["Painting", "Illustration", "Print"]
+		},
+		{
+			"slug": "atelier-archive",
+			"title": "Atelier Archive",
+			"category": "Illustration",
+			"summary": "A narrative-led visual archive.",
+			"story": "Collected fragments—images and notes that trace a process, curated for slow reading.",
+			"description": "The experience foregrounded typography and carefully measured spacing to make long-form content feel inviting.",
+			"year": "2025",
+			"client": "Atelier Archive",
+			"image": "/images/project-atelier.svg",
+			"link": "https://example.com/archive",
+			"featured": true,
+			"tags": ["Editorial", "Illustration"]
+		},
+		{
+			"slug": "flow-collective",
+			"title": "Flow Collective",
+			"category": "3D Work",
+			"summary": "Spatial experiment for a small product team.",
+			"story": "Physical thinking translated into interface—materials and motion working together.",
+			"description": "A modular design language made it easy to ship new pages without losing the brand's careful tone.",
+			"year": "2024",
+			"client": "Flow Collective",
+			"image": "/images/project-flow.svg",
+			"link": "https://example.com/flow",
+			"featured": false,
+			"tags": ["3D", "UI", "Systems"]
+		},
+		{
+			"slug": "northline-film",
+			"title": "Northline Film",
+			"category": "Photography",
+			"summary": "A photographic series for a short film campaign.",
+			"story": "Framed moments that support a larger emotional arc—light, texture, and timing.",
+			"description": "This project emphasized atmospheric color, bold crop-based imagery, and motion that supported the narrative arc.",
+			"year": "2024",
+			"client": "Northline Film",
+			"image": "/images/project-northline.svg",
+			"link": "https://example.com/northline",
+			"featured": false,
+			"tags": ["Photography", "Campaign"]
+		}
+	]
+}
