@@ -2,8 +2,7 @@ import { About } from "@/components/sections/about";
 import { buildPageMetadata } from "@/lib/seo";
 import { fetchJson } from "@/lib/data";
 import type {
-	ArtworksData,
-	PhotographyData,
+	ProjectsData,
 	SiteData,
 } from "@/types/portfolio";
 
@@ -19,19 +18,17 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-	const [site, artworks, photography] = await Promise.all([
+	const [site, projects] = await Promise.all([
 		fetchJson<SiteData>("/data/site.json"),
-		fetchJson<ArtworksData>("/data/artworks.json"),
-		fetchJson<PhotographyData>("/data/photography.json"),
+		fetchJson<ProjectsData>("/data/projects.json"),
 	]);
+	const featuredProjects = projects.projects
+		.filter((project) => project.featured)
+		.slice(0, 3);
 
 	return (
 		<main className="pb-8 lg:pb-12">
-			<About
-				site={site}
-				artworks={artworks.artworks}
-				photographs={photography.photographs}
-			/>
+			<About site={site} featuredProjects={featuredProjects} />
 		</main>
 	);
 }

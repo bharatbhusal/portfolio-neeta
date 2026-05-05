@@ -53,45 +53,18 @@ export type SiteData = {
 };
 
 export type Project = {
-	slug: string;
+	key: string;
 	title: string;
 	category: string;
 	summary: string;
 	description: string;
 	year: string;
-	client: string;
-	image: string;
-	link: string;
 	featured: boolean;
 	tags: string[];
 };
 
 export type ProjectsData = {
 	projects: Project[];
-};
-
-export type Artwork = {
-	title: string;
-	category: string;
-	year: string;
-	image: string;
-	summary: string;
-};
-
-export type ArtworksData = {
-	artworks: Artwork[];
-};
-
-export type Photograph = {
-	title: string;
-	location: string;
-	year: string;
-	image: string;
-	summary: string;
-};
-
-export type PhotographyData = {
-	photographs: Photograph[];
 };
 
 export type ContactData = {

@@ -103,7 +103,7 @@ export function WorkGrid({
 
 				<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 					{visibleProjects.map((project) => (
-						<ProjectCard key={project.slug} project={project} />
+						<ProjectCard key={project.key} project={project} />
 					))}
 				</div>
 			</div>

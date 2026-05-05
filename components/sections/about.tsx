@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
-import { ArtworkCard } from "@/components/cards/artwork-card";
 import { Reveal } from "@/components/animations/reveal";
+import { ProjectCard } from "@/components/cards/project-card";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -15,23 +14,17 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
-import type {
-	Artwork,
-	Photograph,
-	SiteData,
-} from "@/types/portfolio";
+import type { Project, SiteData } from "@/types/portfolio";
 
 type AboutProps = {
 	site: SiteData;
-	artworks: Artwork[];
-	photographs: Photograph[];
+	featuredProjects: Project[];
 	compact?: boolean;
 };
 
 export function About({
 	site,
-	artworks,
-	photographs,
+	featuredProjects,
 	compact = false,
 }: AboutProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
@@ -126,42 +119,32 @@ export function About({
 						))}
 					</div>
 
-					<div className="grid gap-4 lg:grid-cols-2">
-						{artworks.slice(0, 2).map((artwork) => (
-							<ArtworkCard key={artwork.title} artwork={artwork} />
-						))}
-					</div>
-
-					<div className="grid gap-4 lg:grid-cols-2">
-						{photographs.slice(0, 2).map((photo) => (
-							<Card
-								key={photo.title}
-								data-hover-lift
-								className="overflow-hidden border-border/60 bg-card/70 backdrop-blur"
-							>
-								<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
-									<Image
-										src={photo.image}
-										alt={photo.title}
-										fill
-										className="object-cover"
-										sizes="(min-width: 1024px) 25vw, 100vw"
-									/>
-								</div>
-								<CardHeader>
-									<div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.24em] text-muted-foreground">
-										<span>{photo.location}</span>
-										<span>{photo.year}</span>
-									</div>
-									<CardTitle className="text-lg">
-										{photo.title}
-									</CardTitle>
-								</CardHeader>
-								<CardContent className="pb-4 text-sm leading-6 text-muted-foreground">
-									{photo.summary}
-								</CardContent>
-							</Card>
-						))}
+					<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
+						<div className="flex items-end justify-between gap-3">
+							<div className="space-y-2">
+								<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+									Featured projects
+								</p>
+								<p className="text-sm leading-6 text-muted-foreground">
+									A short selection from the current portfolio.
+								</p>
+							</div>
+							<Button asChild variant="outline" size="sm">
+								<Link href="/work">View all</Link>
+							</Button>
+						</div>
+						{featuredProjects.length > 0 ? (
+							<div className="grid gap-4 lg:grid-cols-3">
+								{featuredProjects.map((project) => (
+									<ProjectCard key={project.key} project={project} />
+								))}
+							</div>
+						) : (
+							<p className="text-sm leading-6 text-muted-foreground">
+								Featured projects will appear here once they are
+								added to the archive.
+							</p>
+						)}
 					</div>
 
 					{!compact ? (

@@ -1,12 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -24,7 +21,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 		>
 			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
 				<Image
-					src={project.image}
+					src={`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`}
 					alt={project.title}
 					fill
 					className="object-cover transition duration-700 group-hover:scale-105"
@@ -39,7 +36,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 			<CardHeader>
 				<div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.24em] text-muted-foreground">
-					<span>{project.client}</span>
+					<span>{project.category}</span>
 					<span>{project.year}</span>
 				</div>
 				<CardTitle className="text-xl">
@@ -65,21 +62,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 					))}
 				</div>
 			</CardContent>
-
-			<CardFooter className="flex items-center justify-between gap-4 border-t border-border/60 bg-transparent">
-				<span className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-					Case study
-				</span>
-				<Button asChild variant="outline" size="sm">
-					<Link
-						href={project.link}
-						target="_blank"
-						rel="noreferrer"
-					>
-						Visit
-					</Link>
-				</Button>
-			</CardFooter>
 		</Card>
 	);
 }

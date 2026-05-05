@@ -91,7 +91,7 @@ export function Hero({ site, featuredProject }: HeroProps) {
 				>
 					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60">
 						<Image
-							src={site.hero.image}
+							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=1200&h=900&crop=fill&format=auto&q=auto`}
 							alt={site.name}
 							fill
 							className="object-cover"
@@ -120,7 +120,7 @@ export function Hero({ site, featuredProject }: HeroProps) {
 										{featuredProject.category}
 									</p>
 									<p className="mt-1 text-sm font-medium">
-										{featuredProject.client}
+										{featuredProject.year}
 									</p>
 								</div>
 								<Button asChild size="sm" variant="outline">

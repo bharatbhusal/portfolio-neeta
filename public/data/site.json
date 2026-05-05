@@ -10,7 +10,7 @@
 		"title": "Neeta Bhusal | Portfolio",
 		"description": "A production-ready portfolio for Neeta Bhusal, blending minimal design with artistic motion and data-driven content.",
 		"url": "https://neetabhusal.com",
-		"ogImage": "/images/hero-portrait.svg"
+		"ogImage": "forest_sky_view.jpg"
 	},
 	"nav": [
 		{
@@ -49,7 +49,7 @@
 		"title": "Minimal, thoughtful web experiences with a teal pulse.",
 		"summary": "I design and build portfolio experiences that feel editorial, precise, and quietly expressive across desktop and mobile screens.",
 		"accent": "Clean structure, soft motion, and data-driven content.",
-		"image": "/images/hero-portrait.svg",
+		"image": "forest_sky_view.jpg",
 		"actions": [
 			{
 				"label": "View Work",

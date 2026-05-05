@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import type { SiteData } from "@/types/portfolio";
 
 type NavbarProps = {
@@ -20,10 +19,6 @@ export function Navbar({ site }: NavbarProps) {
 							{site.role}
 						</span>
 					</Link>
-
-					<div className="flex items-center gap-2">
-						<ThemeToggle />
-					</div>
 				</div>
 
 				<nav className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
