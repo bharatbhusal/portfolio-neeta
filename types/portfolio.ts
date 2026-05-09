@@ -75,7 +75,6 @@ export type ProjectsData = {
 export type ContactData = {
 	heading: string;
 	summary: string;
-	availability: string;
 	vcard: {
 		filename: string;
 	};

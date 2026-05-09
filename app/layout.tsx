@@ -3,6 +3,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { fetchJson } from "@/lib/data";
 import type {
 	ContactData,
@@ -55,6 +56,7 @@ export default async function RootLayout({
 				<div className="flex min-h-dvh flex-col">
 					<Navbar site={site} />
 					<div className="flex-1">{children}</div>
+					<Footer site={site} />
 				</div>
 			</body>
 		</html>

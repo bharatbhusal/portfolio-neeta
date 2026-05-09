@@ -96,46 +96,37 @@ export function WorkGrid({
 						<ProjectCard key={project.key} project={project} />
 					))}
 				</div>
-				<div className="flex items-center justify-between gap-3">
-					<Button
-						asChild
-						variant="outline"
-						size="sm"
-						disabled={pagination.page <= 1}
-					>
-						<Link
-							aria-disabled={pagination.page <= 1}
-							href={createQuery(
-								Math.max(1, pagination.page - 1),
-								currentCategory,
-							)}
-						>
-							Previous
-						</Link>
-					</Button>
-					<p className="text-sm text-muted-foreground">
-						Page {pagination.page} of {pagination.totalPages}
-					</p>
-					<Button
-						asChild
-						variant="outline"
-						size="sm"
-						disabled={pagination.page >= pagination.totalPages}
-					>
-						<Link
-							aria-disabled={pagination.page >= pagination.totalPages}
-							href={createQuery(
-								Math.min(
-									pagination.totalPages,
-									pagination.page + 1,
-								),
-								currentCategory,
-							)}
-						>
-							Next
-						</Link>
-					</Button>
-				</div>
+				{pagination.totalPages > 1 && (
+					<div className="flex items-center justify-between gap-3">
+						<Button asChild variant="outline" size="sm">
+							<Link
+								href={createQuery(
+									pagination.page <= 1
+										? pagination.totalPages
+										: pagination.page - 1,
+									currentCategory,
+								)}
+							>
+								Previous
+							</Link>
+						</Button>
+						<p className="text-sm text-muted-foreground">
+							Page {pagination.page} of {pagination.totalPages}
+						</p>
+						<Button asChild variant="outline" size="sm">
+							<Link
+								href={createQuery(
+									pagination.page >= pagination.totalPages
+										? 1
+										: pagination.page + 1,
+									currentCategory,
+								)}
+							>
+								Next
+							</Link>
+						</Button>
+					</div>
+				)}
 			</div>
 		</section>
 	);

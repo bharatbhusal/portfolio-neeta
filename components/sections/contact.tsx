@@ -55,24 +55,6 @@ export function Contact({
 							{contact.summary}
 						</p>
 					</Reveal>
-					<Reveal>
-						<p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
-							{contact.availability}
-						</p>
-					</Reveal>
-
-					<Reveal className="flex flex-wrap gap-3">
-						<Button asChild size="lg">
-							<Link
-								href={`/api/vcard?name=${encodeURIComponent(site.name)}`}
-							>
-								Download vCard
-							</Link>
-						</Button>
-						<Button asChild variant="outline" size="lg">
-							<Link href={`mailto:${site.email}`}>Email</Link>
-						</Button>
-					</Reveal>
 				</div>
 
 				<div className="space-y-4">
@@ -114,26 +96,6 @@ export function Contact({
 							</div>
 						</CardContent>
 					</Card>
-					<Card className="border-border/60 bg-card/60 backdrop-blur">
-						<CardHeader>
-							<CardTitle className="text-lg">
-								vCard QR
-							</CardTitle>
-						</CardHeader>
-						<CardContent className="space-y-3">
-							<div className="relative mx-auto size-40 overflow-hidden rounded-xl border border-border/60 bg-background">
-								<Image
-									src="/api/vcard/qr"
-									alt="QR code to download Neeta vCard"
-									fill
-									className="object-contain p-2"
-								/>
-							</div>
-							<p className="text-center text-xs text-muted-foreground">
-								Scan to download the contact card.
-							</p>
-						</CardContent>
-					</Card>
 
 					<div className="grid gap-4 sm:grid-cols-3">
 						{contact.channels.map((channel) => (
@@ -163,14 +125,6 @@ export function Contact({
 							</Card>
 						))}
 					</div>
-
-					{!compact ? (
-						<Card className="border-border/60 bg-card/50 backdrop-blur">
-							<CardContent className="py-6 text-sm leading-7 text-muted-foreground">
-								{site.description}
-							</CardContent>
-						</Card>
-					) : null}
 				</div>
 			</div>
 		</section>
