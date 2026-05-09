@@ -18,12 +18,16 @@
 			"href": "/"
 		},
 		{
-			"label": "Work",
-			"href": "/work"
+			"label": "Projects",
+			"href": "/projects"
 		},
 		{
 			"label": "About",
 			"href": "/about"
+		},
+		{
+			"label": "Profile",
+			"href": "/profile"
 		},
 		{
 			"label": "Contact",
@@ -53,8 +57,8 @@
 		"image": "neeta_creative_portfolio.jpg",
 		"actions": [
 			{
-				"label": "Explore My Work",
-				"href": "/work",
+				"label": "Explore My Projects",
+				"href": "/projects",
 				"variant": "default"
 			},
 			{

@@ -12,7 +12,7 @@ export async function generateMetadata() {
 	return buildPageMetadata(site, {
 		title: "Contact | Neeta Bhusal",
 		description:
-			"Reach out for portfolio work, collaborations, and creative partnerships.",
+			"Reach out for portfolio projects, collaborations, and creative partnerships.",
 		path: "/contact",
 	});
 }

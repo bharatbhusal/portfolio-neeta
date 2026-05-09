@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import {
 	Card,
@@ -14,6 +15,8 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
+	const cardSummary = project.summary ?? project.description;
+
 	return (
 		<Card
 			data-hover-lift
@@ -21,7 +24,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
 		>
 			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
 				<Image
-					src={`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`}
+					src={
+						project.imageUrl ??
+						`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`
+					}
 					alt={project.title}
 					fill
 					className="object-cover transition duration-700 group-hover:scale-105"
@@ -43,14 +49,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
 					{project.title}
 				</CardTitle>
 				<CardDescription className="text-sm leading-6">
-					{project.summary}
+					{cardSummary}
 				</CardDescription>
 			</CardHeader>
 
 			<CardContent className="space-y-4">
-				<p className="text-sm leading-6 text-muted-foreground">
-					{project.description}
-				</p>
+				<Link
+					href={`/projects/${encodeURIComponent(project.key)}`}
+					className="inline-flex text-sm font-medium text-primary transition hover:text-primary/80"
+				>
+					View project
+				</Link>
 				<div className="flex flex-wrap gap-2">
 					{project.tags.map((tag) => (
 						<span
