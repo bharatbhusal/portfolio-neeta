@@ -49,7 +49,7 @@ export async function GET(req: Request) {
 		.filter(Boolean);
 	const publicId = params.get("publicId");
 	const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-	const folder = "portfolio_neeta";
+	const uploadFolder = "portfolio_neeta";
 
 	if (!cloudName) {
 		return NextResponse.json(
@@ -69,7 +69,7 @@ export async function GET(req: Request) {
 				.join("/");
 			return {
 				public_id: id,
-				url: `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${folder}/${encoded}`,
+				url: `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${uploadFolder}/${encoded}`,
 			};
 		});
 
@@ -85,7 +85,7 @@ export async function GET(req: Request) {
 			.join("/");
 		const download = params.get("download") === "1";
 
-		const fetchUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${folder}/${encoded}`;
+		const fetchUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${uploadFolder}/${encoded}`;
 
 		const upstream = await fetch(fetchUrl);
 		if (!upstream.ok) {
