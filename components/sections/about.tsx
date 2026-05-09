@@ -130,7 +130,7 @@ export function About({
 								</p>
 							</div>
 							<Button asChild variant="outline" size="sm">
-								<Link href="/work">View all</Link>
+								<Link href="/projects">View all</Link>
 							</Button>
 						</div>
 						{featuredProjects.length > 0 ? (

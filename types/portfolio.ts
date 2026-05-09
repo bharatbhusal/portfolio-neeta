@@ -57,12 +57,15 @@ export type Project = {
 	title: string;
 	category: string;
 	summary?: string;
+	story?: string;
 	description: string;
 	year: string;
 	featured: boolean;
 	tags: string[];
 	client?: string;
 	link?: string;
+	imageUrl?: string;
+	downloadUrl?: string;
 };
 
 export type ProjectsData = {
@@ -73,11 +76,26 @@ export type ContactData = {
 	heading: string;
 	summary: string;
 	availability: string;
-	email: string;
-	phone: string;
-	location: string;
 	vcard: {
 		filename: string;
 	};
 	channels: SocialLink[];
+};
+
+export type AboutMeData = {
+	title: string;
+	bio: string;
+	long: string;
+	cta: ActionLink;
+};
+
+export type PaginatedProjectsData = {
+	projects: Project[];
+	categories: string[];
+	pagination: {
+		page: number;
+		pageSize: number;
+		total: number;
+		totalPages: number;
+	};
 };

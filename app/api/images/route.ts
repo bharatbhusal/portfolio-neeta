@@ -15,12 +15,23 @@ function buildTransformString(params: URLSearchParams) {
 	const c = params.get("crop");
 	const q = params.get("q");
 	const f = params.get("format");
+	const watermark = params.get("watermark");
 
 	if (w) pieces.push(`w_${w}`);
 	if (h) pieces.push(`h_${h}`);
 	if (c) pieces.push(`c_${c}`);
 	if (q) pieces.push(`q_${q}`);
 	if (f) pieces.push(`f_${f}`);
+	if (watermark) {
+		pieces.push(
+			`l_text:Arial_34_bold:${encodeURIComponent(watermark)}`,
+		);
+		pieces.push("g_south_east");
+		pieces.push("x_30");
+		pieces.push("y_30");
+		pieces.push("o_60");
+		pieces.push("co_white");
+	}
 
 	return pieces.length > 0
 		? pieces.join(",")
@@ -31,23 +42,62 @@ export async function GET(req: Request) {
 	const url = new URL(req.url);
 	const params = url.searchParams;
 
+	const publicIds = params
+		.get("publicIds")
+		?.split(",")
+		.map((id) => id.trim())
+		.filter(Boolean);
 	const publicId = params.get("publicId");
+	const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+	const uploadFolder = "portfolio_neeta";
+
+	if (!cloudName) {
+		return NextResponse.json(
+			{
+				error: "Missing Cloudinary cloud name configuration.",
+			},
+			{ status: 500 },
+		);
+	}
+
+	if (publicIds && publicIds.length > 0) {
+		const transform = buildTransformString(params);
+		const resources = publicIds.map((id) => {
+			const encoded = id
+				.split("/")
+				.map((segment) => encodeURIComponent(segment))
+				.join("/");
+			return {
+				public_id: id,
+				url: `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${uploadFolder}/${encoded}`,
+			};
+		});
+
+		return NextResponse.json({ resources });
+	}
 
 	// If a publicId is provided, proxy the image from Cloudinary (with optional transforms)
 	if (publicId) {
 		const transform = buildTransformString(params);
-		const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
 		const encoded = publicId
 			.split("/")
 			.map((s) => encodeURIComponent(s))
 			.join("/");
+		const download = params.get("download") === "1";
 
-		const fetchUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/portfolio_neeta/${encoded}`;
+		const fetchUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${uploadFolder}/${encoded}`;
 
 		const upstream = await fetch(fetchUrl);
 		if (!upstream.ok) {
+			const upstreamBody = await upstream.text();
 			return NextResponse.json(
-				{ error: "Failed to fetch image from Cloudinary" },
+				{
+					error: "Cloudinary image request failed.",
+					publicId,
+					status: upstream.status,
+					statusText: upstream.statusText,
+					details: upstreamBody.slice(0, 400) || undefined,
+				},
 				{ status: upstream.status },
 			);
 		}
@@ -55,6 +105,10 @@ export async function GET(req: Request) {
 		const headers: Record<string, string> = {};
 		const ct = upstream.headers.get("content-type");
 		if (ct) headers["Content-Type"] = ct;
+		if (download) {
+			headers["Content-Disposition"] =
+				`attachment; filename="${publicId.split("/").pop() ?? "project-image"}"`;
+		}
 
 		const buffer = await upstream.arrayBuffer();
 		return new Response(buffer, { status: 200, headers });
@@ -118,11 +172,24 @@ export async function GET(req: Request) {
 			next_cursor: result.next_cursor || null,
 		});
 	} catch (err) {
+		const asObject =
+			err && typeof err === "object"
+				? (err as {
+						message?: string;
+						http_code?: number;
+						error?: { message?: string };
+					})
+				: undefined;
 		const message =
-			err instanceof Error ? err.message : String(err);
+			asObject?.error?.message ??
+			asObject?.message ??
+			String(err);
 		return NextResponse.json(
-			{ error: message },
-			{ status: 500 },
+			{
+				error: "Cloudinary search failed.",
+				details: message,
+			},
+			{ status: asObject?.http_code ?? 500 },
 		);
 	}
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -69,7 +70,7 @@ export function Contact({
 							</Link>
 						</Button>
 						<Button asChild variant="outline" size="lg">
-							<Link href={`mailto:${contact.email}`}>Email</Link>
+							<Link href={`mailto:${site.email}`}>Email</Link>
 						</Button>
 					</Reveal>
 				</div>
@@ -89,9 +90,9 @@ export function Contact({
 								<span>Email</span>
 								<Link
 									className="text-foreground transition hover:text-primary"
-									href={`mailto:${contact.email}`}
+									href={`mailto:${site.email}`}
 								>
-									{contact.email}
+									{site.email}
 								</Link>
 							</div>
 							<Separator className="bg-border/70" />
@@ -99,18 +100,38 @@ export function Contact({
 								<span>Phone</span>
 								<Link
 									className="text-foreground transition hover:text-primary"
-									href={`tel:${contact.phone}`}
+									href={`tel:${site.phone}`}
 								>
-									{contact.phone}
+									{site.phone}
 								</Link>
 							</div>
 							<Separator className="bg-border/70" />
 							<div className="flex items-center justify-between gap-4">
 								<span>Location</span>
 								<span className="text-foreground">
-									{contact.location}
+									{site.location}
 								</span>
 							</div>
+						</CardContent>
+					</Card>
+					<Card className="border-border/60 bg-card/60 backdrop-blur">
+						<CardHeader>
+							<CardTitle className="text-lg">
+								vCard QR
+							</CardTitle>
+						</CardHeader>
+						<CardContent className="space-y-3">
+							<div className="relative mx-auto size-40 overflow-hidden rounded-xl border border-border/60 bg-background">
+								<Image
+									src="/api/vcard/qr"
+									alt="QR code to download Neeta vCard"
+									fill
+									className="object-contain p-2"
+								/>
+							</div>
+							<p className="text-center text-xs text-muted-foreground">
+								Scan to download the contact card.
+							</p>
 						</CardContent>
 					</Card>
 

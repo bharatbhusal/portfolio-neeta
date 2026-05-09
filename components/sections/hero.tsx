@@ -9,14 +9,13 @@ import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGSAP } from "@/hooks/useGSAP";
-import type { Project, SiteData } from "@/types/portfolio";
+import type { SiteData } from "@/types/portfolio";
 
 type HeroProps = {
 	site: SiteData;
-	featuredProject?: Project;
 };
 
-export function Hero({ site, featuredProject }: HeroProps) {
+export function Hero({ site }: HeroProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
 
@@ -103,31 +102,44 @@ export function Hero({ site, featuredProject }: HeroProps) {
 					<CardContent className="space-y-6 py-6">
 						<div className="space-y-2">
 							<p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-								Featured Work
+								Profile
 							</p>
 							<p className="text-lg font-medium">
-								{featuredProject?.title ?? site.tagline}
+								{site.name}
 							</p>
 							<p className="text-sm leading-6 text-muted-foreground">
-								{featuredProject?.summary ?? site.about.bio}
+								{site.about.bio}
 							</p>
 						</div>
 
-						{featuredProject ? (
-							<div className="flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background/55 px-4 py-3">
-								<div>
-									<p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-										{featuredProject.category}
-									</p>
-									<p className="mt-1 text-sm font-medium">
-										{featuredProject.year}
-									</p>
-								</div>
-								<Button asChild size="sm" variant="outline">
-									<Link href="/work">Explore</Link>
-								</Button>
+						<div className="space-y-3 rounded-2xl border border-border/60 bg-background/55 px-4 py-3 text-sm text-muted-foreground">
+							<p>{site.location}</p>
+							<Link
+								href={`mailto:${site.email}`}
+								className="block text-foreground transition hover:text-primary"
+							>
+								{site.email}
+							</Link>
+							<Link
+								href={`tel:${site.phone}`}
+								className="block text-foreground transition hover:text-primary"
+							>
+								{site.phone}
+							</Link>
+							<div className="flex flex-wrap gap-3 pt-1">
+								{site.social.map((channel) => (
+									<Link
+										key={channel.href}
+										href={channel.href}
+										className="text-xs uppercase tracking-[0.24em] transition hover:text-foreground"
+										target="_blank"
+										rel="noreferrer"
+									>
+										{channel.label}
+									</Link>
+								))}
 							</div>
-						) : null}
+						</div>
 					</CardContent>
 				</Card>
 			</div>

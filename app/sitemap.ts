@@ -7,7 +7,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const site = await fetchJson<SiteData>("/data/site.json");
 	const now = new Date();
 
-	return ["", "/work", "/about", "/contact"].map((path) => ({
+	return ["", "/projects", "/about", "/profile", "/contact"].map((path) => ({
 		url: `${site.seo.url}${path}`,
 		lastModified: now,
 		changeFrequency: path === "" ? "weekly" : "monthly",

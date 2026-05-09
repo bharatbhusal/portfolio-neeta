@@ -1,15 +1,23 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useRef } from "react";
 
 import { ProjectCard } from "@/components/cards/project-card";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
-import type { Project } from "@/types/portfolio";
+import type {
+	PaginatedProjectsData,
+	Project,
+} from "@/types/portfolio";
 
 type WorkGridProps = {
 	projects: Project[];
+	categories: string[];
+	currentCategory: string;
+	basePath: string;
+	pagination: PaginatedProjectsData["pagination"];
 	title: string;
 	description: string;
 	showFilters?: boolean;
@@ -17,43 +25,24 @@ type WorkGridProps = {
 
 export function WorkGrid({
 	projects,
+	categories,
+	currentCategory,
+	basePath,
+	pagination,
 	title,
 	description,
 	showFilters = false,
 }: WorkGridProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
-	const [activeCategory, setActiveCategory] =
-		useState("All");
 	useGSAP({ scope: scopeRef });
-
-	const categories = useMemo(() => {
-		const list = projects.flatMap((project) => {
-			const cat = project.category ?? "Uncategorized";
-			return Array.isArray(cat) ? cat : [cat];
-		});
-		return ["All", ...Array.from(new Set(list))];
-	}, [projects]);
-
-	const visibleProjects =
-		activeCategory === "All"
-			? projects
-			: projects.filter((project) => {
-					const cats = Array.isArray(project.category)
-						? project.category
-						: [project.category ?? "Uncategorized"];
-
-					const active = activeCategory.toLowerCase();
-
-					const matchesCategory = cats
-						.map((c) => String(c).toLowerCase())
-						.includes(active);
-
-					const matchesTag = (project.tags || [])
-						.map((t) => String(t).toLowerCase())
-						.includes(active);
-
-					return matchesCategory || matchesTag;
-				});
+	const createQuery = (page: number, category?: string) => {
+		const params = new URLSearchParams();
+		params.set("page", String(page));
+		if (category && category !== "All") {
+			params.set("category", category);
+		}
+		return `${basePath}?${params.toString()}`;
+	};
 
 	return (
 		<section
@@ -65,7 +54,7 @@ export function WorkGrid({
 					<div className="max-w-2xl space-y-3">
 						<Reveal>
 							<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-								Work
+								Projects
 							</p>
 						</Reveal>
 						<Reveal>
@@ -85,16 +74,17 @@ export function WorkGrid({
 							{categories.map((category) => (
 								<Button
 									key={category}
-									type="button"
 									variant={
-										activeCategory === category
+										currentCategory === category
 											? "default"
 											: "outline"
 									}
 									size="sm"
-									onClick={() => setActiveCategory(category)}
+									asChild
 								>
-									{category}
+									<Link href={createQuery(1, category)}>
+										{category}
+									</Link>
 								</Button>
 							))}
 						</div>
@@ -102,9 +92,49 @@ export function WorkGrid({
 				</div>
 
 				<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-					{visibleProjects.map((project) => (
+					{projects.map((project) => (
 						<ProjectCard key={project.key} project={project} />
 					))}
+				</div>
+				<div className="flex items-center justify-between gap-3">
+					<Button
+						asChild
+						variant="outline"
+						size="sm"
+						disabled={pagination.page <= 1}
+					>
+						<Link
+							aria-disabled={pagination.page <= 1}
+							href={createQuery(
+								Math.max(1, pagination.page - 1),
+								currentCategory,
+							)}
+						>
+							Previous
+						</Link>
+					</Button>
+					<p className="text-sm text-muted-foreground">
+						Page {pagination.page} of {pagination.totalPages}
+					</p>
+					<Button
+						asChild
+						variant="outline"
+						size="sm"
+						disabled={pagination.page >= pagination.totalPages}
+					>
+						<Link
+							aria-disabled={pagination.page >= pagination.totalPages}
+							href={createQuery(
+								Math.min(
+									pagination.totalPages,
+									pagination.page + 1,
+								),
+								currentCategory,
+							)}
+						>
+							Next
+						</Link>
+					</Button>
 				</div>
 			</div>
 		</section>
