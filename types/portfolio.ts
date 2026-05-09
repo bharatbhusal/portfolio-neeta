@@ -56,11 +56,13 @@ export type Project = {
 	key: string;
 	title: string;
 	category: string;
-	summary: string;
+	summary?: string;
 	description: string;
 	year: string;
 	featured: boolean;
 	tags: string[];
+	client?: string;
+	link?: string;
 };
 
 export type ProjectsData = {

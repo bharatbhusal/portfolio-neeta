@@ -1,15 +1,15 @@
 {
 	"name": "Neeta Bhusal",
-	"role": "Designer / Developer / Visual Storyteller",
-	"tagline": "Minimal systems with an artistic edge.",
-	"description": "Neeta Bhusal creates calm, tactile digital experiences grounded in structure, clarity, and a teal-led visual language.",
-	"location": "Kathmandu, Nepal",
-	"email": "hello@neetabhusal.com",
-	"phone": "+977 9800000000",
+	"role": "Designer / Artist / Visual Storyteller",
+	"tagline": "Turning silence into visual poetry.",
+	"description": "Neeta Bhusal creates arts grounded in society reality, emotions and traditions.",
+	"location": "Hyderabad, India",
+	"email": "neetabhusal7@gmail.com",
+	"phone": "+91 9662476507",
 	"seo": {
 		"title": "Neeta Bhusal | Portfolio",
-		"description": "A production-ready portfolio for Neeta Bhusal, blending minimal design with artistic motion and data-driven content.",
-		"url": "https://neetabhusal.com",
+		"description": "A portfolio portraying Neeta's projects, experience and academics.",
+		"url": "https://neetabhusal.vercal.app",
 		"ogImage": "forest_sky_view.jpg"
 	},
 	"nav": [
@@ -33,58 +33,59 @@
 	"social": [
 		{
 			"label": "Instagram",
-			"href": "https://instagram.com"
+			"href": "https://www.instagram.com/neeta.bhusal"
 		},
 		{
 			"label": "LinkedIn",
-			"href": "https://linkedin.com"
+			"href": "https://www.linkedin.com/in/neetabhusal"
 		},
 		{
-			"label": "Behance",
-			"href": "https://behance.net"
+			"label": "Facebook",
+			"href": "https://www.facebook.com/nita.bhusalal"
 		}
 	],
+
 	"hero": {
-		"eyebrow": "Selected Portfolio 2026",
-		"title": "Minimal, thoughtful web experiences with a teal pulse.",
-		"summary": "I design and build portfolio experiences that feel editorial, precise, and quietly expressive across desktop and mobile screens.",
-		"accent": "Clean structure, soft motion, and data-driven content.",
-		"image": "forest_sky_view.jpg",
+		"eyebrow": "Art, stories, and meaningful experiences",
+		"title": "Creative visual experiences shaped through art, design, and storytelling.",
+		"summary": "I am Neeta Bhusal, a multidisciplinary creative exploring graphic design, visual communication, filmmaking, and digital experiences with a calm and expressive approach.",
+		"accent": "Minimal aesthetics, emotional storytelling, and thoughtful visual direction.",
+		"image": "neeta_creative_portfolio.jpg",
 		"actions": [
 			{
-				"label": "View Work",
+				"label": "Explore My Work",
 				"href": "/work",
 				"variant": "default"
 			},
 			{
-				"label": "Start a Project",
+				"label": "Let's Collaborate",
 				"href": "/contact",
 				"variant": "outline"
 			}
 		]
 	},
 	"about": {
-		"bio": "Neeta Bhusal is a Kathmandu-based creative practitioner working across digital strategy, interface design, and front-end development.",
-		"vision": "Build digital spaces that feel calm at first glance and rewarding at every layer of exploration.",
-		"mission": "Translate thoughtful ideas into resilient, accessible, and visually memorable experiences.",
+		"bio": "Neeta Bhusal is a Nepalese creative practitioner currently studying Humanities and Arts at GITAM University in India. Her work blends graphic design, visual storytelling, filmmaking, and digital creativity with emotionally driven narratives.",
+		"vision": "Create meaningful visual experiences that inspire emotion, connection, and self-expression through art and storytelling.",
+		"mission": "Transform personal experiences, creativity, and cultural influences into impactful digital and visual narratives.",
 		"values": [
-			"Clarity over noise",
-			"Art direction with intention",
-			"Interfaces that scale gracefully",
-			"Motion that guides, never distracts"
+			"Creativity with purpose",
+			"Storytelling through visuals",
+			"Design that feels human",
+			"Growth through experimentation"
 		],
 		"stats": [
 			{
 				"label": "Projects",
-				"value": "24"
+				"value": "25+"
 			},
 			{
-				"label": "Years",
-				"value": "6"
+				"label": "Creative Fields",
+				"value": "7"
 			},
 			{
-				"label": "Disciplines",
-				"value": "3"
+				"label": "Clients",
+				"value": "8"
 			}
 		]
 	}

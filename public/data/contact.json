@@ -1,25 +1,33 @@
 {
 	"heading": "Let’s build something measured and memorable.",
 	"summary": "Open for select collaborations, freelance engagements, and creative direction partnerships.",
-	"availability": "Available for new work from June 2026.",
-	"email": "hello@neetabhusal.com",
-	"phone": "+977 9800000000",
-	"location": "Kathmandu, Nepal",
+	"availability": "Available for new work.",
+	"email": "neetabhusal7@gmail.com",
+	"phone": "+91 9662476507",
+	"location": "Hyderabad, India",
 	"vcard": {
-		"filename": "neeta-bhusal.vcf"
+		"filename": "neetabhusal.vcf"
 	},
 	"channels": [
 		{
 			"label": "Email",
-			"href": "mailto:hello@neetabhusal.com"
+			"href": "mailto:neetabhusal7@gmail.com"
+		},
+		{
+			"label": "Instagram",
+			"href": "https://www.instagram.com/neeta.bhusal"
 		},
 		{
 			"label": "LinkedIn",
-			"href": "https://linkedin.com"
+			"href": "https://www.linkedin.com/in/neetabhusal"
 		},
 		{
-			"label": "Dribbble",
-			"href": "https://dribbble.com"
+			"label": "Facebook",
+			"href": "https://www.facebook.com/nita.bhusalal"
+		},
+		{
+			"label": "Pinterest",
+			"href": "https://www.pinterest.com/neetabhusal7/"
 		}
 	]
 }

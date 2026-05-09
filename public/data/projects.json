@@ -1,59 +1,541 @@
 {
 	"projects": [
 		{
-			"key": "Mountain_xf4ard.jpg",
-			"title": "Lumen Studio",
+			"key": "durgamata.jpg",
+			"title": "Durga Mata",
+			"category": "Illustration",
+			"summary": "Traditional folk painting of Goddess Durga in vibrant Kalighat-inspired style.",
+			"story": "Fierce grace captured in bold lines and sacred colors—power, protection, and presence.",
+			"description": "A hand-drawn illustration using strong outlines, vivid reds, greens, and yellows to portray the divine feminine energy with traditional ornamentation and expressive eyes.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Illustration",
+				"Folk Art",
+				"Religious",
+				"Traditional"
+			],
+			"link": ""
+		},
+		{
+			"key": "concrete_abyss.jpeg",
+			"title": "Concrete Abyss",
+			"category": "Photography",
+			"summary": "Dramatic low-angle architectural study of urban concrete canyons.",
+			"story": "Looking up into the cold geometry of the modern city—where sky becomes a distant promise.",
+			"description": "Powerful perspective composition emphasizing brutalist lines, repeating windows, and the tension between rigid architecture and the small patch of open sky.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Photography",
+				"Architecture",
+				"Urban",
+				"Brutalism"
+			],
+			"link": ""
+		},
+		{
+			"key": "artist_on_every_household.jpeg",
+			"title": "Artist on Every Household",
+			"category": "Photography",
+			"summary": "A woman drawing traditional rangoli with devotion and grace.",
+			"story": "The quiet daily ritual that turns ordinary thresholds into sacred canvases.",
+			"description": "Candid black and white photograph capturing the focused posture and cultural continuity of a woman creating kolam/rangoli at dawn.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Photography",
+				"Documentary",
+				"Culture",
+				"Tradition"
+			],
+			"link": ""
+		},
+		{
+			"key": "blue_bliss.jpeg",
+			"title": "Blue Bliss",
+			"category": "Illustration",
+			"summary": "Contemporary painting of Lord Ganesha in serene blue tones.",
+			"story": "A moment of divine calm—where music, wisdom, and playful energy meet.",
+			"description": "Bold, stylized acrylic painting of Ganesha playing the flute, rendered primarily in deep blues with dynamic lines and decorative elements.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Illustration",
+				"Religious",
+				"Contemporary Art",
+				"Painting"
+			],
+			"link": ""
+		},
+		{
+			"key": "charmina.jpeg",
+			"title": "Charminar",
+			"category": "Photography",
+			"summary": "Iconic view of the historic Charminar monument at dusk.",
+			"story": "Timeless elegance standing tall amid the vibrant pulse of the old city.",
+			"description": "Golden-hour photograph capturing the grand Mughal architecture, minarets, and bustling street life surrounding this Hyderabad landmark.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Photography",
+				"Architecture",
+				"Heritage",
+				"Travel"
+			],
+			"link": ""
+		},
+		{
+			"key": "dv_niketan_admission_open.png",
+			"title": "DV Niketan Admissions",
 			"category": "Graphic Design",
-			"summary": "Studio identity for a lighting atelier.",
-			"story": "A calm system that lets crafted objects breathe—balancing craft and clarity.",
-			"description": "Editorial rhythm, tactile surfaces, and a precise component language translated the brand into a calm digital storefront.",
+			"summary": "Educational admission campaign for +2 Science and Management.",
+			"story": "Shaping futures through knowledge, guidance, and modern learning.",
+			"description": "Clean, professional admission poster combining photography, bold typography, and clear information hierarchy to communicate academic excellence and facilities.",
+			"year": "2025",
+			"featured": false,
+			"tags": [
+				"Graphic Design",
+				"Education",
+				"Advertising",
+				"Poster"
+			],
+			"link": ""
+		},
+		{
+			"key": "artescape.png",
+			"title": "Artscape '25",
+			"category": "Graphic Design",
+			"summary": "Promotional design for GITAM University's annual art festival and exhibition.",
+			"story": "Where love and skill come together to create masterpieces.",
+			"description": "Modern, elegant exhibition poster with organic shapes, student artwork photography, and balanced typography celebrating visual arts, dance, and music.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Graphic Design",
+				"Poster",
+				"Event",
+				"Education"
+			],
+			"link": ""
+		},
+		{
+			"key": "echoes_on_yellow_walls.jpg",
+			"title": "Echoes on Yellow Walls",
+			"category": "Photography",
+			"summary": "Curated gallery wall displaying a vibrant collection of artworks.",
+			"story": "A symphony of colors, stories, and expressions against a cheerful yellow backdrop.",
+			"description": "Warm, well-composed photograph showcasing an eclectic mix of framed paintings and illustrations arranged in an engaging salon-style display.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Photography",
+				"Interior",
+				"Art Display",
+				"Curated"
+			],
+			"link": ""
+		},
+		{
+			"key": "car_vintage.png",
+			"title": "Premium Garage",
+			"category": "Illustration",
+			"summary": "Retro-styled branding illustration for a classic car service garage.",
+			"story": "Timeless craftsmanship since 1920—where vintage machines find new life.",
+			"description": "Bold vintage poster illustration featuring a classic convertible car with strong typography, distressed textures, and nostalgic color palette.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Illustration",
+				"Branding",
+				"Retro",
+				"Automotive"
+			],
+			"link": ""
+		},
+		{
+			"key": "kusma_card.png",
+			"title": "Kusma Candela",
+			"category": "Graphic Design",
+			"summary": "Elegant business card and brand identity for Kusma Candela.",
+			"story": "A graceful fusion of floral symbolism and modern minimalism in deep purple tones.",
+			"description": "Sophisticated business card design featuring a custom logo with a stylized face, flame, and laurel elements, paired with clean typography and contact details.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Graphic Design",
+				"Branding",
+				"Business Card",
+				"Identity"
+			],
+			"link": ""
+		},
+		{
+			"key": "kusma_logo.png",
+			"title": "Kusma Candela Logo",
+			"category": "Graphic Design",
+			"summary": "Minimal logo mark for Kusma Candela.",
+			"story": "A serene emblem evoking light, beauty, and natural elegance.",
+			"description": "Clean vector logo featuring an arched frame with a stylized feminine profile, flame, and laurel leaves, accompanied by refined serif typography.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Graphic Design", "Logo Design", "Branding"],
+			"link": ""
+		},
+		{
+			"key": "kes.png",
+			"title": "KES",
+			"category": "Graphic Design",
+			"summary": "Bold logo design incorporating a pistol motif.",
+			"story": "Sharp, powerful identity merging typography with symbolic imagery.",
+			"description": "High-impact wordmark logo where the letter 'K' is integrated with a detailed pistol illustration, rendered in strong red and black colors.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Graphic Design", "Logo Design", "Branding"],
+			"link": ""
+		},
+		{
+			"key": "hyderabad_horizon.png",
+			"title": "Hyderabad Horizon",
+			"category": "Illustration",
+			"summary": "Vector illustration of the Hyderabad city skyline.",
+			"story": "Modern metropolis rising against a clear blue sky.",
+			"description": "Clean, colorful digital illustration showcasing Hyderabad’s contemporary architecture, skyscrapers, greenery, and birds in flight.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Illustration", "Cityscape", "Vector Art"],
+			"link": ""
+		},
+		{
+			"key": "lunar_swirl.jpeg",
+			"title": "Lunar Swirl",
+			"category": "Illustration",
+			"summary": "Starry Night inspired painting with crescent moon and swirling skies.",
+			"story": "A dreamy nocturnal landscape alive with cosmic movement and vibrant color.",
+			"description": "Small acrylic painting featuring bold swirling patterns, glowing stars, purple florals, pine trees, and a luminous crescent moon in Van Gogh style.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Illustration", "Painting", "Art", "Inspired"],
+			"link": ""
+		},
+		{
+			"key": "mandala_mayura.jpg",
+			"title": "Mandala Mayura",
+			"category": "Illustration",
+			"summary": "Intricate black and white mandala featuring a majestic peacock.",
+			"story": "Harmony, beauty, and spirituality expressed through detailed linework.",
+			"description": "Highly detailed hand-drawn mandala with a central peacock (Mayura), floral patterns, geometric motifs, and decorative borders.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Illustration",
+				"Mandala",
+				"Ink Drawing",
+				"Traditional"
+			],
+			"link": ""
+		},
+		{
+			"key": "neeta_bhusal_logo.png",
+			"title": "Neeta Bhusal",
+			"category": "Branding",
+			"summary": "Personal brand identity and logo for Neeta Bhusal.",
+			"story": "A bold, modern monogram that merges tradition with contemporary elegance — strong, memorable, and personal.",
+			"description": "Custom orange-and-black monogram logo with clean typography, creating a professional yet approachable personal brand presence.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Logo", "Branding", "Identity"],
+			"link": ""
+		},
+		{
+			"key": "ping_pong.jpeg",
+			"title": "Ping-Pong Champion",
+			"category": "Event Design",
+			"summary": "Promotional poster for inter-college table tennis championship.",
+			"story": "Energetic visuals that capture the speed, fire, and competitive spirit of the game.",
+			"description": "Vibrant event poster featuring table tennis paddles, dynamic layout, prize details, and venue information for Siddhartha Pathshala.",
+			"year": "2025",
+			"featured": false,
+			"tags": ["Poster", "Sports", "Event"],
+			"link": ""
+		},
+		{
+			"key": "feel_me.jpg",
+			"title": "Feel Me",
+			"category": "Photography",
+			"summary": "Looking up through pine trees toward the sun.",
+			"story": "A moment of awe and connection with nature — light piercing through the canopy, reminding us to breathe.",
+			"description": "Low-angle forest photography capturing sunlight breaking through tall pine branches against a clear blue sky.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Nature", "Photography", "Landscape"],
+			"link": ""
+		},
+		{
+			"key": "hidden_tears.jpeg",
+			"title": "Hidden Tears",
+			"category": "Digital Art",
+			"summary": "Emotional portrait exploring hidden pain and masked identity.",
+			"story": "Behind the mask lies vulnerability — a powerful commentary on the faces we show versus what we hide.",
+			"description": "Moody black-and-white composition featuring a tearful woman's close-up on a tablet paired with a Guy Fawkes mask.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Portrait", "Conceptual", "Dark Art"],
+			"link": ""
+		},
+		{
+			"key": "parlour_baner.png",
+			"title": "Purnima Beauty Parlour",
+			"category": "Graphic Design",
+			"summary": "Grand opening promotional banner for a beauty parlour.",
+			"story": "Elegant and feminine branding that celebrates beauty, self-care, and transformation.",
+			"description": "Rich maroon beauty salon banner showcasing services, contact details, and lifestyle imagery for Purnima Beauty Parlour.",
+			"year": "2025",
+			"featured": false,
+			"tags": ["Banner", "Beauty", "Advertising"],
+			"link": ""
+		},
+		{
+			"key": "hunted_concrete.jpeg",
+			"title": "Hunted Concrete",
+			"category": "Photography",
+			"summary": "Moody interior architecture shot of an empty hallway and staircase.",
+			"story": "The quiet tension between light and shadow in modern concrete spaces — stillness with a hint of mystery.",
+			"description": "Dramatic low-light photograph of a polished hallway leading toward stairs with strong contrast and reflections.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Architecture", "Photography", "Moody"],
+			"link": ""
+		},
+		{
+			"key": "emerald_dancer.jpg",
+			"title": "Emerald Dancer",
+			"category": "Art",
+			"summary": "Traditional Madhubani-style peacock artwork held against an urban backdrop.",
+			"story": "A vibrant celebration of folk art and cultural heritage brought into contemporary light.",
+			"description": "Colorful hand-painted peacock (Mayur) in traditional Indian folk style, photographed against city buildings.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Folk Art", "Painting", "Culture"],
+			"link": ""
+		},
+		{
+			"key": "pink_freshness.jpeg",
+			"title": "Pink Freshness",
+			"category": "Product Photography",
+			"summary": "Commercial product shot for Dot & Key skincare.",
+			"story": "Fresh, clean, and inviting — capturing the cool, hydrating essence of the face wash.",
+			"description": "Stylish flat-lay product photography of Watermelon Cooling Gel Face Wash on luxurious pink fabric with natural accents.",
+			"year": "2025",
+			"featured": false,
+			"tags": ["Product", "Photography", "Skincare"],
+			"link": ""
+		},
+		{
+			"key": "everyday_ritual.jpeg",
+			"title": "Everyday Ritual",
+			"category": "Photography",
+			"summary": "A quiet morning moment of reading the newspaper.",
+			"story": "The beauty in simple daily rituals — grounded, peaceful, and deeply human.",
+			"description": "Candid lifestyle photograph of a man in a white vest reading a newspaper on traditional stone steps.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Lifestyle", "Candid", "Culture"],
+			"link": ""
+		},
+		{
+			"key": "sk_media_network.jpg",
+			"title": "SK Media Network",
+			"category": "Branding",
+			"summary": "Modern logo design for a media production company.",
+			"story": "A dynamic fusion of bold typography and cinematic elements that represents creativity, connectivity, and storytelling in motion.",
+			"description": "Sleek black and cyan monogram logo combining a stylized 'S' and 'K' with a film reel icon, paired with strong sans-serif typography.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Identity", "Print", "Brand"]
+			"tags": ["Logo", "Branding", "Media"],
+			"link": ""
 		},
 		{
-			"key": "Cloud_sgvsox.jpg",
-			"title": "Madhubani Series",
-			"category": "Traditional Art",
-			"summary": "Hand-painted panels inspired by folk symbolism.",
-			"story": "Exploring cultural motifs through a contemporary palette—stories painted in detail.",
-			"description": "A small series of paintings drawing from Madhubani line-work and iconography, reimagined for posters and prints.",
-			"year": "2025",
-			"featured": true,
-			"tags": ["Painting", "Illustration", "Print"]
-		},
-		{
-			"key": "cf3b961f-0d43-4f5f-a8e7-54b5b6f9f3e2_enco0l.jpg",
-			"title": "Atelier Archive",
-			"category": "Illustration",
-			"summary": "A narrative-led visual archive.",
-			"story": "Collected fragments—images and notes that trace a process, curated for slow reading.",
-			"description": "The experience foregrounded typography and carefully measured spacing to make long-form content feel inviting.",
-			"year": "2025",
-			"featured": true,
-			"tags": ["Editorial", "Illustration"]
-		},
-		{
-			"key": "pencils.jpg",
-			"title": "Flow Collective",
-			"category": "3D Work",
-			"summary": "Spatial experiment for a small product team.",
-			"story": "Physical thinking translated into interface—materials and motion working together.",
-			"description": "A modular design language made it easy to ship new pages without losing the brand's careful tone.",
+			"key": "siddhartha_pathshala.png",
+			"title": "Siddhartha Pathshala Admissions",
+			"category": "Graphic Design",
+			"summary": "Admission campaign poster for +2 Management program.",
+			"story": "Empowering the next generation through education — visual storytelling that blends academic aspiration with youthful energy.",
+			"description": "Clean, professional admission poster featuring students in uniform, bold typography, school branding, and contact details.",
 			"year": "2024",
 			"featured": false,
-			"tags": ["3D", "UI", "Systems"]
+			"tags": ["Poster", "Education", "Advertising"],
+			"link": ""
 		},
 		{
-			"key": "IMG_20200304_180329_ixgera.jpg",
-			"title": "Northline Film",
+			"key": "us_topia.jpeg",
+			"title": "Us Topia",
+			"category": "Art",
+			"summary": "Hand-painted Zootopia fan art featuring Judy Hopps and Nick Wilde.",
+			"story": "A vibrant celebration of friendship, diversity, and breaking stereotypes — brought to life with color and heart.",
+			"description": "Spiral-bound notebook illustration of Judy Hopps and Nick Wilde in a playful, expressive painting style, displayed against a wall of other artworks.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Fan Art", "Illustration", "Painting"],
+			"link": ""
+		},
+		{
+			"key": "split_gaze.jpeg",
+			"title": "Split Gaze",
+			"category": "Art",
+			"summary": "Abstract cubist-style painting exploring duality and identity.",
+			"story": "Two faces, one canvas — a powerful visual dialogue between inner and outer selves, tradition and modernity.",
+			"description": "Bold geometric artwork using black, white, red, and blue shapes to depict overlapping profiles with symbolic elements like flora and celestial forms.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Abstract", "Painting", "Cubism"],
+			"link": ""
+		},
+		{
+			"key": "the_long_road_ahead.jpeg",
+			"title": "The Long Road Ahead",
 			"category": "Photography",
-			"summary": "A photographic series for a short film campaign.",
-			"story": "Framed moments that support a larger emotional arc—light, texture, and timing.",
-			"description": "This project emphasized atmospheric color, bold crop-based imagery, and motion that supported the narrative arc.",
-			"year": "2024",
+			"summary": "Candid black and white photograph of children walking to school.",
+			"story": "A tender moment of companionship and hope — small hands holding together on the journey toward a brighter future.",
+			"description": "Emotional documentary-style street photography capturing two young students from behind as they walk hand-in-hand toward their future.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Documentary",
+				"Street Photography",
+				"Lifestyle"
+			],
+			"link": ""
+		},
+		{
+			"key": "summer_music_fest.png",
+			"title": "Summer Music Festival",
+			"category": "Graphic Design",
+			"summary": "Energetic promotional poster for a summer music festival.",
+			"story": "Pure joy and youthful energy bursting through — celebrating music, dance, and summer vibes.",
+			"description": "Vibrant blue festival poster featuring a young girl passionately playing guitar, bold typography, event details, and free entry announcement.",
+			"year": "2025",
 			"featured": false,
-			"tags": ["Photography", "Campaign"]
+			"tags": ["Poster", "Event", "Music"],
+			"link": ""
+		},
+		{
+			"key": "shree_riya.jpg",
+			"title": "Shree Shriya",
+			"category": "Product Design",
+			"summary": "Lifestyle campaign for Shree Shriya fashion accessories.",
+			"story": "Effortless style meets everyday practicality — vibrant colors and modern utility for the contemporary individual.",
+			"description": "Clean product showcase featuring a man wearing a brown sling bag with multiple color variants of stylish fanny packs/sling bags displayed.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Product", "Fashion", "Advertising"],
+			"link": ""
+		},
+		{
+			"key": "soulful_union.jpeg",
+			"title": "Soulful Union",
+			"category": "Art",
+			"summary": "Traditional yet contemporary painting of Radha and Krishna.",
+			"story": "Eternal love and divine connection captured in vibrant folk-modern style — a celebration of devotion and beauty.",
+			"description": "Framed expressive artwork depicting Radha-Krishna in bold colors and stylized forms, photographed with natural surroundings and a plant in foreground.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Religious Art", "Painting", "Folk"],
+			"link": ""
+		},
+		{
+			"key": "tree_etching.jpg",
+			"title": "Tree Etching",
+			"category": "Photography",
+			"summary": "Dramatic low-angle silhouette of bare trees against the sky.",
+			"story": "Nature’s intricate architecture etched against the heavens — a quiet meditation on resilience and beauty in simplicity.",
+			"description": "Powerful black and white nature photograph looking up through the complex branches and trunks of trees into a partly cloudy blue sky.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Nature", "Photography", "Silhouette"],
+			"link": ""
+		},
+		{
+			"key": "sea_poverty.png",
+			"title": "Sea Poverty",
+			"category": "Illustration",
+			"summary": "Powerful environmental cartoon highlighting ocean plastic pollution.",
+			"story": "A heartbreaking conversation underwater — when marine life’s home becomes our trash bin.",
+			"description": "Cartoon illustration of three sad sea turtles surrounded by floating plastic waste, with a speech bubble asking 'Is this what we eat now?'",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Environmental",
+				"Illustration",
+				"Cartoon",
+				"Awareness"
+			],
+			"link": ""
+		},
+		{
+			"key": "purnia_logo.png",
+			"title": "Purnia",
+			"category": "Branding",
+			"summary": "Elegant golden logo for a beauty and lifestyle brand.",
+			"story": "Graceful femininity captured in a single flowing mark — where tradition meets modern sophistication.",
+			"description": "Minimalist luxury logo featuring a stylized woman's profile merged with a large letter 'P' in warm metallic gold tones.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Logo", "Branding", "Beauty"],
+			"link": ""
+		},
+		{
+			"key": "popularity_and_positivity.png",
+			"title": "Popularity and Positivity",
+			"category": "Illustration",
+			"summary": "Wholesome underwater friendship scene with clownfish.",
+			"story": "A gentle reminder that togetherness and mutual support help us grow stronger — even in the depths.",
+			"description": "Cute cartoon of two smiling clownfish floating above coral with a sign that reads 'LET'S GROW TOGETHER'.",
+			"year": "2025",
+			"featured": false,
+			"tags": ["Illustration", "Motivational", "Cartoon"],
+			"link": ""
+		},
+		{
+			"key": "pm_change.jpeg",
+			"title": "Respectful Gesture",
+			"category": "Art",
+			"summary": "Realistic pencil portrait of a leader in traditional namaste pose.",
+			"story": "A moment of humility and respect captured with fine shading and emotional depth.",
+			"description": "Detailed graphite sketch of a man in formal uniform and cap performing namaste, signed by the artist Neeta Bhusal.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Portrait", "Pencil Art", "Realism"],
+			"link": ""
+		},
+		{
+			"key": "selfportrait.jpg",
+			"title": "Self Portrait",
+			"category": "Art",
+			"summary": "Detailed pencil self-portrait surrounded by art tools.",
+			"story": "An intimate glimpse into the artist’s gaze and creative world — vulnerable, focused, and full of quiet strength.",
+			"description": "Realistic graphite portrait of a young woman with a flower in her hair, photographed on a workspace with pencils, sketchbooks, and drawing tools.",
+			"year": "2025",
+			"featured": true,
+			"tags": ["Self Portrait", "Pencil Art", "Realism"],
+			"link": ""
+		},
+		{
+			"key": "rajisthani_glow.jpg",
+			"title": "Rajasthani Glow",
+			"category": "Art",
+			"summary": "Vibrant traditional Rajasthani mirror work artwork.",
+			"story": "Bursting with color and cultural pride — a modern celebration of folk craftsmanship and festive spirit.",
+			"description": "Handcrafted colorful mandala-style panel with red, blue, and yellow patterns, hearts, and embedded mirrors, held outdoors.",
+			"year": "2025",
+			"featured": true,
+			"tags": [
+				"Folk Art",
+				"Traditional",
+				"Craft",
+				"Rajasthani"
+			],
+			"link": ""
 		}
 	]
 }
