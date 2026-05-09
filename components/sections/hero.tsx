@@ -99,46 +99,12 @@ export function Hero({ site }: HeroProps) {
 						/>
 						<div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
 					</div>
-					<CardContent className="space-y-6 py-6">
+					<CardContent className="space-y-6 py-2">
 						<div className="space-y-2">
-							<p className="text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-								Profile
-							</p>
-							<p className="text-lg font-medium">
-								{site.name}
-							</p>
+							<p className="text-lg font-medium">{site.name}</p>
 							<p className="text-sm leading-6 text-muted-foreground">
 								{site.about.bio}
 							</p>
-						</div>
-
-						<div className="space-y-3 rounded-2xl border border-border/60 bg-background/55 px-4 py-3 text-sm text-muted-foreground">
-							<p>{site.location}</p>
-							<Link
-								href={`mailto:${site.email}`}
-								className="block text-foreground transition hover:text-primary"
-							>
-								{site.email}
-							</Link>
-							<Link
-								href={`tel:${site.phone}`}
-								className="block text-foreground transition hover:text-primary"
-							>
-								{site.phone}
-							</Link>
-							<div className="flex flex-wrap gap-3 pt-1">
-								{site.social.map((channel) => (
-									<Link
-										key={channel.href}
-										href={channel.href}
-										className="text-xs uppercase tracking-[0.24em] transition hover:text-foreground"
-										target="_blank"
-										rel="noreferrer"
-									>
-										{channel.label}
-									</Link>
-								))}
-							</div>
 						</div>
 					</CardContent>
 				</Card>

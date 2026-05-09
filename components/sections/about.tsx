@@ -73,18 +73,6 @@ export function About({
 							</p>
 						</div>
 					</Reveal>
-
-					<Reveal className="flex flex-wrap gap-3">
-						<Button asChild size="lg">
-							<Link href="/about">Read more</Link>
-						</Button>
-						<Button asChild variant="outline" size="lg">
-							<Link href="/contact">Collaborate</Link>
-						</Button>
-					</Reveal>
-				</div>
-
-				<div className="grid gap-6">
 					<div className="grid gap-4 sm:grid-cols-3">
 						{site.about.values.map((value) => (
 							<div
@@ -96,7 +84,9 @@ export function About({
 							</div>
 						))}
 					</div>
+				</div>
 
+				<div className="grid gap-6">
 					<div className="grid gap-4 sm:grid-cols-3">
 						{site.about.stats.map((stat) => (
 							<Card

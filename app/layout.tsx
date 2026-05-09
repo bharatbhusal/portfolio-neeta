@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { fetchJson } from "@/lib/data";
 import type {
@@ -56,7 +55,6 @@ export default async function RootLayout({
 				<div className="flex min-h-dvh flex-col">
 					<Navbar site={site} />
 					<div className="flex-1">{children}</div>
-					<Footer site={site} contact={contact} />
 				</div>
 			</body>
 		</html>

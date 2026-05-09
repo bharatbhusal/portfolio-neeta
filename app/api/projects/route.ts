@@ -3,14 +3,22 @@ import { NextResponse } from "next/server";
 import projectsData from "@/public/data/projects.json";
 import type { Project } from "@/types/portfolio";
 
-const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 9;
 
-function toPositiveInt(value: string | null, fallback: number) {
+function toPositiveInt(
+	value: string | null,
+	fallback: number,
+) {
 	const parsed = Number(value);
-	return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+	return Number.isInteger(parsed) && parsed > 0
+		? parsed
+		: fallback;
 }
 
-function buildImageUrl(publicId: string, cloudName: string) {
+function buildImageUrl(
+	publicId: string,
+	cloudName: string,
+) {
 	const encoded = publicId
 		.split("/")
 		.map((segment) => encodeURIComponent(segment))
@@ -23,24 +31,37 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const page = toPositiveInt(searchParams.get("page"), 1);
 	const pageSize = Math.min(
-		toPositiveInt(searchParams.get("pageSize"), DEFAULT_PAGE_SIZE),
+		toPositiveInt(
+			searchParams.get("pageSize"),
+			DEFAULT_PAGE_SIZE,
+		),
 		DEFAULT_PAGE_SIZE,
 	);
 	const category = searchParams.get("category");
 
-	const projects = (projectsData.projects as Project[]).filter((project) =>
+	const projects = (
+		projectsData.projects as Project[]
+	).filter((project) =>
 		category && category !== "All"
-			? project.category === category || project.tags.includes(category)
+			? project.category === category ||
+				project.tags.includes(category)
 			: true,
 	);
 	const categories = [
 		"All",
 		...Array.from(
-			new Set((projectsData.projects as Project[]).map((project) => project.category)),
+			new Set(
+				(projectsData.projects as Project[]).map(
+					(project) => project.category,
+				),
+			),
 		),
 	];
 	const total = projects.length;
-	const totalPages = Math.max(1, Math.ceil(total / pageSize));
+	const totalPages = Math.max(
+		1,
+		Math.ceil(total / pageSize),
+	);
 	const safePage = Math.min(page, totalPages);
 	const start = (safePage - 1) * pageSize;
 	const items = projects.slice(start, start + pageSize);

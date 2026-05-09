@@ -19,14 +19,17 @@ type ProjectPageProps = {
 export async function generateMetadata({
 	params,
 }: ProjectPageProps) {
-	const [site, projects, resolvedParams] = await Promise.all([
-		fetchJson<SiteData>("/data/site.json"),
-		fetchJson<ProjectsData>("/data/projects.json"),
-		params,
-	]);
+	const [site, projects, resolvedParams] = await Promise.all(
+		[
+			fetchJson<SiteData>("/data/site.json"),
+			fetchJson<ProjectsData>("/data/projects.json"),
+			params,
+		],
+	);
 	const project = projects.projects.find(
 		(item) =>
-			item.key === decodeURIComponent(resolvedParams.projectKey),
+			item.key ===
+			decodeURIComponent(resolvedParams.projectKey),
 	);
 
 	if (!project) {
@@ -54,7 +57,8 @@ export default async function ProjectPage({
 	]);
 	const project = projects.projects.find(
 		(item) =>
-			item.key === decodeURIComponent(resolvedParams.projectKey),
+			item.key ===
+			decodeURIComponent(resolvedParams.projectKey),
 	);
 
 	if (!project) {
@@ -97,7 +101,7 @@ export default async function ProjectPage({
 						<Link
 							href={`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`}
 						>
-							Download (watermarked)
+							Download
 						</Link>
 					</Button>
 					<Button asChild variant="outline">

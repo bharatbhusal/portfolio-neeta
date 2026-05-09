@@ -10,7 +10,7 @@
 		"title": "Neeta Bhusal | Portfolio",
 		"description": "A portfolio portraying Neeta's projects, experience and academics.",
 		"url": "https://neetabhusal.vercal.app",
-		"ogImage": "forest_sky_view.jpg"
+		"ogImage": "neetabhusal.jpg"
 	},
 	"nav": [
 		{
@@ -24,10 +24,6 @@
 		{
 			"label": "About",
 			"href": "/about"
-		},
-		{
-			"label": "Profile",
-			"href": "/profile"
 		},
 		{
 			"label": "Contact",
@@ -54,7 +50,7 @@
 		"title": "Creative visual experiences shaped through art, design, and storytelling.",
 		"summary": "I am Neeta Bhusal, a multidisciplinary creative exploring graphic design, visual communication, filmmaking, and digital experiences with a calm and expressive approach.",
 		"accent": "Minimal aesthetics, emotional storytelling, and thoughtful visual direction.",
-		"image": "neeta_creative_portfolio.jpg",
+		"image": "neetabhusal.jpg",
 		"actions": [
 			{
 				"label": "Explore My Projects",
