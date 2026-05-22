@@ -28,7 +28,8 @@ export default async function ProjectsPage({
 	searchParams,
 }: ProjectsPageProps) {
 	const params = await searchParams;
-	const page = Number(params.page) > 0 ? Number(params.page) : 1;
+	const page =
+		Number(params.page) > 0 ? Number(params.page) : 1;
 	const category = params.category ?? "All";
 	const query = new URLSearchParams({
 		page: String(page),
@@ -41,6 +42,10 @@ export default async function ProjectsPage({
 
 	const projects = await fetchJson<PaginatedProjectsData>(
 		`/api/projects?${query.toString()}`,
+	);
+
+	projects.projects = projects.projects.sort((a, b) =>
+		a.key.localeCompare(b.key),
 	);
 
 	return (

@@ -1,12 +1,20 @@
+"use client";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import type { SiteData } from "@/types/portfolio";
+import type {
+	ContactChannel,
+	ContactData,
+	SiteData,
+} from "@/types/portfolio";
+import { Button } from "../ui/button";
+import { iconMap } from "@/lib/iconMapper";
 
 type FooterProps = {
 	site: SiteData;
+	contact: ContactData;
 };
 
-export function Footer({ site }: FooterProps) {
+export function Footer({ site, contact }: FooterProps) {
 	const currentYear = new Date().getFullYear();
 
 	return (
@@ -54,31 +62,26 @@ export function Footer({ site }: FooterProps) {
 						<h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-foreground">
 							Connect
 						</h3>
-						<div className="flex flex-col gap-2">
-							<Link
-								href={`mailto:${site.email}`}
-								className="text-sm text-muted-foreground transition hover:text-foreground"
-							>
-								Email
-							</Link>
-							<a
-								href={`tel:${site.phone}`}
-								className="text-sm text-muted-foreground transition hover:text-foreground"
-							>
-								Phone
-							</a>
-
-							{site.social.map((social) => (
-								<a
-									key={social.label}
-									href={social.href}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="block text-sm text-muted-foreground transition hover:text-foreground"
-								>
-									{social.label}
-								</a>
-							))}
+						<div className="flex gap-2 flex-wrap text-sm text-muted-foreground">
+							{contact.channels.map((channel: ContactChannel) => {
+								const IconComponent = iconMap[channel.icon];
+								return (
+									<Button
+										key={channel.label}
+										variant="outline"
+										onClick={() =>
+											window.open(
+												channel.href,
+												"_blank",
+												"noopener,noreferrer",
+											)
+										}
+									>
+										<IconComponent className="w-4 h-4" />
+										<span>{channel.label}</span>
+									</Button>
+								);
+							})}
 						</div>
 					</div>
 				</div>

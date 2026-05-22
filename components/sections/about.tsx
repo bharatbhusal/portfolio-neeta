@@ -6,12 +6,6 @@ import { useRef } from "react";
 import { Reveal } from "@/components/animations/reveal";
 import { ProjectCard } from "@/components/cards/project-card";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
 import type { Project, SiteData } from "@/types/portfolio";
@@ -19,18 +13,14 @@ import type { Project, SiteData } from "@/types/portfolio";
 type AboutProps = {
 	site: SiteData;
 	featuredProjects: Project[];
-	compact?: boolean;
 };
 
 export function About({
 	site,
 	featuredProjects,
-	compact = false,
 }: AboutProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
-
-	const headline = compact ? "About" : "About the practice";
 
 	return (
 		<section
@@ -41,7 +31,7 @@ export function About({
 				<div className="space-y-6">
 					<Reveal>
 						<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-							{headline}
+							{"About the practice"}
 						</p>
 					</Reveal>
 					<Reveal>
@@ -57,89 +47,65 @@ export function About({
 					</Reveal>
 
 					<Reveal>
-						<div className="space-y-4 rounded-3xl border border-border/60 bg-card/70 p-6 backdrop-blur">
-							<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
-								Vision
-							</p>
-							<p className="text-lg leading-8">
-								{site.about.vision}
-							</p>
-							<Separator className="bg-border/70" />
-							<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
-								Mission
-							</p>
-							<p className="text-base leading-7 text-muted-foreground">
-								{site.about.mission}
-							</p>
+						<div className="grid gap-6">
+							<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
+								<div className="flex items-end justify-between gap-3">
+									<div className="space-y-2">
+										<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+											Featured projects
+										</p>
+										<p className="text-sm leading-6 text-muted-foreground">
+											A short selection from the current portfolio.
+										</p>
+									</div>
+									<Button asChild variant="outline" size="sm">
+										<Link href="/projects">View all</Link>
+									</Button>
+								</div>
+
+								<div className="grid gap-4 lg:grid-cols-3">
+									{featuredProjects
+										.filter((project) => project.featured)
+										.map((project) => (
+											<ProjectCard
+												key={project.key}
+												project={project}
+											/>
+										))}
+								</div>
+							</div>
 						</div>
 					</Reveal>
-					<div className="grid gap-4 sm:grid-cols-3">
-						{site.about.values.map((value) => (
-							<div
-								key={value}
-								data-reveal
-								className="rounded-2xl border border-border/60 bg-card/60 p-4 text-sm leading-6 text-muted-foreground backdrop-blur"
-							>
-								{value}
-							</div>
-						))}
-					</div>
 				</div>
 
-				<div className="grid gap-6">
+				<div className="space-y-4 rounded-3xl border border-border/60 bg-card/70 p-6 backdrop-blur">
+					<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
+						Vision
+					</p>
+					<p className="text-lg leading-8">
+						{site.about.vision}
+					</p>
+					<Separator className="bg-border/70" />
+					<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
+						Mission
+					</p>
+					<p className="text-base leading-7 text-muted-foreground">
+						{site.about.mission}
+					</p>
+					<Separator className="bg-border/70" />
+					<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
+						Values
+					</p>
 					<div className="grid gap-4 sm:grid-cols-3">
-						{site.about.stats.map((stat) => (
-							<Card
-								key={stat.label}
-								data-hover-lift
-								className="border-border/60 bg-card/70 backdrop-blur"
+						{site.about.values.map((value) => (
+							<li
+								key={value}
+								className="ml-4 text-muted-foreground"
 							>
-								<CardHeader>
-									<p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-										{stat.label}
-									</p>
-									<CardTitle className="text-3xl">
-										{stat.value}
-									</CardTitle>
-								</CardHeader>
-								<CardContent className="pb-4 text-sm text-muted-foreground">
-									Strategic, scalable, and design-aware.
-								</CardContent>
-							</Card>
+								{value}
+							</li>
 						))}
 					</div>
-
-					<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
-						<div className="flex items-end justify-between gap-3">
-							<div className="space-y-2">
-								<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-									Featured projects
-								</p>
-								<p className="text-sm leading-6 text-muted-foreground">
-									A short selection from the current portfolio.
-								</p>
-							</div>
-							<Button asChild variant="outline" size="sm">
-								<Link href="/projects">View all</Link>
-							</Button>
-						</div>
-						{featuredProjects.length > 0 ? (
-							<div className="grid gap-4 lg:grid-cols-3">
-								{featuredProjects.map((project) => (
-									<ProjectCard key={project.key} project={project} />
-								))}
-							</div>
-						) : (
-							<p className="text-sm leading-6 text-muted-foreground">
-								Featured projects will appear here once they are
-								added to the archive.
-							</p>
-						)}
-					</div>
-
-					{!compact ? (
-						<Separator className="bg-border/70" />
-					) : null}
 				</div>
 			</div>
 		</section>

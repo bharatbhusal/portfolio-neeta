@@ -8,7 +8,7 @@
 			"story": "Fierce grace captured in bold lines and sacred colors—power, protection, and presence.",
 			"description": "A hand-drawn illustration using strong outlines, vivid reds, greens, and yellows to portray the divine feminine energy with traditional ornamentation and expressive eyes.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Illustration",
 				"Folk Art",
@@ -42,7 +42,7 @@
 			"story": "The quiet daily ritual that turns ordinary thresholds into sacred canvases.",
 			"description": "Candid black and white photograph capturing the focused posture and cultural continuity of a woman creating kolam/rangoli at dawn.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Photography",
 				"Documentary",
@@ -59,7 +59,7 @@
 			"story": "A moment of divine calm—where music, wisdom, and playful energy meet.",
 			"description": "Bold, stylized acrylic painting of Ganesha playing the flute, rendered primarily in deep blues with dynamic lines and decorative elements.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Illustration",
 				"Religious",
@@ -76,7 +76,7 @@
 			"story": "Timeless elegance standing tall amid the vibrant pulse of the old city.",
 			"description": "Golden-hour photograph capturing the grand Mughal architecture, minarets, and bustling street life surrounding this Hyderabad landmark.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Photography",
 				"Architecture",
@@ -100,6 +100,7 @@
 				"Advertising",
 				"Poster"
 			],
+			"client": "DV Niketan",
 			"link": ""
 		},
 		{
@@ -110,13 +111,14 @@
 			"story": "Where love and skill come together to create masterpieces.",
 			"description": "Modern, elegant exhibition poster with organic shapes, student artwork photography, and balanced typography celebrating visual arts, dance, and music.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Graphic Design",
 				"Poster",
 				"Event",
 				"Education"
 			],
+			"client": "GITAM University",
 			"link": ""
 		},
 		{
@@ -145,6 +147,7 @@
 			"description": "Bold vintage poster illustration featuring a classic convertible car with strong typography, distressed textures, and nostalgic color palette.",
 			"year": "2025",
 			"featured": true,
+			"client": "Retro Garage",
 			"tags": [
 				"Illustration",
 				"Branding",
@@ -161,13 +164,14 @@
 			"story": "A graceful fusion of floral symbolism and modern minimalism in deep purple tones.",
 			"description": "Sophisticated business card design featuring a custom logo with a stylized face, flame, and laurel elements, paired with clean typography and contact details.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Graphic Design",
 				"Branding",
 				"Business Card",
 				"Identity"
 			],
+			"client": "Kusma Candela",
 			"link": ""
 		},
 		{
@@ -178,7 +182,7 @@
 			"story": "A serene emblem evoking light, beauty, and natural elegance.",
 			"description": "Clean vector logo featuring an arched frame with a stylized feminine profile, flame, and laurel leaves, accompanied by refined serif typography.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Graphic Design", "Logo Design", "Branding"],
 			"link": ""
 		},
@@ -190,7 +194,7 @@
 			"story": "Sharp, powerful identity merging typography with symbolic imagery.",
 			"description": "High-impact wordmark logo where the letter 'K' is integrated with a detailed pistol illustration, rendered in strong red and black colors.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Graphic Design", "Logo Design", "Branding"],
 			"link": ""
 		},
@@ -202,7 +206,7 @@
 			"story": "Modern metropolis rising against a clear blue sky.",
 			"description": "Clean, colorful digital illustration showcasing Hyderabad’s contemporary architecture, skyscrapers, greenery, and birds in flight.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Illustration", "Cityscape", "Vector Art"],
 			"link": ""
 		},
@@ -214,7 +218,7 @@
 			"story": "A dreamy nocturnal landscape alive with cosmic movement and vibrant color.",
 			"description": "Small acrylic painting featuring bold swirling patterns, glowing stars, purple florals, pine trees, and a luminous crescent moon in Van Gogh style.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Illustration", "Painting", "Art", "Inspired"],
 			"link": ""
 		},
@@ -226,7 +230,7 @@
 			"story": "Harmony, beauty, and spirituality expressed through detailed linework.",
 			"description": "Highly detailed hand-drawn mandala with a central peacock (Mayura), floral patterns, geometric motifs, and decorative borders.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Illustration",
 				"Mandala",
@@ -243,7 +247,7 @@
 			"story": "A bold, modern monogram that merges tradition with contemporary elegance — strong, memorable, and personal.",
 			"description": "Custom orange-and-black monogram logo with clean typography, creating a professional yet approachable personal brand presence.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Logo", "Branding", "Identity"],
 			"link": ""
 		},
@@ -267,7 +271,7 @@
 			"story": "A moment of awe and connection with nature — light piercing through the canopy, reminding us to breathe.",
 			"description": "Low-angle forest photography capturing sunlight breaking through tall pine branches against a clear blue sky.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Nature", "Photography", "Landscape"],
 			"link": ""
 		},
@@ -279,7 +283,7 @@
 			"story": "Behind the mask lies vulnerability — a powerful commentary on the faces we show versus what we hide.",
 			"description": "Moody black-and-white composition featuring a tearful woman's close-up on a tablet paired with a Guy Fawkes mask.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Portrait", "Conceptual", "Dark Art"],
 			"link": ""
 		},
@@ -293,6 +297,7 @@
 			"year": "2025",
 			"featured": false,
 			"tags": ["Banner", "Beauty", "Advertising"],
+			"client": "Purnima Beauty Parlour",
 			"link": ""
 		},
 		{
@@ -375,7 +380,7 @@
 			"story": "A vibrant celebration of friendship, diversity, and breaking stereotypes — brought to life with color and heart.",
 			"description": "Spiral-bound notebook illustration of Judy Hopps and Nick Wilde in a playful, expressive painting style, displayed against a wall of other artworks.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Fan Art", "Illustration", "Painting"],
 			"link": ""
 		},
@@ -387,7 +392,7 @@
 			"story": "Two faces, one canvas — a powerful visual dialogue between inner and outer selves, tradition and modernity.",
 			"description": "Bold geometric artwork using black, white, red, and blue shapes to depict overlapping profiles with symbolic elements like flora and celestial forms.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Abstract", "Painting", "Cubism"],
 			"link": ""
 		},
@@ -399,7 +404,7 @@
 			"story": "A tender moment of companionship and hope — small hands holding together on the journey toward a brighter future.",
 			"description": "Emotional documentary-style street photography capturing two young students from behind as they walk hand-in-hand toward their future.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Documentary",
 				"Street Photography",
@@ -427,7 +432,7 @@
 			"story": "Effortless style meets everyday practicality — vibrant colors and modern utility for the contemporary individual.",
 			"description": "Clean product showcase featuring a man wearing a brown sling bag with multiple color variants of stylish fanny packs/sling bags displayed.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Product", "Fashion", "Advertising"],
 			"link": ""
 		},
@@ -451,7 +456,7 @@
 			"story": "Nature’s intricate architecture etched against the heavens — a quiet meditation on resilience and beauty in simplicity.",
 			"description": "Powerful black and white nature photograph looking up through the complex branches and trunks of trees into a partly cloudy blue sky.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Nature", "Photography", "Silhouette"],
 			"link": ""
 		},
@@ -463,7 +468,7 @@
 			"story": "A heartbreaking conversation underwater — when marine life’s home becomes our trash bin.",
 			"description": "Cartoon illustration of three sad sea turtles surrounded by floating plastic waste, with a speech bubble asking 'Is this what we eat now?'",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Environmental",
 				"Illustration",
@@ -480,7 +485,7 @@
 			"story": "Graceful femininity captured in a single flowing mark — where tradition meets modern sophistication.",
 			"description": "Minimalist luxury logo featuring a stylized woman's profile merged with a large letter 'P' in warm metallic gold tones.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Logo", "Branding", "Beauty"],
 			"link": ""
 		},
@@ -528,7 +533,7 @@
 			"story": "Bursting with color and cultural pride — a modern celebration of folk craftsmanship and festive spirit.",
 			"description": "Handcrafted colorful mandala-style panel with red, blue, and yellow patterns, hearts, and embedded mirrors, held outdoors.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": [
 				"Folk Art",
 				"Traditional",

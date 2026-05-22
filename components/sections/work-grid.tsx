@@ -70,32 +70,42 @@ export function WorkGrid({
 					</div>
 
 					{showFilters ? (
-						<div className="flex flex-wrap gap-2">
-							{categories.map((category) => (
-								<Button
-									key={category}
-									variant={
-										currentCategory === category
-											? "default"
-											: "outline"
-									}
-									size="sm"
-									asChild
-								>
-									<Link href={createQuery(1, category)}>
-										{category}
-									</Link>
-								</Button>
-							))}
-						</div>
+						<Reveal>
+							<div className="flex flex-wrap gap-2">
+								{categories.map((category) => (
+									<Button
+										key={category}
+										variant={
+											currentCategory === category
+												? "default"
+												: "outline"
+										}
+										size="sm"
+										asChild
+									>
+										<Link href={createQuery(1, category)}>
+											{category}
+										</Link>
+									</Button>
+								))}
+							</div>
+						</Reveal>
 					) : null}
 				</div>
-
-				<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-					{projects.map((project) => (
-						<ProjectCard key={project.key} project={project} />
-					))}
-				</div>
+				<Reveal>
+					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+						{projects
+							.filter((p) => p.featured)
+							.map((project) => (
+								<ProjectCard key={project.key} project={project} />
+							))}
+						{projects
+							.filter((p) => !p.featured)
+							.map((project) => (
+								<ProjectCard key={project.key} project={project} />
+							))}
+					</div>
+				</Reveal>
 				{pagination.totalPages > 1 && (
 					<div className="flex items-center justify-between gap-3">
 						<Button asChild variant="outline" size="sm">

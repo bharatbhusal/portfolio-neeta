@@ -1,37 +1,41 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
-
 import { Reveal } from "@/components/animations/reveal";
+import { ProjectCard } from "@/components/cards/project-card";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
 import type {
+	ContactChannel,
 	ContactData,
-	SiteData,
+	Project,
 } from "@/types/portfolio";
+import Image from "next/image";
+import Link from "next/link";
+import { iconMap } from "@/lib/iconMapper";
 
 type ContactProps = {
-	site: SiteData;
 	contact: ContactData;
-	compact?: boolean;
+	projects: Project[];
 };
 
 export function Contact({
-	site,
 	contact,
-	compact = false,
+	projects,
 }: ContactProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
+
+	// Get projects with client field
+	const clientProjects = projects
+		.filter((p) => p.client)
+		.sort((a, b) => a.key.localeCompare(b.key))
+		.slice(0, 4);
+
+	// Get the first featured project for the right side
+	const featuredProject = projects.find(
+		(p) => p.featured && !!p.client,
+	);
 
 	return (
 		<section
@@ -55,77 +59,105 @@ export function Contact({
 							{contact.summary}
 						</p>
 					</Reveal>
-				</div>
 
-				<div className="space-y-4">
-					<Card
-						data-hover-lift
-						className="border-border/60 bg-card/70 backdrop-blur"
-					>
-						<CardHeader>
-							<CardTitle className="text-xl">
-								Contact details
-							</CardTitle>
-						</CardHeader>
-						<CardContent className="space-y-3 text-sm text-muted-foreground">
-							<div className="flex items-center justify-between gap-4">
-								<span>Email</span>
-								<Link
-									className="text-foreground transition hover:text-primary"
-									href={`mailto:${site.email}`}
-								>
-									{site.email}
-								</Link>
-							</div>
-							<Separator className="bg-border/70" />
-							<div className="flex items-center justify-between gap-4">
-								<span>Phone</span>
-								<Link
-									className="text-foreground transition hover:text-primary"
-									href={`tel:${site.phone}`}
-								>
-									{site.phone}
-								</Link>
-							</div>
-							<Separator className="bg-border/70" />
-							<div className="flex items-center justify-between gap-4">
-								<span>Location</span>
-								<span className="text-foreground">
-									{site.location}
-								</span>
-							</div>
-						</CardContent>
-					</Card>
-
-					<div className="grid gap-4 sm:grid-cols-3">
-						{contact.channels.map((channel) => (
-							<Card
-								key={channel.label}
-								data-hover-lift
-								className="border-border/60 bg-card/60 backdrop-blur"
-							>
-								<CardHeader>
-									<p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-										{channel.label}
-									</p>
-									<CardTitle className="text-base">
-										Connect
-									</CardTitle>
-								</CardHeader>
-								<CardContent className="pb-4 text-sm text-muted-foreground">
-									<Link
-										href={channel.href}
-										target="_blank"
-										rel="noreferrer"
-										className="transition hover:text-foreground"
+					{/* Channels with Icons */}
+					<Reveal>
+						<div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
+							{contact.channels.map((channel: ContactChannel) => {
+								const IconComponent = iconMap[channel.icon];
+								return (
+									<Button
+										key={channel.label}
+										className="flex items-center gap-2 transition hover:bg-foreground/10"
+										variant="outline"
+										onClick={() =>
+											window.open(
+												channel.href,
+												"_blank",
+												"noopener,noreferrer",
+											)
+										}
 									>
-										Open
-									</Link>
-								</CardContent>
-							</Card>
-						))}
-					</div>
+										<IconComponent className="w-4 h-4" />
+
+										<span>{channel.label}</span>
+									</Button>
+								);
+							})}
+						</div>
+					</Reveal>
+
+					{/* Client Projects Section */}
+					{featuredProject && (
+						<Reveal>
+							<ProjectCard project={featuredProject} />
+						</Reveal>
+					)}
 				</div>
+
+				{/* Featured Project on Right */}
+				{clientProjects.length > 0 && (
+					<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
+						<div className="flex items-end justify-between gap-3">
+							<div className="space-y-2">
+								<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+									Recent Client Works
+								</p>
+								<p className="text-sm leading-6 text-muted-foreground">
+									A short selection from the current client work.
+								</p>
+							</div>
+							<Button asChild variant="outline" size="sm">
+								<Link href="/projects">View all</Link>
+							</Button>
+						</div>
+
+						<div className="grid gap-4">
+							{clientProjects.map((project) => (
+								<div
+									key={project.key}
+									className="group rounded-xl border border-border/60 bg-background/40 p-4 cursor-pointer hover:bg-background/60 transition"
+									onClick={() =>
+										location.assign(
+											`/projects/${encodeURIComponent(project.key)}`,
+										)
+									}
+								>
+									<div className="flex">
+										<div className="flex-1 min-w-0">
+											<div className="flex items-start justify-between gap-3 mb-2">
+												<div className="flex-1 min-w-0">
+													<p className="font-semibold text-foreground truncate">
+														{project.title}
+													</p>
+													<p className="text-xs text-primary font-medium uppercase tracking-[0.16em] truncate">
+														{project.client}
+													</p>
+												</div>
+											</div>
+											<p className="text-sm text-muted-foreground leading-5 line-clamp-3">
+												{project.summary || project.description}
+											</p>
+										</div>
+										<div className="relative hidden sm:block w-28 sm:w-36 md:w-44 aspect-[16/9] overflow-hidden rounded-r-md flex-shrink-0">
+											<p className="absolute right-2 top-2 z-10 rounded-full border border-white/10 bg-background/70 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-foreground backdrop-blur">
+												{project.year}
+											</p>
+											<Image
+												src={`/api/images?publicId=${encodeURIComponent(project.key)}&w=1080&h=720&crop=fill&format=auto&q=auto`}
+												alt={project.title}
+												fill
+												priority
+												className="object-cover transition duration-500"
+											/>
+											<div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/100 pointer-events-none" />
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</section>
 	);

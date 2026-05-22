@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { MdArrowOutward } from "react-icons/md";
 import { useRef } from "react";
 
 import { Reveal } from "@/components/animations/reveal";
@@ -60,7 +60,7 @@ export function Hero({ site }: HeroProps) {
 							>
 								<Link href={action.href}>
 									{action.label}
-									<ArrowUpRight className="size-4" />
+									<MdArrowOutward className="size-4" />
 								</Link>
 							</Button>
 						))}
@@ -84,10 +84,7 @@ export function Hero({ site }: HeroProps) {
 					</div>
 				</div>
 
-				<Card
-					data-hover-lift
-					className="overflow-hidden border-border/60 bg-card/70 backdrop-blur"
-				>
+				<Card className="overflow-hidden border-border/60 bg-card/70 backdrop-blur">
 					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60">
 						<Image
 							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=1200&h=900&crop=fill&format=auto&q=auto`}

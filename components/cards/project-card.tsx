@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import {
 	Card,
@@ -19,8 +18,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 	return (
 		<Card
-			data-hover-lift
-			className="group h-full border-border/60 bg-card/70 backdrop-blur"
+			className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer"
+			onClick={() =>
+				location.assign(
+					`/projects/${encodeURIComponent(project.key)}`,
+				)
+			}
 		>
 			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
 				<Image
@@ -30,7 +33,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 					}
 					alt={project.title}
 					fill
-					className="object-cover transition duration-700 group-hover:scale-105"
+					className="object-cover transition duration-700"
 					sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 					priority={project.featured}
 				/>
@@ -41,12 +44,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 			</div>
 
 			<CardHeader>
-				<div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.24em] text-muted-foreground">
-					<span>{project.category}</span>
-					<span>{project.year}</span>
-				</div>
-				<CardTitle className="text-xl">
-					{project.title}
+				<CardTitle className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+					<div className="text-xl font-bold">
+						{project.title}
+					</div>
+					<div>{project.year}</div>
 				</CardTitle>
 				<CardDescription className="text-sm leading-6">
 					{cardSummary}
@@ -54,12 +56,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 			</CardHeader>
 
 			<CardContent className="space-y-4">
-				<Link
-					href={`/projects/${encodeURIComponent(project.key)}`}
-					className="inline-flex text-sm font-medium text-primary transition hover:text-primary/80"
-				>
-					View project
-				</Link>
 				<div className="flex flex-wrap gap-2">
 					{project.tags.map((tag) => (
 						<span

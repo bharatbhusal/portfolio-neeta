@@ -22,6 +22,10 @@ export default async function AboutPage() {
 		fetchJson<SiteData>("/data/site.json"),
 		fetchJson<ProjectsData>("/data/projects.json"),
 	]);
+	projects.projects.forEach((project) => {
+		project.tags = [];
+		project.year = "";
+	});
 	const featuredProjects = projects.projects
 		.filter((project) => project.featured)
 		.slice(0, 3);

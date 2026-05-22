@@ -8,6 +8,12 @@ export type SocialLink = {
 	href: string;
 };
 
+export type ContactChannel = {
+	label: string;
+	href: string;
+	icon: string;
+};
+
 export type ActionLink = {
 	label: string;
 	href: string;
@@ -78,7 +84,7 @@ export type ContactData = {
 	vcard: {
 		filename: string;
 	};
-	channels: SocialLink[];
+	channels: ContactChannel[];
 };
 
 export type AboutMeData = {

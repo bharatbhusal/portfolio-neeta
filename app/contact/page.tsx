@@ -4,6 +4,7 @@ import { fetchJson } from "@/lib/data";
 import type {
 	ContactData,
 	SiteData,
+	ProjectsData,
 } from "@/types/portfolio";
 
 export async function generateMetadata() {
@@ -18,14 +19,17 @@ export async function generateMetadata() {
 }
 
 export default async function ContactPage() {
-	const [site, contact] = await Promise.all([
-		fetchJson<SiteData>("/data/site.json"),
+	const [contact, projectsData] = await Promise.all([
 		fetchJson<ContactData>("/data/contact.json"),
+		fetchJson<ProjectsData>("/data/projects.json"),
 	]);
 
 	return (
 		<main className="pb-8 lg:pb-12">
-			<Contact site={site} contact={contact} />
+			<Contact
+				contact={contact}
+				projects={projectsData.projects}
+			/>
 		</main>
 	);
 }

@@ -39,14 +39,20 @@ export async function GET(request: Request) {
 	);
 	const category = searchParams.get("category");
 
-	const projects = (
-		projectsData.projects as Project[]
-	).filter((project) =>
-		category && category !== "All"
-			? project.category === category ||
-				project.tags.includes(category)
-			: true,
-	);
+	const projects = (projectsData.projects as Project[])
+		.sort((a, b) => {
+			// Featured projects come first
+			if (a.featured !== b.featured) {
+				return b.featured ? 1 : -1;
+			}
+			// Within each group, sort alphanumerically by key
+			return a.key.localeCompare(b.key);
+		})
+		.filter((project) =>
+			category && category !== "All"
+				? project.category === category
+				: true,
+		);
 	const categories = [
 		"All",
 		...Array.from(
