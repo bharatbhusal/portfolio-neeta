@@ -38,7 +38,9 @@ export async function generateMetadata({
 		title: `${project.title} | Projects | Neeta Bhusal`,
 		description: project.summary ?? project.description,
 		path: `/projects/${encodeURIComponent(project.key)}`,
-		image: `/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`,
+		image:
+			project.imageUrl ??
+			`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`,
 	});
 }
 

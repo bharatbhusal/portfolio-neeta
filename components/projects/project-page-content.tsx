@@ -1,17 +1,33 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { FiEdit2 } from "react-icons/fi";
+import { useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/portfolio";
+import { useAuthMe } from "@/hooks/useApi";
 
 type ProjectPageContentProps = {
 	project: Project;
+	isAuthenticated?: boolean;
 };
 
 export function ProjectPageContent({
 	project,
+	isAuthenticated,
 }: ProjectPageContentProps) {
+	const authQuery = useAuthMe({
+		enabled: typeof isAuthenticated === "undefined",
+	});
+
+	const authed = useMemo(() => {
+		if (typeof isAuthenticated !== "undefined")
+			return isAuthenticated;
+		return Boolean(authQuery.data);
+	}, [isAuthenticated, authQuery.data]);
+
 	return (
 		<section className="mx-auto w-full max-w-5xl space-y-6 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 			<div className="space-y-2">
@@ -19,9 +35,21 @@ export function ProjectPageContent({
 					Project
 				</p>
 
-				<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-					{project.title}
-				</h1>
+				<div className="flex flex-wrap items-center gap-3">
+					<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+						{project.title}
+					</h1>
+					{authed && (
+						<Button asChild variant="outline" size="icon-sm">
+							<Link
+								href={`/admin/projects?key=${encodeURIComponent(project.key)}`}
+								aria-label="Edit project"
+							>
+								<FiEdit2 className="size-3.5" />
+							</Link>
+						</Button>
+					)}
+				</div>
 				<div className="width-full flex flex-wrap justify-between text-sm text-muted-foreground text-center">
 					<p>
 						{project.category} · {project.year}
@@ -51,7 +79,8 @@ export function ProjectPageContent({
 					<Button
 						onClick={() =>
 							window.open(
-								`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`,
+								project.downloadUrl ??
+									`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`,
 							)
 						}
 					>

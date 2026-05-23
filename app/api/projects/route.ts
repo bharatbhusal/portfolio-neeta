@@ -1,10 +1,17 @@
-import { NextResponse } from "next/server";
-
-import { readJson } from "@/lib/serverData";
+import { connectToDatabase } from "@/lib/db";
+import { ProjectModel } from "@/models/project";
+import { ProjectInputSchema } from "@/lib/validators";
+import { hydrateProject } from "@/lib/projectAssets";
 import type {
+	PaginatedProjectsData,
 	Project,
-	ProjectsData,
 } from "@/types/portfolio";
+import { getAuthPayload } from "@/lib/auth";
+import {
+	errorResponse,
+	successResponse,
+} from "@/lib/apiResponse";
+import { AppError } from "@/lib/errors";
 
 const DEFAULT_PAGE_SIZE = 9;
 
@@ -18,108 +25,106 @@ function toPositiveInt(
 		: fallback;
 }
 
-function buildImageUrl(
-	publicId: string,
-	cloudName: string,
-) {
-	const encoded = publicId
-		.split("/")
-		.map((segment) => encodeURIComponent(segment))
-		.join("/");
-
-	return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,c_fill,w_720,h_1000/portfolio_neeta/${encoded}`;
-}
-
-function matchesQuery(project: Project, query: string) {
-	const haystack = [
-		project.title,
-		project.category,
-		project.summary,
-		project.story,
-		project.description,
-		project.year,
-		project.featured ? "featured" : "not featured",
-		project.tags.join(" "),
-		project.client,
-	]
-		.filter(Boolean)
-		.join(" ")
-		.toLowerCase();
-	return haystack.includes(query);
+function escapeRegex(value: string) {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 export async function GET(request: Request) {
-	const { searchParams } = new URL(request.url);
-	const page = toPositiveInt(searchParams.get("page"), 1);
-	const pageSize = Math.min(
-		toPositiveInt(
-			searchParams.get("pageSize"),
-			DEFAULT_PAGE_SIZE,
-		),
-		DEFAULT_PAGE_SIZE,
-	);
-	const category = searchParams.get("category");
-	const q = searchParams.get("q")?.trim().toLowerCase();
-	const projectsData =
-		await readJson<ProjectsData>("projects.json");
-
-	const projects = (projectsData.projects as Project[])
-		.sort((a, b) => {
-			// Featured projects come first
-			if (a.featured !== b.featured) {
-				return b.featured ? 1 : -1;
-			}
-			// Within each group, sort alphanumerically by key
-			return a.key.localeCompare(b.key);
-		})
-		.filter((project) =>
-			q ? matchesQuery(project, q) : true,
-		)
-		.filter((project) =>
-			category && category !== "All"
-				? project.category === category
-				: true,
-		);
-	const categories = [
-		"All",
-		...Array.from(
-			new Set(
-				(projectsData.projects as Project[]).map(
-					(project) => project.category,
-				),
+	try {
+		const { searchParams } = new URL(request.url);
+		const page = toPositiveInt(searchParams.get("page"), 1);
+		const pageSize = Math.min(
+			toPositiveInt(
+				searchParams.get("pageSize"),
+				DEFAULT_PAGE_SIZE,
 			),
-		),
-	];
-	const total = projects.length;
-	const totalPages = Math.max(
-		1,
-		Math.ceil(total / pageSize),
-	);
-	const safePage = Math.min(page, totalPages);
-	const start = (safePage - 1) * pageSize;
-	const items = projects.slice(start, start + pageSize);
-	const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+			DEFAULT_PAGE_SIZE,
+		);
+		const category = searchParams.get("category");
+		const q = searchParams.get("q")?.trim();
 
-	const results = items.map((project) => {
-		const imageUrl = cloudName
-			? buildImageUrl(project.key, cloudName)
-			: `/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`;
+		await connectToDatabase();
+		const filter: Record<string, unknown> = {};
+		if (category && category !== "All") {
+			filter.category = category;
+		}
 
-		return {
-			...project,
-			imageUrl,
-			downloadUrl: `/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`,
+		if (q) {
+			const regex = new RegExp(escapeRegex(q), "i");
+			filter.$or = [
+				{ title: regex },
+				{ category: regex },
+				{ summary: regex },
+				{ story: regex },
+				{ description: regex },
+				{ year: regex },
+				{ tags: regex },
+				{ client: regex },
+			];
+		}
+
+		const [total, categories] = await Promise.all([
+			ProjectModel.countDocuments(filter),
+			ProjectModel.distinct("category"),
+		]);
+
+		const totalPages = Math.max(
+			1,
+			Math.ceil(total / pageSize),
+		);
+		const safePage = Math.min(page, totalPages);
+		const start = (safePage - 1) * pageSize;
+
+		const projects = await ProjectModel.find(filter)
+			.sort({ featured: -1, key: 1 })
+			.skip(start)
+			.limit(pageSize)
+			.lean<Project[]>();
+
+		const results = projects.map((project) =>
+			hydrateProject(project),
+		);
+
+		const response: PaginatedProjectsData = {
+			projects: results,
+			categories: [
+				"All",
+				...Array.from(new Set(categories)).sort(),
+			],
+			pagination: {
+				page: safePage,
+				pageSize,
+				total,
+				totalPages,
+			},
 		};
-	});
+		return successResponse(response);
+	} catch (error) {
+		return errorResponse(error);
+	}
+}
 
-	return NextResponse.json({
-		projects: results,
-		categories,
-		pagination: {
-			page: safePage,
-			pageSize,
-			total,
-			totalPages,
-		},
-	});
+export async function POST(request: Request) {
+	try {
+		await getAuthPayload();
+
+		const payload = await request.json().catch(() => null);
+		const parsed = ProjectInputSchema.safeParse(payload);
+		if (!parsed.success) {
+			throw new AppError("Invalid project payload", 400);
+		}
+
+		await connectToDatabase();
+		const exists = await ProjectModel.exists({
+			key: parsed.data.key,
+		});
+		if (exists) {
+			throw new AppError("project already exists", 409);
+		}
+
+		const created = await ProjectModel.create(parsed.data);
+		return successResponse(created, 201);
+	} catch (error) {
+		return errorResponse(error);
+	}
 }

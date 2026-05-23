@@ -5,6 +5,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { fetchJson } from "@/lib/data";
+import { QueryProvider } from "@/components/providers/query-provider";
 import type {
 	ContactData,
 	SiteData,
@@ -52,11 +53,13 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-background text-foreground`}
 			>
-				<div className="flex min-h-dvh flex-col">
-					<Navbar site={site} />
-					<div className="flex-1">{children}</div>
-					<Footer site={site} contact={contact} />
-				</div>
+				<QueryProvider>
+					<div className="flex min-h-dvh flex-col">
+						<Navbar site={site} />
+						<div className="flex-1">{children}</div>
+						<Footer site={site} contact={contact} />
+					</div>
+				</QueryProvider>
 			</body>
 		</html>
 	);
