@@ -27,7 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
 		title: site.seo.title,
 		description: site.seo.description,
 		path: "/",
-		image: site.seo.ogImage,
 	});
 }
 
