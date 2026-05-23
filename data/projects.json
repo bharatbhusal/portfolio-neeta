@@ -9,8 +9,8 @@
 			"description": "A hand-drawn painting using strong outlines, vivid reds, greens, and yellows to portray the divine feminine energy with traditional ornamentation and expressive eyes.",
 			"year": "2025",
 			"featured": false,
-			"tags": ["Folk Art", "Religious", "Traditional"],
-			"link": ""
+			"client": "GITAM University",
+			"tags": ["Folk Art", "Religious", "Traditional"]
 		},
 		{
 			"key": "concrete_abyss.jpeg",
@@ -21,8 +21,7 @@
 			"description": "Powerful perspective composition emphasizing brutalist lines, repeating windows, and the tension between rigid architecture and the small patch of open sky.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Architecture", "Urban"],
-			"link": ""
+			"tags": ["Architecture", "Urban"]
 		},
 		{
 			"key": "artist_on_every_household.jpeg",
@@ -33,8 +32,7 @@
 			"description": "Candid black and white photograph capturing the focused posture and cultural continuity of a woman creating kolam/rangoli at dawn.",
 			"year": "2026",
 			"featured": false,
-			"tags": ["Culture", "Tradition"],
-			"link": ""
+			"tags": ["Culture", "Tradition"]
 		},
 		{
 			"key": "blue_bliss.jpeg",
@@ -51,7 +49,7 @@
 				"Painting",
 				"monochromatic"
 			],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DQWlQ7dk_to"
 		},
 		{
 			"key": "charmina.jpeg",
@@ -62,13 +60,7 @@
 			"description": "Golden-hour photograph capturing the grand Mughal architecture, minarets, and bustling street life surrounding this Hyderabad landmark.",
 			"year": "2026",
 			"featured": true,
-			"tags": [
-				"Architecture",
-				"Heritage",
-				"Travel",
-				"history"
-			],
-			"link": ""
+			"tags": ["Architecture", "Heritage", "Travel", "history"]
 		},
 		{
 			"key": "dv_niketan_admission_open.png",
@@ -80,8 +72,7 @@
 			"year": "2024",
 			"featured": false,
 			"tags": ["Education", "Advertising", "Poster"],
-			"client": "DV Niketan",
-			"link": ""
+			"client": "DV Niketan"
 		},
 		{
 			"key": "artescape.png",
@@ -93,8 +84,7 @@
 			"year": "2025",
 			"featured": false,
 			"tags": ["Poster", "Event", "Education"],
-			"client": "GITAM University",
-			"link": ""
+			"client": "GITAM University"
 		},
 		{
 			"key": "echoes_on_yellow_walls.jpg",
@@ -105,8 +95,7 @@
 			"description": "Warm, well-composed photograph showcasing an eclectic mix of framed paintings and illustrations arranged in an engaging salon-style display.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Interior", "Art Display", "Curated"],
-			"link": ""
+			"tags": ["Interior", "Art Display", "Curated"]
 		},
 		{
 			"key": "car_vintage.png",
@@ -118,7 +107,7 @@
 			"year": "2024",
 			"featured": true,
 			"tags": ["Branding", "Retro", "Automotive"],
-			"link": ""
+			"link": "https://www.instagram.com/p/C9pfKlQPqNk"
 		},
 		{
 			"key": "kusma_card.png",
@@ -130,8 +119,7 @@
 			"year": "2025",
 			"featured": false,
 			"tags": ["Branding", "Business Card", "Identity"],
-			"client": "Kusma Candela",
-			"link": ""
+			"client": "Kusma Candela"
 		},
 		{
 			"key": "kusma_logo.png",
@@ -143,8 +131,7 @@
 			"year": "2025",
 			"featured": false,
 			"client": "Kusma Candela",
-			"tags": ["Logo Design", "Branding"],
-			"link": ""
+			"tags": ["Logo Design", "Branding"]
 		},
 		{
 			"key": "kes.png",
@@ -156,7 +143,6 @@
 			"year": "2024",
 			"featured": false,
 			"tags": ["Logo Design", "Branding"],
-			"link": "",
 			"client": "Karnali eSport"
 		},
 		{
@@ -169,7 +155,7 @@
 			"year": "2024",
 			"featured": true,
 			"tags": ["Cityscape", "Vector Art"],
-			"link": ""
+			"link": "https://www.instagram.com/p/C9mX27yvlkn"
 		},
 		{
 			"key": "lunar_swirl.jpeg",
@@ -180,8 +166,7 @@
 			"description": "Small acrylic painting featuring bold swirling patterns, glowing stars, purple florals, pine trees, and a luminous crescent moon in Van Gogh style.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Inspired"],
-			"link": ""
+			"tags": ["Inspired"]
 		},
 		{
 			"key": "mandala_mayura.jpg",
@@ -192,8 +177,7 @@
 			"description": "Highly detailed hand-drawn mandala with a central peacock (Mayura), floral patterns, geometric motifs, and decorative borders.",
 			"year": "2025",
 			"featured": false,
-			"tags": ["Mandala", "Ink Drawing", "Traditional"],
-			"link": ""
+			"tags": ["Mandala", "Ink Drawing", "Traditional"]
 		},
 		{
 			"key": "ping_pong.jpeg",
@@ -205,8 +189,7 @@
 			"year": "2024",
 			"featured": false,
 			"client": "Siddhartha Pathshala",
-			"tags": ["Poster", "Sports", "Event"],
-			"link": ""
+			"tags": ["Poster", "Sports", "Event"]
 		},
 		{
 			"key": "feel_me.jpg",
@@ -217,8 +200,7 @@
 			"description": "Low-angle forest photography capturing sunlight breaking through tall pine branches against a clear blue sky.",
 			"year": "2023",
 			"featured": true,
-			"tags": ["Nature", "Landscape"],
-			"link": ""
+			"tags": ["Nature", "Landscape"]
 		},
 		{
 			"key": "hidden_tears.jpeg",
@@ -229,8 +211,7 @@
 			"description": "Moody black-and-white composition featuring a tearful woman's close-up on a tablet paired with a Guy Fawkes mask.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Conceptual", "Dark Art", "Still Life"],
-			"link": ""
+			"tags": ["Conceptual", "Dark Art", "Still Life"]
 		},
 		{
 			"key": "parlour_baner.png",
@@ -243,7 +224,7 @@
 			"featured": true,
 			"tags": ["Banner", "Beauty", "Advertising"],
 			"client": "Purnima Beauty Parlour",
-			"link": ""
+			"link": "https://www.instagram.com/p/C_F-vYEPWYj"
 		},
 		{
 			"key": "hunted_concrete.jpeg",
@@ -254,8 +235,7 @@
 			"description": "Dramatic low-light photograph of a polished hallway leading toward stairs with strong contrast and reflections.",
 			"year": "2026",
 			"featured": true,
-			"tags": ["Architecture", "Moody"],
-			"link": ""
+			"tags": ["Architecture", "Moody"]
 		},
 		{
 			"key": "emerald_dancer.jpg",
@@ -266,8 +246,7 @@
 			"description": "Colorful hand-painted peacock (Mayur) in traditional Indian folk style, photographed against city buildings.",
 			"year": "2025",
 			"featured": true,
-			"tags": ["Traditional", "Madhubani", "Culture"],
-			"link": ""
+			"tags": ["Traditional", "Madhubani", "Culture"]
 		},
 		{
 			"key": "pink_freshness.jpeg",
@@ -279,7 +258,7 @@
 			"year": "2026",
 			"featured": true,
 			"tags": ["Product", "Skincare", "Dot&Key"],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DYRskmwzLA6"
 		},
 		{
 			"key": "everyday_ritual.jpeg",
@@ -290,8 +269,7 @@
 			"description": "Candid lifestyle photograph of a man in a white vest reading a newspaper on traditional stone steps.",
 			"year": "2026",
 			"featured": false,
-			"tags": ["Lifestyle", "Candid", "Culture"],
-			"link": ""
+			"tags": ["Lifestyle", "Candid", "Culture"]
 		},
 		{
 			"key": "sk_media_network.jpg",
@@ -304,7 +282,7 @@
 			"featured": false,
 			"client": "Surkhet Karnali Media Network",
 			"tags": ["Logo", "Branding", "Media"],
-			"link": ""
+			"link": "https://www.instagram.com/p/C-M3JRavF84"
 		},
 		{
 			"key": "siddhartha_pathshala.png",
@@ -317,7 +295,7 @@
 			"featured": false,
 			"client": "Siddhartha Pathshala",
 			"tags": ["Poster", "Education", "Advertising"],
-			"link": ""
+			"link": "https://www.instagram.com/p/C_AoPzduRCX"
 		},
 		{
 			"key": "us_topia.jpeg",
@@ -329,7 +307,7 @@
 			"year": "2026",
 			"featured": true,
 			"tags": ["Friendship", "Movie"],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DWqz-kjk1GE"
 		},
 		{
 			"key": "split_gaze.jpeg",
@@ -341,7 +319,7 @@
 			"year": "2026",
 			"featured": true,
 			"tags": ["Abstract", "Cubism"],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DWoP0-aE0R5"
 		},
 		{
 			"key": "the_long_road_ahead.jpeg",
@@ -357,8 +335,7 @@
 				"Lifestyle",
 				"Love",
 				"School"
-			],
-			"link": ""
+			]
 		},
 		{
 			"key": "summer_music_fest.png",
@@ -369,8 +346,7 @@
 			"description": "Vibrant blue festival poster featuring a young girl passionately playing guitar, bold typography, event details, and free entry announcement.",
 			"year": "2024",
 			"featured": true,
-			"tags": ["Poster", "Event", "Music"],
-			"link": ""
+			"tags": ["Poster", "Event", "Music"]
 		},
 		{
 			"key": "shreee_riya.jpg",
@@ -382,8 +358,7 @@
 			"year": "2025",
 			"featured": false,
 			"client": "Shreee Shriya",
-			"tags": ["Product", "Fashion", "Advertising"],
-			"link": ""
+			"tags": ["Product", "Fashion", "Advertising"]
 		},
 		{
 			"key": "soulful_union.jpeg",
@@ -400,7 +375,7 @@
 				"Radha Krishna",
 				"Contemporary Art"
 			],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DUvhagQk_nn"
 		},
 		{
 			"key": "tree_etching.jpg",
@@ -411,8 +386,7 @@
 			"description": "Powerful black and white nature photograph looking up through the complex branches and trunks of trees into a partly cloudy blue sky.",
 			"year": "2019",
 			"featured": false,
-			"tags": ["Nature", "Silhouette"],
-			"link": ""
+			"tags": ["Nature", "Silhouette"]
 		},
 		{
 			"key": "sea_poverty.png",
@@ -423,8 +397,7 @@
 			"description": "Cartoon illustration of three sad sea turtles surrounded by floating plastic waste, with a speech bubble asking 'Is this what we eat now?'",
 			"year": "2025",
 			"featured": true,
-			"tags": ["Environmental", "Cartoon", "Awareness"],
-			"link": ""
+			"tags": ["Environmental", "Cartoon", "Awareness"]
 		},
 		{
 			"key": "purnia_logo.png",
@@ -436,8 +409,7 @@
 			"year": "2024",
 			"client": "Purnima Beauty Parlour",
 			"featured": true,
-			"tags": ["Branding", "Beauty"],
-			"link": ""
+			"tags": ["Branding", "Beauty"]
 		},
 		{
 			"key": "popularity_and_positivity.png",
@@ -448,8 +420,7 @@
 			"description": "Cute cartoon of two smiling clownfish floating above coral with a sign that reads 'LET'S GROW TOGETHER'.",
 			"year": "2025",
 			"featured": true,
-			"tags": ["Motivational", "Cartoon"],
-			"link": ""
+			"tags": ["Motivational", "Cartoon"]
 		},
 		{
 			"key": "pm_change.jpeg",
@@ -461,7 +432,7 @@
 			"year": "2026",
 			"featured": true,
 			"tags": ["Portrait", "Pencil Art", "Realism", "Balen"],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DVk3EY4EQ3_"
 		},
 		{
 			"key": "selfportrait.jpg",
@@ -473,7 +444,7 @@
 			"year": "2025",
 			"featured": true,
 			"tags": ["Fulkumari"],
-			"link": ""
+			"link": "https://www.instagram.com/p/DIOJMQ2T3Ef"
 		},
 		{
 			"key": "rajisthani_glow.jpg",
@@ -491,7 +462,7 @@
 				"Craft",
 				"Gujrat"
 			],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DJI0jX3TZEC"
 		},
 		{
 			"key": "kanha.jpg",
@@ -503,7 +474,8 @@
 			"year": "2026",
 			"featured": true,
 			"tags": ["Religious Art", "Krishna", "Traditional"],
-			"link": ""
+			"link": "https://www.instagram.com/reel/DUDc3h1k1HG",
+			"client": "Durgesh Nandinee"
 		}
 	]
 }

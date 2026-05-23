@@ -1,3 +1,5 @@
+import { URL } from "url";
+
 export type NavigationLink = {
 	label: string;
 	href: string;
@@ -69,7 +71,7 @@ export type Project = {
 	featured: boolean;
 	tags: string[];
 	client?: string;
-	link?: string;
+	link?: URL;
 	imageUrl?: string;
 	downloadUrl?: string;
 };

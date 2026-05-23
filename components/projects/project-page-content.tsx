@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/portfolio";
@@ -23,9 +22,12 @@ export function ProjectPageContent({
 				<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
 					{project.title}
 				</h1>
-				<p className="text-sm text-muted-foreground">
-					{project.category} · {project.year}
-				</p>
+				<div className="width-full flex flex-wrap justify-between text-sm text-muted-foreground text-center">
+					<p>
+						{project.category} · {project.year}
+					</p>
+					{project.client && <p>Crafted for {project.client}</p>}
+				</div>
 			</div>
 
 			<div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/60">
@@ -46,15 +48,28 @@ export function ProjectPageContent({
 					{project.description}
 				</p>
 				<div className="flex flex-wrap gap-3">
-					<Button asChild>
-						<Link
-							href={`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`}
-						>
-							Download
-						</Link>
+					<Button
+						onClick={() =>
+							window.open(
+								`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`,
+							)
+						}
+					>
+						Download
 					</Button>
-					<Button asChild variant="outline">
-						<Link href="/projects">Back to projects</Link>
+					{project.link && (
+						<Button
+							variant={"outline"}
+							onClick={() => window.open(project.link)}
+						>
+							View Online
+						</Button>
+					)}
+					<Button
+						variant="outline"
+						onClick={() => location.assign(`/projects`)}
+					>
+						Back to projects
 					</Button>
 				</div>
 			</div>
