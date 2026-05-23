@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+	useCallback,
 	useEffect,
 	useMemo,
 	useRef,
@@ -17,7 +18,13 @@ import type {
 	Project,
 } from "@/types/portfolio";
 
-type WorkGridProps = {
+type WorkGridQuery = {
+	page: number;
+	category: string;
+	q: string;
+};
+
+export type WorkGridProps = {
 	projects: Project[];
 	categories: string[];
 	currentCategory: string;
@@ -25,7 +32,8 @@ type WorkGridProps = {
 	pagination: PaginatedProjectsData["pagination"];
 	title: string;
 	description: string;
-	showFilters?: boolean;
+	initialQuery?: string;
+	onChange?: (params: WorkGridQuery) => void | Promise<void>;
 };
 
 export function WorkGrid({
@@ -36,23 +44,73 @@ export function WorkGrid({
 	pagination,
 	title,
 	description,
-	showFilters = false,
+	initialQuery,
+	onChange,
 }: WorkGridProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
-	const [searchValue, setSearchValue] = useState("");
-	const [debouncedQuery, setDebouncedQuery] = useState("");
+	const [searchValue, setSearchValue] = useState(
+		initialQuery ?? "",
+	);
+	const [debouncedQuery, setDebouncedQuery] = useState(
+		initialQuery?.trim() ?? "",
+	);
+	const didDebounceRef = useRef(false);
 	useEffect(() => {
 		const handle = setTimeout(() => {
 			setDebouncedQuery(searchValue.trim());
 		}, 300);
 		return () => clearTimeout(handle);
 	}, [searchValue]);
-	const createQuery = (page: number, category?: string) => {
+	const updateUrl = useCallback(
+		(params: WorkGridQuery) => {
+			const paramsValue = new URLSearchParams();
+			paramsValue.set("page", String(params.page));
+			if (params.category && params.category !== "All") {
+				paramsValue.set("category", params.category);
+			}
+			if (params.q) {
+				paramsValue.set("q", params.q);
+			}
+			const url = `${basePath}?${paramsValue.toString()}`;
+			if (typeof window !== "undefined") {
+				window.history.replaceState(null, "", url);
+			}
+		},
+		[basePath],
+	);
+	const handleChange = useCallback(
+		(params: WorkGridQuery) => {
+			updateUrl(params);
+			if (onChange) {
+				void onChange(params);
+			}
+		},
+		[onChange, updateUrl],
+	);
+	useEffect(() => {
+		if (!didDebounceRef.current) {
+			didDebounceRef.current = true;
+			return;
+		}
+		handleChange({
+			page: 1,
+			category: currentCategory,
+			q: debouncedQuery,
+		});
+	}, [debouncedQuery, currentCategory, handleChange]);
+	const createQuery = (
+		page: number,
+		category?: string,
+		q?: string,
+	) => {
 		const params = new URLSearchParams();
 		params.set("page", String(page));
 		if (category && category !== "All") {
 			params.set("category", category);
+		}
+		if (q) {
+			params.set("q", q);
 		}
 		return `${basePath}?${params.toString()}`;
 	};
@@ -111,28 +169,40 @@ export function WorkGrid({
 						</Reveal>
 					</div>
 
-					{showFilters ? (
-						<Reveal>
-							<div className="flex flex-wrap gap-2">
-								{categories.map((category) => (
-									<Button
-										key={category}
-										variant={
-											currentCategory === category
-												? "default"
-												: "outline"
-										}
-										size="sm"
-										asChild
+					<Reveal>
+						<div className="flex flex-wrap gap-2">
+							{categories.map((category) => (
+								<Button
+									key={category}
+									variant={
+										currentCategory === category
+											? "default"
+											: "outline"
+									}
+									size="sm"
+									asChild
+								>
+									<Link
+										href={createQuery(1, category, debouncedQuery)}
+										onClick={(event) => {
+											if (!onChange) {
+												return;
+											}
+											event.preventDefault();
+											handleChange({
+												page: 1,
+												category,
+												q: debouncedQuery,
+											});
+										}}
 									>
-										<Link href={createQuery(1, category)}>
-											{category}
-										</Link>
-									</Button>
-								))}
-							</div>
-						</Reveal>
-					) : null}
+										{category}
+									</Link>
+								</Button>
+							))}
+						</div>
+					</Reveal>
+
 					<Reveal>
 						<div className="w-full sm:w-72">
 							<label className="sr-only" htmlFor="project-search">
@@ -176,7 +246,22 @@ export function WorkGrid({
 										? pagination.totalPages
 										: pagination.page - 1,
 									currentCategory,
+									debouncedQuery,
 								)}
+								onClick={(event) => {
+									if (!onChange) {
+										return;
+									}
+									event.preventDefault();
+									handleChange({
+										page:
+											pagination.page <= 1
+												? pagination.totalPages
+												: pagination.page - 1,
+										category: currentCategory,
+										q: debouncedQuery,
+									});
+								}}
 							>
 								Previous
 							</Link>
@@ -191,7 +276,22 @@ export function WorkGrid({
 										? 1
 										: pagination.page + 1,
 									currentCategory,
+									debouncedQuery,
 								)}
+								onClick={(event) => {
+									if (!onChange) {
+										return;
+									}
+									event.preventDefault();
+									handleChange({
+										page:
+											pagination.page >= pagination.totalPages
+												? 1
+												: pagination.page + 1,
+										category: currentCategory,
+										q: debouncedQuery,
+									});
+								}}
 							>
 								Next
 							</Link>

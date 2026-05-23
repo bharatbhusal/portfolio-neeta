@@ -41,12 +41,6 @@ function buildTransformString(params: URLSearchParams) {
 export async function GET(req: Request) {
 	const url = new URL(req.url);
 	const params = url.searchParams;
-
-	const publicIds = params
-		.get("publicIds")
-		?.split(",")
-		.map((id) => id.trim())
-		.filter(Boolean);
 	const publicId = params.get("publicId");
 	const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
 	const uploadFolder = "portfolio_neeta";
@@ -58,22 +52,6 @@ export async function GET(req: Request) {
 			},
 			{ status: 500 },
 		);
-	}
-
-	if (publicIds && publicIds.length > 0) {
-		const transform = buildTransformString(params);
-		const resources = publicIds.map((id) => {
-			const encoded = id
-				.split("/")
-				.map((segment) => encodeURIComponent(segment))
-				.join("/");
-			return {
-				public_id: id,
-				url: `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${uploadFolder}/${encoded}`,
-			};
-		});
-
-		return NextResponse.json({ resources });
 	}
 
 	// If a publicId is provided, proxy the image from Cloudinary (with optional transforms)

@@ -1,4 +1,4 @@
-import { WorkGrid } from "@/components/sections/work-grid";
+import { WorkGridClient } from "@/components/sections/work-grid-client";
 import { buildPageMetadata } from "@/lib/seo";
 import { fetchJson } from "@/lib/data";
 import type {
@@ -10,6 +10,7 @@ type ProjectsPageProps = {
 	searchParams: Promise<{
 		page?: string;
 		category?: string;
+		q?: string;
 	}>;
 };
 
@@ -31,6 +32,7 @@ export default async function ProjectsPage({
 	const page =
 		Number(params.page) > 0 ? Number(params.page) : 1;
 	const category = params.category ?? "All";
+	const q = params.q?.trim();
 	const query = new URLSearchParams({
 		page: String(page),
 		pageSize: "10",
@@ -38,6 +40,9 @@ export default async function ProjectsPage({
 
 	if (category !== "All") {
 		query.set("category", category);
+	}
+	if (q) {
+		query.set("q", q);
 	}
 
 	const projects = await fetchJson<PaginatedProjectsData>(
@@ -50,15 +55,15 @@ export default async function ProjectsPage({
 
 	return (
 		<main className="pb-8 lg:pb-12">
-			<WorkGrid
+			<WorkGridClient
 				projects={projects.projects}
 				categories={projects.categories}
 				currentCategory={category}
+				initialQuery={q}
 				basePath="/projects"
 				pagination={projects.pagination}
 				title="Explore the full archive"
 				description="Filter by category to review branding, editorial, product, and motion work."
-				showFilters
 			/>
 		</main>
 	);

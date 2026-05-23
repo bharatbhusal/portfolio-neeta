@@ -30,6 +30,24 @@ function buildImageUrl(
 	return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,c_fill,w_1200,h_900/portfolio_neeta/${encoded}`;
 }
 
+function matchesQuery(project: Project, query: string) {
+	const haystack = [
+		project.title,
+		project.category,
+		project.summary,
+		project.story,
+		project.description,
+		project.year,
+		project.featured ? "featured" : "not featured",
+		project.tags.join(" "),
+		project.client,
+	]
+		.filter(Boolean)
+		.join(" ")
+		.toLowerCase();
+	return haystack.includes(query);
+}
+
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const page = toPositiveInt(searchParams.get("page"), 1);
@@ -41,6 +59,7 @@ export async function GET(request: Request) {
 		DEFAULT_PAGE_SIZE,
 	);
 	const category = searchParams.get("category");
+	const q = searchParams.get("q")?.trim().toLowerCase();
 	const projectsData =
 		await readJson<ProjectsData>("projects.json");
 
@@ -53,6 +72,9 @@ export async function GET(request: Request) {
 			// Within each group, sort alphanumerically by key
 			return a.key.localeCompare(b.key);
 		})
+		.filter((project) =>
+			q ? matchesQuery(project, q) : true,
+		)
 		.filter((project) =>
 			category && category !== "All"
 				? project.category === category
