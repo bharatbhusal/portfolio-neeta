@@ -24,13 +24,15 @@ function buildTransformString(params: URLSearchParams) {
 	if (f) pieces.push(`f_${f}`);
 	if (watermark) {
 		pieces.push(
-			`l_text:Arial_52_bold:${encodeURIComponent(watermark)}`,
+			`l_text:Arial_52_bold: ${encodeURIComponent(watermark)} `,
 		);
 		pieces.push("g_south_east");
-		pieces.push("x_60");
-		pieces.push("y_60");
+		pieces.push("x_80");
+		pieces.push("y_80");
 		pieces.push("o_80");
-		pieces.push("co_white");
+		pieces.push("co_black");
+		pieces.push("b_white");
+		pieces.push("r_16");
 	}
 
 	return pieces.length > 0

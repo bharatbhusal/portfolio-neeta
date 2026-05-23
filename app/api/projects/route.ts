@@ -27,7 +27,7 @@ function buildImageUrl(
 		.map((segment) => encodeURIComponent(segment))
 		.join("/");
 
-	return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,c_fill,w_1200,h_900/portfolio_neeta/${encoded}`;
+	return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,c_fill,w_720,h_1000/portfolio_neeta/${encoded}`;
 }
 
 function matchesQuery(project: Project, query: string) {
