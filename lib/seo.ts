@@ -15,7 +15,7 @@ export function buildPageMetadata(
 ): Metadata {
 	const url = new URL(site.seo.url);
 	const pageUrl = new URL(options.path, url);
-	const image = options.image ?? site.seo.ogImage;
+	const image = `https://neetabhusal.vercel.app${options.image ?? site.seo.ogImage}`;
 
 	return {
 		metadataBase: url,
