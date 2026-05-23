@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import {
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 
 import { ProjectCard } from "@/components/cards/project-card";
 import { Reveal } from "@/components/animations/reveal";
@@ -35,6 +40,14 @@ export function WorkGrid({
 }: WorkGridProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
+	const [searchValue, setSearchValue] = useState("");
+	const [debouncedQuery, setDebouncedQuery] = useState("");
+	useEffect(() => {
+		const handle = setTimeout(() => {
+			setDebouncedQuery(searchValue.trim());
+		}, 300);
+		return () => clearTimeout(handle);
+	}, [searchValue]);
 	const createQuery = (page: number, category?: string) => {
 		const params = new URLSearchParams();
 		params.set("page", String(page));
@@ -43,6 +56,35 @@ export function WorkGrid({
 		}
 		return `${basePath}?${params.toString()}`;
 	};
+	const filteredProjects = useMemo(() => {
+		if (!debouncedQuery) {
+			return projects;
+		}
+		const query = debouncedQuery.toLowerCase();
+		return projects.filter((project) => {
+			const haystack = [
+				project.title,
+				project.category,
+				project.summary,
+				project.story,
+				project.description,
+				project.year,
+				project.featured ? "featured" : "not featured",
+				project.tags.join(" "),
+				project.client,
+			]
+				.filter(Boolean)
+				.join(" ")
+				.toLowerCase();
+			return haystack.includes(query);
+		});
+	}, [projects, debouncedQuery]);
+	const featuredProjects = filteredProjects.filter(
+		(project) => project.featured,
+	);
+	const otherProjects = filteredProjects.filter(
+		(project) => !project.featured,
+	);
 
 	return (
 		<section
@@ -91,20 +133,39 @@ export function WorkGrid({
 							</div>
 						</Reveal>
 					) : null}
+					<Reveal>
+						<div className="w-full sm:w-72">
+							<label className="sr-only" htmlFor="project-search">
+								Search projects
+							</label>
+							<input
+								id="project-search"
+								type="search"
+								value={searchValue}
+								onChange={(event) =>
+									setSearchValue(event.target.value)
+								}
+								placeholder="Search projects"
+								className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+								aria-label="Search projects"
+							/>
+						</div>
+					</Reveal>
 				</div>
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-						{projects
-							.filter((p) => p.featured)
-							.map((project) => (
-								<ProjectCard key={project.key} project={project} />
-							))}
-						{projects
-							.filter((p) => !p.featured)
-							.map((project) => (
-								<ProjectCard key={project.key} project={project} />
-							))}
+						{featuredProjects.map((project) => (
+							<ProjectCard key={project.key} project={project} />
+						))}
+						{otherProjects.map((project) => (
+							<ProjectCard key={project.key} project={project} />
+						))}
 					</div>
+					{filteredProjects.length === 0 ? (
+						<p className="text-sm text-muted-foreground">
+							No projects match your search.
+						</p>
+					) : null}
 				</Reveal>
 				{pagination.totalPages > 1 && (
 					<div className="flex items-center justify-between gap-3">

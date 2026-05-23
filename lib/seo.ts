@@ -45,5 +45,10 @@ export function buildPageMetadata(
 			description: options.description,
 			images: [image],
 		},
+		icons: {
+			icon: [{ url: image, type: "image/jpeg" }],
+			apple: [{ url: image, type: "image/jpeg" }],
+			shortcut: [{ url: image, type: "image/jpeg" }],
+		},
 	};
 }
