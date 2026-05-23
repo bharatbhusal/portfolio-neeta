@@ -14,7 +14,7 @@ type ProjectsPageProps = {
 };
 
 export async function generateMetadata() {
-	const site = await fetchJson<SiteData>("/data/site.json");
+	const site = await fetchJson<SiteData>("/api/site");
 
 	return buildPageMetadata(site, {
 		title: "Projects | Neeta Bhusal",

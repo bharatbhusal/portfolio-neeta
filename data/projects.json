@@ -59,7 +59,7 @@
 			"story": "A moment of divine calm—where music, wisdom, and playful energy meet.",
 			"description": "Bold, stylized acrylic painting of Ganesha playing the flute, rendered primarily in deep blues with dynamic lines and decorative elements.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": [
 				"Illustration",
 				"Religious",
@@ -76,7 +76,7 @@
 			"story": "Timeless elegance standing tall amid the vibrant pulse of the old city.",
 			"description": "Golden-hour photograph capturing the grand Mughal architecture, minarets, and bustling street life surrounding this Hyderabad landmark.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": [
 				"Photography",
 				"Architecture",
@@ -147,7 +147,6 @@
 			"description": "Bold vintage poster illustration featuring a classic convertible car with strong typography, distressed textures, and nostalgic color palette.",
 			"year": "2025",
 			"featured": true,
-			"client": "Retro Garage",
 			"tags": [
 				"Illustration",
 				"Branding",
@@ -183,6 +182,7 @@
 			"description": "Clean vector logo featuring an arched frame with a stylized feminine profile, flame, and laurel leaves, accompanied by refined serif typography.",
 			"year": "2025",
 			"featured": false,
+			"client": "Kusma Candela",
 			"tags": ["Graphic Design", "Logo Design", "Branding"],
 			"link": ""
 		},
@@ -196,7 +196,8 @@
 			"year": "2025",
 			"featured": false,
 			"tags": ["Graphic Design", "Logo Design", "Branding"],
-			"link": ""
+			"link": "",
+			"client": "Karnali eSport"
 		},
 		{
 			"key": "hyderabad_horizon.png",
@@ -206,7 +207,7 @@
 			"story": "Modern metropolis rising against a clear blue sky.",
 			"description": "Clean, colorful digital illustration showcasing Hyderabad’s contemporary architecture, skyscrapers, greenery, and birds in flight.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Illustration", "Cityscape", "Vector Art"],
 			"link": ""
 		},
@@ -218,7 +219,7 @@
 			"story": "A dreamy nocturnal landscape alive with cosmic movement and vibrant color.",
 			"description": "Small acrylic painting featuring bold swirling patterns, glowing stars, purple florals, pine trees, and a luminous crescent moon in Van Gogh style.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Illustration", "Painting", "Art", "Inspired"],
 			"link": ""
 		},
@@ -260,6 +261,7 @@
 			"description": "Vibrant event poster featuring table tennis paddles, dynamic layout, prize details, and venue information for Siddhartha Pathshala.",
 			"year": "2025",
 			"featured": false,
+			"client": "Siddhartha Pathshala",
 			"tags": ["Poster", "Sports", "Event"],
 			"link": ""
 		},
@@ -271,7 +273,7 @@
 			"story": "A moment of awe and connection with nature — light piercing through the canopy, reminding us to breathe.",
 			"description": "Low-angle forest photography capturing sunlight breaking through tall pine branches against a clear blue sky.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Nature", "Photography", "Landscape"],
 			"link": ""
 		},
@@ -283,7 +285,7 @@
 			"story": "Behind the mask lies vulnerability — a powerful commentary on the faces we show versus what we hide.",
 			"description": "Moody black-and-white composition featuring a tearful woman's close-up on a tablet paired with a Guy Fawkes mask.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Portrait", "Conceptual", "Dark Art"],
 			"link": ""
 		},
@@ -295,7 +297,7 @@
 			"story": "Elegant and feminine branding that celebrates beauty, self-care, and transformation.",
 			"description": "Rich maroon beauty salon banner showcasing services, contact details, and lifestyle imagery for Purnima Beauty Parlour.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Banner", "Beauty", "Advertising"],
 			"client": "Purnima Beauty Parlour",
 			"link": ""
@@ -332,7 +334,7 @@
 			"story": "Fresh, clean, and inviting — capturing the cool, hydrating essence of the face wash.",
 			"description": "Stylish flat-lay product photography of Watermelon Cooling Gel Face Wash on luxurious pink fabric with natural accents.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Product", "Photography", "Skincare"],
 			"link": ""
 		},
@@ -344,7 +346,7 @@
 			"story": "The beauty in simple daily rituals — grounded, peaceful, and deeply human.",
 			"description": "Candid lifestyle photograph of a man in a white vest reading a newspaper on traditional stone steps.",
 			"year": "2025",
-			"featured": true,
+			"featured": false,
 			"tags": ["Lifestyle", "Candid", "Culture"],
 			"link": ""
 		},
@@ -356,7 +358,8 @@
 			"story": "A dynamic fusion of bold typography and cinematic elements that represents creativity, connectivity, and storytelling in motion.",
 			"description": "Sleek black and cyan monogram logo combining a stylized 'S' and 'K' with a film reel icon, paired with strong sans-serif typography.",
 			"year": "2026",
-			"featured": true,
+			"featured": false,
+			"client": "Surkhet Karnali Media Network",
 			"tags": ["Logo", "Branding", "Media"],
 			"link": ""
 		},
@@ -369,6 +372,7 @@
 			"description": "Clean, professional admission poster featuring students in uniform, bold typography, school branding, and contact details.",
 			"year": "2024",
 			"featured": false,
+			"client": "Siddhartha Pathshala",
 			"tags": ["Poster", "Education", "Advertising"],
 			"link": ""
 		},
@@ -380,7 +384,7 @@
 			"story": "A vibrant celebration of friendship, diversity, and breaking stereotypes — brought to life with color and heart.",
 			"description": "Spiral-bound notebook illustration of Judy Hopps and Nick Wilde in a playful, expressive painting style, displayed against a wall of other artworks.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Fan Art", "Illustration", "Painting"],
 			"link": ""
 		},
@@ -392,7 +396,7 @@
 			"story": "Two faces, one canvas — a powerful visual dialogue between inner and outer selves, tradition and modernity.",
 			"description": "Bold geometric artwork using black, white, red, and blue shapes to depict overlapping profiles with symbolic elements like flora and celestial forms.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Abstract", "Painting", "Cubism"],
 			"link": ""
 		},
@@ -404,7 +408,7 @@
 			"story": "A tender moment of companionship and hope — small hands holding together on the journey toward a brighter future.",
 			"description": "Emotional documentary-style street photography capturing two young students from behind as they walk hand-in-hand toward their future.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": [
 				"Documentary",
 				"Street Photography",
@@ -420,7 +424,7 @@
 			"story": "Pure joy and youthful energy bursting through — celebrating music, dance, and summer vibes.",
 			"description": "Vibrant blue festival poster featuring a young girl passionately playing guitar, bold typography, event details, and free entry announcement.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Poster", "Event", "Music"],
 			"link": ""
 		},
@@ -433,6 +437,7 @@
 			"description": "Clean product showcase featuring a man wearing a brown sling bag with multiple color variants of stylish fanny packs/sling bags displayed.",
 			"year": "2025",
 			"featured": false,
+			"client": "Shreee Shriya",
 			"tags": ["Product", "Fashion", "Advertising"],
 			"link": ""
 		},
@@ -468,7 +473,7 @@
 			"story": "A heartbreaking conversation underwater — when marine life’s home becomes our trash bin.",
 			"description": "Cartoon illustration of three sad sea turtles surrounded by floating plastic waste, with a speech bubble asking 'Is this what we eat now?'",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": [
 				"Environmental",
 				"Illustration",
@@ -485,7 +490,8 @@
 			"story": "Graceful femininity captured in a single flowing mark — where tradition meets modern sophistication.",
 			"description": "Minimalist luxury logo featuring a stylized woman's profile merged with a large letter 'P' in warm metallic gold tones.",
 			"year": "2025",
-			"featured": false,
+			"client": "Purnima Beauty Parlour",
+			"featured": true,
 			"tags": ["Logo", "Branding", "Beauty"],
 			"link": ""
 		},
@@ -497,7 +503,7 @@
 			"story": "A gentle reminder that togetherness and mutual support help us grow stronger — even in the depths.",
 			"description": "Cute cartoon of two smiling clownfish floating above coral with a sign that reads 'LET'S GROW TOGETHER'.",
 			"year": "2025",
-			"featured": false,
+			"featured": true,
 			"tags": ["Illustration", "Motivational", "Cartoon"],
 			"link": ""
 		},

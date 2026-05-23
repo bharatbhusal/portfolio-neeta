@@ -87,7 +87,7 @@ export function Hero({ site }: HeroProps) {
 				<Card className="overflow-hidden border-border/60 bg-card/70 backdrop-blur">
 					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60">
 						<Image
-							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=1200&h=900&crop=fill&format=auto&q=auto`}
+							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=1000&h=1200&crop=fill&format=auto&q=auto`}
 							alt={site.name}
 							fill
 							className="object-cover"

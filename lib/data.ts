@@ -38,4 +38,26 @@ export async function fetchJson<T>(
 	return response.json() as Promise<T>;
 }
 
+export async function fetchJsonNoStore<T>(
+	path: string,
+): Promise<T> {
+	const resolvedPath = path.startsWith("/")
+		? path
+		: `/${path}`;
+	const response = await fetch(
+		`${await getOrigin()}${resolvedPath}`,
+		{
+			cache: "no-store",
+		},
+	);
+
+	if (!response.ok) {
+		throw new Error(
+			`Failed to fetch ${resolvedPath}: ${response.status} ${response.statusText}`,
+		);
+	}
+
+	return response.json() as Promise<T>;
+}
+
 export const getJson = cache(fetchJson);

@@ -16,26 +16,17 @@ import { iconMap } from "@/lib/iconMapper";
 
 type ContactProps = {
 	contact: ContactData;
-	projects: Project[];
+	clientProjects: Project[];
+	featuredProject: Project | null;
 };
 
 export function Contact({
 	contact,
-	projects,
+	clientProjects,
+	featuredProject,
 }: ContactProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
-
-	// Get projects with client field
-	const clientProjects = projects
-		.filter((p) => p.client)
-		.sort((a, b) => a.key.localeCompare(b.key))
-		.slice(0, 4);
-
-	// Get the first featured project for the right side
-	const featuredProject = projects.find(
-		(p) => p.featured && !!p.client,
-	);
 
 	return (
 		<section

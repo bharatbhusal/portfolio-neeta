@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { buildPageMetadata } from "@/lib/seo";
 import { fetchJson } from "@/lib/data";
 import type {
-	ProjectsData,
+	ProjectResponse,
 	SiteData,
 } from "@/types/portfolio";
 import { ProjectPageContent } from "@/components/projects/project-page-content";
@@ -17,18 +17,14 @@ type ProjectPageProps = {
 export async function generateMetadata({
 	params,
 }: ProjectPageProps) {
-	const [site, projects, resolvedParams] = await Promise.all(
-		[
-			fetchJson<SiteData>("/data/site.json"),
-			fetchJson<ProjectsData>("/data/projects.json"),
-			params,
-		],
-	);
-	const project = projects.projects.find(
-		(item) =>
-			item.key ===
-			decodeURIComponent(resolvedParams.projectKey),
-	);
+	const resolvedParams = await params;
+	const [site, projectResponse] = await Promise.all([
+		fetchJson<SiteData>("/api/site"),
+		fetchJson<ProjectResponse>(
+			`/api/project?key=${encodeURIComponent(resolvedParams.projectKey)}`,
+		),
+	]);
+	const project = projectResponse.project;
 
 	if (!project) {
 		return buildPageMetadata(site, {
@@ -49,14 +45,9 @@ export async function generateMetadata({
 export default async function ProjectPage({
 	params,
 }: ProjectPageProps) {
-	const [projects, resolvedParams] = await Promise.all([
-		fetchJson<ProjectsData>("/data/projects.json"),
-		params,
-	]);
-	const project = projects.projects.find(
-		(item) =>
-			item.key ===
-			decodeURIComponent(resolvedParams.projectKey),
+	const resolvedParams = await params;
+	const { project } = await fetchJson<ProjectResponse>(
+		`/api/project?key=${encodeURIComponent(resolvedParams.projectKey)}`,
 	);
 
 	if (!project) {

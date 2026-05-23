@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const site = await fetchJson<SiteData>("/data/site.json");
+	const site = await fetchJson<SiteData>("/api/site");
 
 	return buildPageMetadata(site, {
 		title: site.seo.title,
@@ -39,8 +39,8 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const [site, contact] = await Promise.all([
-		fetchJson<SiteData>("/data/site.json"),
-		fetchJson<ContactData>("/data/contact.json"),
+		fetchJson<SiteData>("/api/site"),
+		fetchJson<ContactData>("/api/contact"),
 	]);
 
 	return (

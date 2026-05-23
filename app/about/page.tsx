@@ -1,13 +1,13 @@
 import { About } from "@/components/sections/about";
 import { buildPageMetadata } from "@/lib/seo";
-import { fetchJson } from "@/lib/data";
+import { fetchJson, fetchJsonNoStore } from "@/lib/data";
 import type {
-	ProjectsData,
+	FeaturedProjectsResponse,
 	SiteData,
 } from "@/types/portfolio";
 
 export async function generateMetadata() {
-	const site = await fetchJson<SiteData>("/data/site.json");
+	const site = await fetchJson<SiteData>("/api/site");
 
 	return buildPageMetadata(site, {
 		title: "About | Neeta Bhusal",
@@ -18,17 +18,13 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-	const [site, projects] = await Promise.all([
-		fetchJson<SiteData>("/data/site.json"),
-		fetchJson<ProjectsData>("/data/projects.json"),
+	const [site, featured] = await Promise.all([
+		fetchJson<SiteData>("/api/site"),
+		fetchJsonNoStore<FeaturedProjectsResponse>(
+			"/api/featured-projects?count=3",
+		),
 	]);
-	projects.projects.forEach((project) => {
-		project.tags = [];
-		project.year = "";
-	});
-	const featuredProjects = projects.projects
-		.filter((project) => project.featured)
-		.slice(0, 3);
+	const featuredProjects = featured.projects;
 
 	return (
 		<main className="pb-8 lg:pb-12">

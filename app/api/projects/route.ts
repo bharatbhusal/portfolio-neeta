@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
-import projectsData from "@/public/data/projects.json";
-import type { Project } from "@/types/portfolio";
+import { readJson } from "@/lib/serverData";
+import type {
+	Project,
+	ProjectsData,
+} from "@/types/portfolio";
 
 const DEFAULT_PAGE_SIZE = 9;
 
@@ -38,6 +41,8 @@ export async function GET(request: Request) {
 		DEFAULT_PAGE_SIZE,
 	);
 	const category = searchParams.get("category");
+	const projectsData =
+		await readJson<ProjectsData>("projects.json");
 
 	const projects = (projectsData.projects as Project[])
 		.sort((a, b) => {
