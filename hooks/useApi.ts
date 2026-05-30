@@ -16,8 +16,11 @@ import type {
 } from "@/types/auth";
 import type { UploadSignaturePayload } from "@/types/upload";
 import type {
+	ProjectInput,
+	ProjectUpdate,
+} from "@/lib/validators";
+import type {
 	PaginatedProjectsData,
-	Project,
 	ProjectResponse,
 	FeaturedProjectsResponse,
 	ClientProjectsResponse,
@@ -128,27 +131,36 @@ export function useProject(id: string) {
 
 export function useCreateProject() {
 	const qc = useQueryClient();
-	return useMutation<void, ApiClientError, Project>({
+	return useMutation<void, ApiClientError, ProjectInput>({
 		mutationFn: (payload) =>
 			apiRequest<void>("/projects", {
 				method: "POST",
 				body: payload,
 			}),
-		onSuccess: () =>
-			qc.invalidateQueries({ queryKey: ["projects"] }),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["projects"] });
+			qc.invalidateQueries({
+				queryKey: ["featured-projects"],
+			});
+			qc.invalidateQueries({ queryKey: ["client-projects"] });
+		},
 	});
 }
 
 export function useUpdateProject(id: string) {
 	const qc = useQueryClient();
-	return useMutation<void, ApiClientError, Project>({
+	return useMutation<void, ApiClientError, ProjectUpdate>({
 		mutationFn: (payload) =>
 			apiRequest<void>(`/projects/${encodeURIComponent(id)}`, {
-				method: "PUT",
+				method: "PATCH",
 				body: payload,
 			}),
 		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["projects"] });
+			qc.invalidateQueries({
+				queryKey: ["featured-projects"],
+			});
+			qc.invalidateQueries({ queryKey: ["client-projects"] });
 			qc.invalidateQueries({ queryKey: ["project", id] });
 		},
 	});
