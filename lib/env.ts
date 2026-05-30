@@ -2,7 +2,6 @@ type EnvConfig = {
 	NODE_ENV: string;
 
 	MONGODB_URI: string;
-	MONGODB_DB: string;
 
 	JWT_SECRET: string;
 	AUTH_COOKIE_NAME: string;
@@ -28,7 +27,6 @@ export function getEnvConfig(): EnvConfig {
 		NODE_ENV: requireEnv("NODE_ENV"),
 
 		MONGODB_URI: requireEnv("MONGODB_URI"),
-		MONGODB_DB: process.env.MONGODB_DB ?? "portfolio_neeta",
 
 		JWT_SECRET: requireEnv("JWT_SECRET"),
 		AUTH_COOKIE_NAME: requireEnv("AUTH_COOKIE_NAME"),
