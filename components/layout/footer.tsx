@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import type {
-	ContactChannel,
 	SiteData,
+	SocialLink,
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
@@ -61,7 +61,7 @@ export function Footer({ site }: FooterProps) {
 							Connect
 						</h3>
 						<div className="flex gap-2 flex-wrap text-sm text-muted-foreground">
-							{site.social.map((channel: ContactChannel) => {
+							{site.social.map((channel: SocialLink) => {
 								const IconComponent = iconMap[channel.icon];
 								return (
 									<Button

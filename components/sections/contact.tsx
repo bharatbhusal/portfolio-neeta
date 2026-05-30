@@ -5,10 +5,7 @@ import { Reveal } from "@/components/animations/reveal";
 import { ProjectCard } from "@/components/cards/project-card";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
-import {
-	SocialLink,
-	type ContactChannel,
-} from "@/types/portfolio";
+import { SocialLink } from "@/types/portfolio";
 import Image from "next/image";
 import Link from "next/link";
 import { iconMap } from "@/lib/iconMapper";
@@ -61,7 +58,7 @@ export function Contact({ social }: ContactProps) {
 					{/* Channels with Icons */}
 					<Reveal>
 						<div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
-							{social.map((channel: ContactChannel) => {
+							{social.map((channel: SocialLink) => {
 								const IconComponent = iconMap[channel.icon];
 								return (
 									<Button
