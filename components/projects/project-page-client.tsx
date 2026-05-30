@@ -14,8 +14,7 @@ export default function ProjectPageClient({ id }: Props) {
 	if (isLoading) return <div>Loading…</div>;
 	if (error) return <div>Unable to load project.</div>;
 
-	const project = data?.project;
-	if (!project) return <div>Project not found.</div>;
+	if (!data) return <div>Project not found.</div>;
 
-	return <ProjectPageContent project={project} />;
+	return <ProjectPageContent project={data} />;
 }

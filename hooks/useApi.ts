@@ -118,9 +118,9 @@ export function useProjects(params: {
 }
 
 export function useProject(id: string) {
-	return useQuery<Project[], ApiClientError>({
+	return useQuery<Project, ApiClientError>({
 		queryKey: ["project", id],
-		queryFn: () => apiRequest<Project[]>(`/projects/${id}`),
+		queryFn: () => apiRequest<Project>(`/projects/${id}`),
 		enabled: Boolean(id),
 		retry: 1,
 	});
