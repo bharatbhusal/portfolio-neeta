@@ -9,8 +9,6 @@ export type SocialLink = {
 	icon: string;
 };
 
-export type ContactChannel = SocialLink;
-
 export type ActionLink = {
 	label: string;
 	href: string;
@@ -70,26 +68,6 @@ export type Project = {
 	link?: string;
 	imageUrl?: string;
 	downloadUrl?: string;
-};
-
-export type ProjectsData = {
-	projects: Project[];
-};
-
-export type ContactData = {
-	heading: string;
-	summary: string;
-	vcard: {
-		filename: string;
-	};
-	channels: ContactChannel[];
-};
-
-export type AboutMeData = {
-	title: string;
-	bio: string;
-	long: string;
-	cta: ActionLink;
 };
 
 export type PaginatedProjectsData = {
