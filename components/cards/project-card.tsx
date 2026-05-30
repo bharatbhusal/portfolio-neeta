@@ -14,8 +14,6 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
-	const cardSummary = project.summary ?? project.description;
-
 	return (
 		<Card
 			className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer"
@@ -51,7 +49,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 					<div>{project.year}</div>
 				</CardTitle>
 				<CardDescription className="text-sm leading-6">
-					{cardSummary}
+					{project.description}
 				</CardDescription>
 			</CardHeader>
 
