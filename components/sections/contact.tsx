@@ -116,7 +116,7 @@ export function Contact({ social }: ContactProps) {
 										className="group rounded-xl border border-border/60 bg-background/40 p-4 cursor-pointer hover:bg-background/60 transition"
 										onClick={() =>
 											location.assign(
-												`/projects/${encodeURIComponent(project.key)}`,
+												`/projects/${encodeURIComponent(project._id)}`,
 											)
 										}
 									>
