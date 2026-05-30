@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import type {
 	ContactChannel,
-	ContactData,
 	SiteData,
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
@@ -11,10 +10,9 @@ import { iconMap } from "@/lib/iconMapper";
 
 type FooterProps = {
 	site: SiteData;
-	contact: ContactData;
 };
 
-export function Footer({ site, contact }: FooterProps) {
+export function Footer({ site }: FooterProps) {
 	const currentYear = new Date().getFullYear();
 
 	return (
@@ -63,7 +61,7 @@ export function Footer({ site, contact }: FooterProps) {
 							Connect
 						</h3>
 						<div className="flex gap-2 flex-wrap text-sm text-muted-foreground">
-							{contact.channels.map((channel: ContactChannel) => {
+							{site.social.map((channel: ContactChannel) => {
 								const IconComponent = iconMap[channel.icon];
 								return (
 									<Button

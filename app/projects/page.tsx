@@ -1,10 +1,7 @@
-import { WorkGridClient } from "@/components/sections/work-grid-client";
+import { ProjectGrid } from "@/components/sections/project-grid";
+import { getJson } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
-import { fetchJson } from "@/lib/data";
-import type {
-	PaginatedProjectsData,
-	SiteData,
-} from "@/types/portfolio";
+import type { SiteData } from "@/types/portfolio";
 
 type ProjectsPageProps = {
 	searchParams: Promise<{
@@ -15,7 +12,7 @@ type ProjectsPageProps = {
 };
 
 export async function generateMetadata() {
-	const site = await fetchJson<SiteData>("/api/site");
+	const site = await getJson<SiteData>("/site.json");
 
 	return buildPageMetadata(site, {
 		title: "Projects | Neeta Bhusal",
@@ -33,35 +30,14 @@ export default async function ProjectsPage({
 		Number(params.page) > 0 ? Number(params.page) : 1;
 	const category = params.category ?? "All";
 	const q = params.q?.trim();
-	const query = new URLSearchParams({
-		page: String(page),
-		pageSize: "10",
-	});
-
-	if (category !== "All") {
-		query.set("category", category);
-	}
-	if (q) {
-		query.set("q", q);
-	}
-
-	const projects = await fetchJson<PaginatedProjectsData>(
-		`/api/projects?${query.toString()}`,
-	);
-
-	projects.projects = projects.projects.sort((a, b) =>
-		a.key.localeCompare(b.key),
-	);
 
 	return (
 		<main className="pb-8 lg:pb-12">
-			<WorkGridClient
-				projects={projects.projects}
-				categories={projects.categories}
-				currentCategory={category}
+			<ProjectGrid
+				initialPage={page}
 				initialQuery={q}
+				initialCategory={category}
 				basePath="/projects"
-				pagination={projects.pagination}
 				title="Explore the full archive"
 				description="Filter by category to review branding, editorial, product, and motion work."
 			/>

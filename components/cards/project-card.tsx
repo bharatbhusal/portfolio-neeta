@@ -21,7 +21,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 			className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer"
 			onClick={() =>
 				location.assign(
-					`/projects/${encodeURIComponent(project.key)}`,
+					`/projects/${encodeURIComponent(project._id)}`,
 				)
 			}
 		>

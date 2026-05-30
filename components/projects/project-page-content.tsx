@@ -42,7 +42,7 @@ export function ProjectPageContent({
 					{authed && (
 						<Button asChild variant="outline" size="icon-sm">
 							<Link
-								href={`/admin/projects?key=${encodeURIComponent(project.key)}`}
+								href={`/admin/projects/${project._id}`}
 								aria-label="Edit project"
 							>
 								<FiEdit2 className="size-3.5" />

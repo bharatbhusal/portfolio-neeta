@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
 	try {
 		const payload = await request.json();
 		const user = await loginController(payload);
-		return successResponse(user);
+		return successResponse(user, 200, {
+			revalidate: false, // Don't cache POST responses
+		});
 	} catch (error) {
 		return errorResponse(error);
 	}

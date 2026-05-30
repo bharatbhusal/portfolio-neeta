@@ -4,12 +4,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { fetchJson } from "@/lib/data";
 import { QueryProvider } from "@/components/providers/query-provider";
-import type {
-	ContactData,
-	SiteData,
-} from "@/types/portfolio";
+import { fetchJson } from "@/lib/data";
+import { SiteData } from "@/types/portfolio";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -22,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const site = await fetchJson<SiteData>("/api/site");
+	const site = await fetchJson<SiteData>("/site.json");
 
 	return buildPageMetadata(site, {
 		title: site.seo.title,
@@ -38,9 +35,8 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const [site, contact] = await Promise.all([
-		fetchJson<SiteData>("/api/site"),
-		fetchJson<ContactData>("/api/contact"),
+	const [site] = await Promise.all([
+		fetchJson<SiteData>("/site.json"),
 	]);
 
 	return (
@@ -57,7 +53,7 @@ export default async function RootLayout({
 					<div className="flex min-h-dvh flex-col">
 						<Navbar site={site} />
 						<div className="flex-1">{children}</div>
-						<Footer site={site} contact={contact} />
+						<Footer site={site} />
 					</div>
 				</QueryProvider>
 			</body>

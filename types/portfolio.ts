@@ -6,13 +6,10 @@ export type NavigationLink = {
 export type SocialLink = {
 	label: string;
 	href: string;
-};
-
-export type ContactChannel = {
-	label: string;
-	href: string;
 	icon: string;
 };
+
+export type ContactChannel = SocialLink;
 
 export type ActionLink = {
 	label: string;
@@ -59,6 +56,7 @@ export type SiteData = {
 };
 
 export type Project = {
+	_id: string;
 	key: string;
 	title: string;
 	category: string;

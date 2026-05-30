@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import {
 	useCallback,
 	useEffect,
-	useMemo,
 	useRef,
 	useState,
 } from "react";
@@ -13,42 +11,36 @@ import { ProjectCard } from "@/components/cards/project-card";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
-import type {
-	PaginatedProjectsData,
-	Project,
-} from "@/types/portfolio";
+import { useProjects } from "@/hooks/useApi";
 
-type WorkGridQuery = {
+type ProjectGridQuery = {
 	page: number;
 	category: string;
 	q: string;
 };
 
-export type WorkGridProps = {
-	projects: Project[];
-	categories: string[];
-	currentCategory: string;
+export type ProjectGridProps = {
 	basePath: string;
-	pagination: PaginatedProjectsData["pagination"];
 	title: string;
 	description: string;
 	initialQuery?: string;
-	onChange?: (params: WorkGridQuery) => void | Promise<void>;
+	initialPage?: number;
+	initialCategory?: string;
 };
 
-export function WorkGrid({
-	projects,
-	categories,
-	currentCategory,
+export function ProjectGrid({
 	basePath,
-	pagination,
 	title,
 	description,
 	initialQuery,
-	onChange,
-}: WorkGridProps) {
+	initialPage = 1,
+	initialCategory = "All",
+}: ProjectGridProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
+	const [page, setPage] = useState(initialPage);
+	const [currentCategory, setCurrentCategory] =
+		useState(initialCategory);
 	const [searchValue, setSearchValue] = useState(
 		initialQuery ?? "",
 	);
@@ -56,14 +48,23 @@ export function WorkGrid({
 		initialQuery?.trim() ?? "",
 	);
 	const didDebounceRef = useRef(false);
+
+	const { data, isLoading } = useProjects({
+		page,
+		pageSize: 9,
+		category: currentCategory,
+		q: debouncedQuery,
+	});
+
 	useEffect(() => {
 		const handle = setTimeout(() => {
 			setDebouncedQuery(searchValue.trim());
 		}, 300);
 		return () => clearTimeout(handle);
 	}, [searchValue]);
+
 	const updateUrl = useCallback(
-		(params: WorkGridQuery) => {
+		(params: ProjectGridQuery) => {
 			const paramsValue = new URLSearchParams();
 			paramsValue.set("page", String(params.page));
 			if (params.category && params.category !== "All") {
@@ -79,70 +80,72 @@ export function WorkGrid({
 		},
 		[basePath],
 	);
-	const handleChange = useCallback(
-		(params: WorkGridQuery) => {
-			updateUrl(params);
-			if (onChange) {
-				void onChange(params);
-			}
-		},
-		[onChange, updateUrl],
-	);
+
 	useEffect(() => {
 		if (!didDebounceRef.current) {
 			didDebounceRef.current = true;
 			return;
 		}
-		handleChange({
+		setPage(1);
+		updateUrl({
 			page: 1,
 			category: currentCategory,
 			q: debouncedQuery,
 		});
-	}, [debouncedQuery, currentCategory, handleChange]);
-	const createQuery = (
-		page: number,
-		category?: string,
-		q?: string,
-	) => {
-		const params = new URLSearchParams();
-		params.set("page", String(page));
-		if (category && category !== "All") {
-			params.set("category", category);
-		}
-		if (q) {
-			params.set("q", q);
-		}
-		return `${basePath}?${params.toString()}`;
+	}, [currentCategory, debouncedQuery, updateUrl]);
+
+	const handleCategoryChange = useCallback(
+		(category: string, query: string) => {
+			setCurrentCategory(category);
+			setPage(1);
+			updateUrl({
+				page: 1,
+				category,
+				q: query,
+			});
+		},
+		[updateUrl],
+	);
+
+	const handlePageChange = useCallback(
+		(newPage: number) => {
+			setPage(newPage);
+			updateUrl({
+				page: newPage,
+				category: currentCategory,
+				q: debouncedQuery,
+			});
+		},
+		[currentCategory, debouncedQuery, updateUrl],
+	);
+
+	const projects = data?.projects ?? [];
+	const categories = data?.categories ?? [];
+	const pagination = data?.pagination ?? {
+		page: 1,
+		pageSize: 9,
+		totalCount: 0,
+		totalPages: 1,
 	};
-	const filteredProjects = useMemo(() => {
-		if (!debouncedQuery) {
-			return projects;
-		}
-		const query = debouncedQuery.toLowerCase();
-		return projects.filter((project) => {
-			const haystack = [
-				project.title,
-				project.category,
-				project.summary,
-				project.story,
-				project.description,
-				project.year,
-				project.featured ? "featured" : "not featured",
-				project.tags.join(" "),
-				project.client,
-			]
-				.filter(Boolean)
-				.join(" ")
-				.toLowerCase();
-			return haystack.includes(query);
-		});
-	}, [projects, debouncedQuery]);
-	const featuredProjects = filteredProjects.filter(
-		(project) => project.featured,
-	);
-	const otherProjects = filteredProjects.filter(
-		(project) => !project.featured,
-	);
+
+	// const categories = useMemo(() => {
+	// 	const uniqueCategories = new Set(
+	// 		projects.map((p) => p.category).filter(Boolean),
+	// 	);
+	// 	return ["All", ...Array.from(uniqueCategories).sort()];
+	// }, [projects]);
+
+	// const filteredProjects = useMemo(() => {
+	// 	return projects.sort((a, b) => {
+	// 		const aFeatured = a.featured ? 0 : 1;
+	// 		const bFeatured = b.featured ? 0 : 1;
+	// 		return aFeatured - bFeatured;
+	// 	});
+	// }, [projects]);
+
+	// const otherProjects = projects.filter(
+	// 	(project) => !project.featured,
+	// );
 
 	return (
 		<section
@@ -180,24 +183,11 @@ export function WorkGrid({
 											: "outline"
 									}
 									size="sm"
-									asChild
+									onClick={() =>
+										handleCategoryChange(category, debouncedQuery)
+									}
 								>
-									<Link
-										href={createQuery(1, category, debouncedQuery)}
-										onClick={(event) => {
-											if (!onChange) {
-												return;
-											}
-											event.preventDefault();
-											handleChange({
-												page: 1,
-												category,
-												q: debouncedQuery,
-											});
-										}}
-									>
-										{category}
-									</Link>
+									{category}
 								</Button>
 							))}
 						</div>
@@ -224,77 +214,53 @@ export function WorkGrid({
 				</div>
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-						{featuredProjects.map((project) => (
-							<ProjectCard key={project.key} project={project} />
-						))}
-						{otherProjects.map((project) => (
-							<ProjectCard key={project.key} project={project} />
-						))}
+						{isLoading ? (
+							<p className="text-sm text-muted-foreground">
+								Loading projects...
+							</p>
+						) : projects.length === 0 ? (
+							<p className="text-sm text-muted-foreground">
+								No projects match your search.
+							</p>
+						) : (
+							<>
+								{projects.map((project) => (
+									<ProjectCard key={project.key} project={project} />
+								))}
+							</>
+						)}
 					</div>
-					{filteredProjects.length === 0 ? (
-						<p className="text-sm text-muted-foreground">
-							No projects match your search.
-						</p>
-					) : null}
 				</Reveal>
 				{pagination.totalPages > 1 && (
 					<div className="flex items-center justify-between gap-3">
-						<Button asChild variant="outline" size="sm">
-							<Link
-								href={createQuery(
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								handlePageChange(
 									pagination.page <= 1
 										? pagination.totalPages
 										: pagination.page - 1,
-									currentCategory,
-									debouncedQuery,
-								)}
-								onClick={(event) => {
-									if (!onChange) {
-										return;
-									}
-									event.preventDefault();
-									handleChange({
-										page:
-											pagination.page <= 1
-												? pagination.totalPages
-												: pagination.page - 1,
-										category: currentCategory,
-										q: debouncedQuery,
-									});
-								}}
-							>
-								Previous
-							</Link>
+								)
+							}
+						>
+							Previous
 						</Button>
 						<p className="text-sm text-muted-foreground">
 							Page {pagination.page} of {pagination.totalPages}
 						</p>
-						<Button asChild variant="outline" size="sm">
-							<Link
-								href={createQuery(
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								handlePageChange(
 									pagination.page >= pagination.totalPages
 										? 1
 										: pagination.page + 1,
-									currentCategory,
-									debouncedQuery,
-								)}
-								onClick={(event) => {
-									if (!onChange) {
-										return;
-									}
-									event.preventDefault();
-									handleChange({
-										page:
-											pagination.page >= pagination.totalPages
-												? 1
-												: pagination.page + 1,
-										category: currentCategory,
-										q: debouncedQuery,
-									});
-								}}
-							>
-								Next
-							</Link>
+								)
+							}
+						>
+							Next
 						</Button>
 					</div>
 				)}

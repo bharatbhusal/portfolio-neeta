@@ -19,10 +19,7 @@ import type {
 	PaginatedProjectsData,
 	Project,
 	ProjectResponse,
-	SiteData,
-	ContactData,
 	FeaturedProjectsResponse,
-	FeaturedProjectResponse,
 	ClientProjectsResponse,
 } from "@/types/portfolio";
 
@@ -119,14 +116,12 @@ export function useProjects(params: {
 	});
 }
 
-export function useProject(key: string | undefined) {
+export function useProject(id: string) {
 	return useQuery<ProjectResponse, ApiClientError>({
-		queryKey: ["project", key ?? ""],
+		queryKey: ["project", id],
 		queryFn: () =>
-			apiRequest<ProjectResponse>(
-				`/project?key=${encodeURIComponent(key ?? "")}`,
-			),
-		enabled: Boolean(key),
+			apiRequest<ProjectResponse>(`/projects/${id}`),
+		enabled: Boolean(id),
 		retry: 1,
 	});
 }
@@ -144,37 +139,18 @@ export function useCreateProject() {
 	});
 }
 
-export function useUpdateProject(key: string) {
+export function useUpdateProject(id: string) {
 	const qc = useQueryClient();
 	return useMutation<void, ApiClientError, Project>({
 		mutationFn: (payload) =>
-			apiRequest<void>(
-				`/project?key=${encodeURIComponent(key)}`,
-				{
-					method: "PUT",
-					body: payload,
-				},
-			),
+			apiRequest<void>(`/projects/${encodeURIComponent(id)}`, {
+				method: "PUT",
+				body: payload,
+			}),
 		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["projects"] });
-			qc.invalidateQueries({ queryKey: ["project", key] });
+			qc.invalidateQueries({ queryKey: ["project", id] });
 		},
-	});
-}
-
-export function useSite() {
-	return useQuery<SiteData, ApiClientError>({
-		queryKey: ["site"],
-		queryFn: () => apiRequest<SiteData>("/site"),
-		retry: 1,
-	});
-}
-
-export function useContact() {
-	return useQuery<ContactData, ApiClientError>({
-		queryKey: ["contact"],
-		queryFn: () => apiRequest<ContactData>("/contact"),
-		retry: 1,
 	});
 }
 
@@ -189,15 +165,6 @@ export function useFeaturedProjects(count?: number) {
 		queryKey: key,
 		queryFn: () =>
 			apiRequest<FeaturedProjectsResponse>(query),
-		retry: 1,
-	});
-}
-
-export function useFeaturedProject() {
-	return useQuery<FeaturedProjectResponse, ApiClientError>({
-		queryKey: ["featured-project"],
-		queryFn: () =>
-			apiRequest<FeaturedProjectResponse>("/featured-project"),
 		retry: 1,
 	});
 }
