@@ -21,9 +21,7 @@ import type {
 } from "@/lib/validators";
 import type {
 	PaginatedProjectsData,
-	ProjectResponse,
-	FeaturedProjectsResponse,
-	ClientProjectsResponse,
+	Project,
 } from "@/types/portfolio";
 
 export function useAuthMe(options?: { enabled?: boolean }) {
@@ -120,10 +118,9 @@ export function useProjects(params: {
 }
 
 export function useProject(id: string) {
-	return useQuery<ProjectResponse, ApiClientError>({
+	return useQuery<Project[], ApiClientError>({
 		queryKey: ["project", id],
-		queryFn: () =>
-			apiRequest<ProjectResponse>(`/projects/${id}`),
+		queryFn: () => apiRequest<Project[]>(`/projects/${id}`),
 		enabled: Boolean(id),
 		retry: 1,
 	});
@@ -171,23 +168,25 @@ export function useFeaturedProjects(count?: number) {
 		? ["featured-projects", String(count)]
 		: ["featured-projects", "all"];
 	const query = count
-		? `/featured-projects?count=${encodeURIComponent(String(count))}`
-		: `/featured-projects`;
-	return useQuery<FeaturedProjectsResponse, ApiClientError>({
+		? `/projects/featured-projects?count=${String(count)}`
+		: `/projects/featured-projects`;
+	return useQuery<Project[], ApiClientError>({
 		queryKey: key,
-		queryFn: () =>
-			apiRequest<FeaturedProjectsResponse>(query),
+		queryFn: () => apiRequest<Project[]>(query),
 		retry: 1,
 	});
 }
 
 export function useClientProjects(count?: number) {
+	const key = count
+		? ["client-projects", String(count)]
+		: ["client-projects", "all"];
 	const q = count
-		? `/client-projects?count=${encodeURIComponent(String(count))}`
-		: `/client-projects`;
-	return useQuery<ClientProjectsResponse, ApiClientError>({
-		queryKey: ["client-projects", count ?? "all"],
-		queryFn: () => apiRequest<ClientProjectsResponse>(q),
+		? `/projects/client-projects?count=${String(count)}`
+		: `/projects/client-projects`;
+	return useQuery<Project[], ApiClientError>({
+		queryKey: key,
+		queryFn: () => apiRequest<Project[]>(q),
 		retry: 1,
 	});
 }

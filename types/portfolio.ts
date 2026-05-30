@@ -102,19 +102,3 @@ export type PaginatedProjectsData = {
 		totalPages: number;
 	};
 };
-
-export type FeaturedProjectsResponse = {
-	projects: Project[];
-};
-
-export type FeaturedProjectResponse = {
-	project: Project | null;
-};
-
-export type ClientProjectsResponse = {
-	projects: Project[];
-};
-
-export type ProjectResponse = {
-	project: Project | null;
-};

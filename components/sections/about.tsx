@@ -9,18 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
 import type { Project, SiteData } from "@/types/portfolio";
+import { useFeaturedProjects } from "@/hooks/useApi";
 
 type AboutProps = {
 	site: SiteData;
-	featuredProjects: Project[];
 };
 
-export function About({
-	site,
-	featuredProjects,
-}: AboutProps) {
+export function About({ site }: AboutProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
+
+	const { data: featuredProjects, isLoading } =
+		useFeaturedProjects();
 
 	return (
 		<section
@@ -64,9 +64,9 @@ export function About({
 								</div>
 
 								<div className="grid gap-4 lg:grid-cols-3">
-									{featuredProjects
-										.filter((project) => project.featured)
-										.map((project) => (
+									{!isLoading &&
+										featuredProjects &&
+										featuredProjects.map((project) => (
 											<ProjectCard
 												key={project.key}
 												project={project}

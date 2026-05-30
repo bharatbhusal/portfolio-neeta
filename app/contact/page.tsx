@@ -15,13 +15,11 @@ export async function generateMetadata() {
 }
 
 export default async function ContactPage() {
+	const site = await fetchJson<SiteData>("/site.json");
+
 	return (
 		<main className="pb-8 lg:pb-12">
-			{/* <Contact
-				contact={contact}
-				clientProjects={clientProjects.projects}
-				featuredProject={featuredProject.project}
-			/> */}
+			<Contact social={site.social} />
 		</main>
 	);
 }

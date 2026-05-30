@@ -16,11 +16,10 @@ export async function generateMetadata() {
 
 export default async function AboutPage() {
 	const site = await fetchJson<SiteData>("/site.json");
-	// const featuredProjects = featured.projects;
 
 	return (
 		<main className="pb-8 lg:pb-12">
-			{/* <About site={site} featuredProjects={featuredProjects} /> */}
+			<About site={site} />
 		</main>
 	);
 }
