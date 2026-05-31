@@ -20,7 +20,7 @@ export function About({ site }: AboutProps) {
 	useGSAP({ scope: scopeRef });
 
 	const { data: featuredProjects, isLoading } =
-		useFeaturedProjects();
+		useFeaturedProjects(3);
 
 	return (
 		<section

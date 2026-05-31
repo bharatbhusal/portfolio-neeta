@@ -133,7 +133,7 @@ export function Contact({ social }: ContactProps) {
 													</div>
 												</div>
 												<p className="text-sm text-muted-foreground leading-5 line-clamp-3">
-													{project.summary || project.description}
+													{project.description}
 												</p>
 											</div>
 											<div className="relative hidden sm:block w-28 sm:w-36 md:w-44 aspect-[16/9] overflow-hidden rounded-r-md flex-shrink-0">
