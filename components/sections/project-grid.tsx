@@ -8,10 +8,11 @@ import {
 } from "react";
 
 import { ProjectCard } from "@/components/cards/project-card";
+import { ProjectCardSkeleton } from "@/components/cards/project-card-skeleton";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
-import { useProjects } from "@/hooks/useApi";
+import { useProjects, useCategories } from "@/hooks/useApi";
 
 type ProjectGridQuery = {
 	page: number;
@@ -120,32 +121,17 @@ export function ProjectGrid({
 	);
 
 	const projects = data?.projects ?? [];
-	const categories = data?.categories ?? [];
+	const {
+		data: categoriesData,
+		isLoading: isCategoriesLoading,
+	} = useCategories();
+	const categories = categoriesData ?? ["All"];
 	const pagination = data?.pagination ?? {
 		page: 1,
 		pageSize: 9,
 		totalCount: 0,
 		totalPages: 1,
 	};
-
-	// const categories = useMemo(() => {
-	// 	const uniqueCategories = new Set(
-	// 		projects.map((p) => p.category).filter(Boolean),
-	// 	);
-	// 	return ["All", ...Array.from(uniqueCategories).sort()];
-	// }, [projects]);
-
-	// const filteredProjects = useMemo(() => {
-	// 	return projects.sort((a, b) => {
-	// 		const aFeatured = a.featured ? 0 : 1;
-	// 		const bFeatured = b.featured ? 0 : 1;
-	// 		return aFeatured - bFeatured;
-	// 	});
-	// }, [projects]);
-
-	// const otherProjects = projects.filter(
-	// 	(project) => !project.featured,
-	// );
 
 	return (
 		<section
@@ -174,50 +160,63 @@ export function ProjectGrid({
 
 					<Reveal>
 						<div className="flex flex-wrap gap-2">
-							{categories.map((category) => (
-								<Button
-									key={category}
-									variant={
-										currentCategory === category
-											? "default"
-											: "outline"
-									}
-									size="sm"
-									onClick={() =>
-										handleCategoryChange(category, debouncedQuery)
-									}
-								>
-									{category}
-								</Button>
-							))}
+							{isCategoriesLoading
+								? Array.from({ length: 4 }).map((_, i) => (
+										<div
+											key={i}
+											className="h-6 w-20 rounded-md bg-slate-200/60 dark:bg-slate-700/40 animate-pulse"
+										/>
+									))
+								: categories.map((category) => (
+										<Button
+											key={category}
+											variant={
+												currentCategory === category
+													? "default"
+													: "outline"
+											}
+											size="sm"
+											onClick={() =>
+												handleCategoryChange(category, debouncedQuery)
+											}
+										>
+											{category}
+										</Button>
+									))}
 						</div>
 					</Reveal>
 
 					<Reveal>
-						<div className="w-full sm:w-72">
-							<label className="sr-only" htmlFor="project-search">
-								Search projects
-							</label>
-							<input
-								id="project-search"
-								type="search"
-								value={searchValue}
-								onChange={(event) =>
-									setSearchValue(event.target.value)
-								}
-								placeholder="Search projects"
-								className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-								aria-label="Search projects"
-							/>
-						</div>
+						{!isCategoriesLoading || !isLoading ? (
+							<div className="w-full sm:w-72">
+								<label className="sr-only" htmlFor="project-search">
+									Search projects
+								</label>
+								<input
+									id="project-search"
+									type="search"
+									value={searchValue}
+									onChange={(event) =>
+										setSearchValue(event.target.value)
+									}
+									placeholder="Search projects"
+									className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+									aria-label="Search projects"
+								/>
+							</div>
+						) : (
+							<div className="w-full sm:w-72 h-8 rounded-md bg-slate-200/60 dark:bg-slate-700/40 animate-pulse" />
+						)}
 					</Reveal>
 				</div>
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 						{isLoading ? (
-							<p className="text-sm text-muted-foreground">
-								Loading projects...
-							</p>
+							<>
+								{Array.from({ length: 9 }).map((_, i) => (
+									<ProjectCardSkeleton key={i} />
+								))}
+							</>
 						) : projects.length === 0 ? (
 							<p className="text-sm text-muted-foreground">
 								No projects match your search.

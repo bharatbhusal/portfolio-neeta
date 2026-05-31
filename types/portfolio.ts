@@ -72,7 +72,6 @@ export type Project = {
 
 export type PaginatedProjectsData = {
 	projects: Project[];
-	categories: string[];
 	pagination: {
 		page: number;
 		pageSize: number;

@@ -12,9 +12,9 @@ type ProjectPageProps = {
 };
 
 async function getProjectById(id: string) {
-	const project = (await apiRequest(
-		`/projects/${id}`,
-	)) as Project;
+	const project = await apiRequest<Project>(
+		`https://neetabhusal.vercel.app/api/projects/${id}`,
+	);
 	return project;
 }
 
@@ -36,10 +36,8 @@ export async function generateMetadata({
 	return buildPageMetadata(site, {
 		title: `${project.title} | Projects | Neeta Bhusal`,
 		description: project.description,
-		path: `/projects/${encodeURIComponent(project.key)}`,
-		image:
-			project.imageUrl ??
-			`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`,
+		path: `/projects/${id}`,
+		image: `/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`,
 	});
 }
 
@@ -47,5 +45,8 @@ export default async function ProjectPage({
 	params,
 }: ProjectPageProps) {
 	const { id } = await params;
-	return <ProjectPageClient id={id} />;
+	const site = await fetchJson<SiteData>("/site.json");
+	return (
+		<ProjectPageClient id={id} whatsappPhone={site.phone} />
+	);
 }

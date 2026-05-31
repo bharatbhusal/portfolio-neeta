@@ -12,12 +12,30 @@ import { useAuthMe } from "@/hooks/useApi";
 type ProjectPageContentProps = {
 	project: Project;
 	isAuthenticated?: boolean;
+	whatsappPhone?: string;
 };
 
 export function ProjectPageContent({
 	project,
 	isAuthenticated,
+	whatsappPhone,
 }: ProjectPageContentProps) {
+	const handleWhatsAppEnquiry = () => {
+		const artworkUrl = window.location.href;
+		const sanitizedPhone = (whatsappPhone ?? "").replace(
+			/\D/g,
+			"",
+		);
+		const whatsappMessage = encodeURIComponent(
+			`Hi Neeta, I am interested in buying the artwork "${project.title}". Artwork URL: ${artworkUrl}. Could you please share availability and pricing?`,
+		);
+		window.open(
+			`https://wa.me/${sanitizedPhone}?text=${whatsappMessage}`,
+			"_blank",
+			"noopener,noreferrer",
+		);
+	};
+
 	const authQuery = useAuthMe({
 		enabled: typeof isAuthenticated === "undefined",
 	});
@@ -86,6 +104,7 @@ export function ProjectPageContent({
 					>
 						Download
 					</Button>
+
 					{project.link && (
 						<Button
 							variant={"outline"}
@@ -96,9 +115,9 @@ export function ProjectPageContent({
 					)}
 					<Button
 						variant="outline"
-						onClick={() => location.assign(`/projects`)}
+						onClick={handleWhatsAppEnquiry}
 					>
-						Back to projects
+						Own it
 					</Button>
 				</div>
 			</div>

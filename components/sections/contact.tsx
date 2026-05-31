@@ -13,10 +13,13 @@ import {
 	useClientProjects,
 	useFeaturedProjects,
 } from "@/hooks/useApi";
+import Skeleton from "@/components/ui/skeleton";
+import ProjectCardSkeleton from "@/components/cards/project-card-skeleton";
 
 type ContactProps = {
 	social: SocialLink[];
 };
+
 export function Contact({ social }: ContactProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
@@ -83,15 +86,19 @@ export function Contact({ social }: ContactProps) {
 					</Reveal>
 
 					{/* Client Projects Section */}
-					{!isFeaturedProjectLoading && featuredProject && (
-						<Reveal>
-							<ProjectCard project={featuredProject[0]} />
-						</Reveal>
+					{!isFeaturedProjectLoading ? (
+						featuredProject && (
+							<Reveal>
+								<ProjectCard project={featuredProject[0]} />
+							</Reveal>
+						)
+					) : (
+						<ProjectCardSkeleton />
 					)}
 				</div>
 
 				{/* Featured Project on Right */}
-				{!isClientProjectsLoading &&
+				{!isClientProjectsLoading ? (
 					clientProjects &&
 					clientProjects.length > 0 && (
 						<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
@@ -154,8 +161,57 @@ export function Contact({ social }: ContactProps) {
 								))}
 							</div>
 						</div>
-					)}
+					)
+				) : (
+					<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
+						<div className="flex items-end justify-between gap-3">
+							<div className="space-y-2">
+								<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+									Recent Client Works
+								</p>
+								<p className="text-sm leading-6 text-muted-foreground">
+									A short selection from the current client work.
+								</p>
+							</div>
+						</div>
+
+						<div className="grid gap-4">
+							{Array.from({ length: 4 }).map((_, i) => (
+								<div
+									key={i}
+									className="group rounded-xl border border-border/60 bg-background/40 p-4"
+								>
+									<div className="flex">
+										<div className="flex-1 min-w-0">
+											<div className="flex items-start justify-between gap-3 mb-2">
+												<div className="flex-1 min-w-0">
+													<div className="mb-1">
+														<Skeleton height={16} width={"70%"} />
+													</div>
+													<div>
+														<Skeleton height={12} width={"40%"} />
+													</div>
+												</div>
+											</div>
+											<div>
+												<Skeleton rows={2} height={12} />
+											</div>
+										</div>
+										<div className="relative hidden sm:block w-28 sm:w-36 md:w-44 aspect-[16/9] overflow-hidden rounded-r-md flex-shrink-0">
+											<div className="absolute inset-0">
+												<Skeleton width={"100%"} height={"100%"} />
+											</div>
+											<div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/100 pointer-events-none" />
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</section>
 	);
 }
+
+export default Contact;

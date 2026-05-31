@@ -140,6 +140,7 @@ export function useCreateProject() {
 				queryKey: ["featured-projects"],
 			});
 			qc.invalidateQueries({ queryKey: ["client-projects"] });
+			qc.invalidateQueries({ queryKey: ["categories"] });
 		},
 	});
 }
@@ -158,6 +159,7 @@ export function useUpdateProject(id: string) {
 				queryKey: ["featured-projects"],
 			});
 			qc.invalidateQueries({ queryKey: ["client-projects"] });
+			qc.invalidateQueries({ queryKey: ["categories"] });
 			qc.invalidateQueries({ queryKey: ["project", id] });
 		},
 	});
@@ -187,6 +189,14 @@ export function useClientProjects(count?: number) {
 	return useQuery<Project[], ApiClientError>({
 		queryKey: key,
 		queryFn: () => apiRequest<Project[]>(q),
+		retry: 1,
+	});
+}
+
+export function useCategories() {
+	return useQuery<string[], ApiClientError>({
+		queryKey: ["categories"],
+		queryFn: () => apiRequest<string[]>(`/categories`),
 		retry: 1,
 	});
 }

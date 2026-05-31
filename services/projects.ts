@@ -12,7 +12,6 @@ import {
 	findProjectById,
 	findProjectsByFilter,
 	countProjects,
-	getDistinctCategories,
 	updateProjectById,
 	deleteProjectById,
 } from "@/repositories/project";
@@ -69,10 +68,7 @@ export async function getProjectsWithPagination(
 	page: number = 1,
 	pageSize: number = 9,
 ): Promise<PaginatedProjectsData> {
-	const [total, categories] = await Promise.all([
-		countProjects(filter),
-		getDistinctCategories(),
-	]);
+	const total = await countProjects(filter);
 
 	const totalPages = Math.max(
 		1,
@@ -89,12 +85,6 @@ export async function getProjectsWithPagination(
 
 	return {
 		projects,
-		categories: [
-			"All",
-			...Array.from(
-				new Set(categories.filter((each) => !!each)),
-			).sort(),
-		],
 		pagination: {
 			page: safePage,
 			pageSize,

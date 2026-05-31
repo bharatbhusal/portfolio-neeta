@@ -10,6 +10,7 @@ import {
 	updateProjectService,
 	deleteProjectService,
 } from "@/services/projects";
+import { getDistinctCategories } from "@/repositories/project";
 import type { SortOrder } from "mongoose";
 import { AppError } from "@/lib/errors";
 import { ProjectModel } from "@/models/project";
@@ -59,6 +60,17 @@ export async function getProjectsWithPaginationController(
 ) {
 	await connectToDatabase();
 	return getProjectsWithPagination(filter, page, pageSize);
+}
+
+export async function getCategoriesController() {
+	await connectToDatabase();
+	const cats = await getDistinctCategories();
+	return [
+		"All",
+		...Array.from(
+			new Set(cats.filter((each) => !!each)),
+		).sort(),
+	];
 }
 
 export async function createProjectController(
