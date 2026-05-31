@@ -27,7 +27,7 @@ export function ProjectPageContent({
 			"",
 		);
 		const whatsappMessage = encodeURIComponent(
-			`Hi Neeta, I am interested in buying the artwork "${project.title}". Artwork URL: ${artworkUrl}. Could you please share availability and pricing?`,
+			`Hi Neeta,\nI am interested in buying the artwork "${project.title}".\nArtwork URL: ${artworkUrl}.\n\nCould you please share availability and pricing?`,
 		);
 		window.open(
 			`https://wa.me/${sanitizedPhone}?text=${whatsappMessage}`,
