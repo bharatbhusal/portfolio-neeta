@@ -7,6 +7,7 @@ import {
 	errorResponse,
 	successResponse,
 } from "@/lib/apiResponse";
+import { getAuthPayload } from "@/lib/auth";
 
 import { toPositiveInt } from "@/lib/data";
 
@@ -60,6 +61,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
 	try {
+		await getAuthPayload();
+
 		const payload = await request.json().catch(() => null);
 		const parsed = ProjectInputSchema.safeParse(payload);
 		if (!parsed.success) {

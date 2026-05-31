@@ -81,12 +81,12 @@ export function useLogout() {
 	});
 }
 
-export function useGetSignature(publicId?: string) {
+export function useGetSignature(publicId: string) {
 	return useQuery<UploadSignaturePayload, ApiClientError>({
-		queryKey: ["uploads", "signature", publicId ?? ""],
+		queryKey: ["uploads", "signature", publicId],
 		queryFn: () =>
 			apiRequest<UploadSignaturePayload>(
-				`/images/signature?publicId=${encodeURIComponent(publicId ?? "")}`,
+				`/images/signature?publicId=${encodeURIComponent(publicId)}`,
 			),
 		enabled: Boolean(publicId),
 		retry: 1,
@@ -128,9 +128,9 @@ export function useProject(id: string) {
 
 export function useCreateProject() {
 	const qc = useQueryClient();
-	return useMutation<void, ApiClientError, ProjectInput>({
+	return useMutation<Project, ApiClientError, ProjectInput>({
 		mutationFn: (payload) =>
-			apiRequest<void>("/projects", {
+			apiRequest<Project>("/projects", {
 				method: "POST",
 				body: payload,
 			}),
@@ -147,22 +147,27 @@ export function useCreateProject() {
 
 export function useUpdateProject(id: string) {
 	const qc = useQueryClient();
-	return useMutation<void, ApiClientError, ProjectUpdate>({
-		mutationFn: (payload) =>
-			apiRequest<void>(`/projects/${encodeURIComponent(id)}`, {
-				method: "PATCH",
-				body: payload,
-			}),
-		onSuccess: () => {
-			qc.invalidateQueries({ queryKey: ["projects"] });
-			qc.invalidateQueries({
-				queryKey: ["featured-projects"],
-			});
-			qc.invalidateQueries({ queryKey: ["client-projects"] });
-			qc.invalidateQueries({ queryKey: ["categories"] });
-			qc.invalidateQueries({ queryKey: ["project", id] });
+	return useMutation<Project, ApiClientError, ProjectUpdate>(
+		{
+			mutationFn: (payload) =>
+				apiRequest<Project>(
+					`/projects/${encodeURIComponent(id)}`,
+					{
+						method: "PATCH",
+						body: payload,
+					},
+				),
+			onSuccess: () => {
+				qc.invalidateQueries({ queryKey: ["projects"] });
+				qc.invalidateQueries({
+					queryKey: ["featured-projects"],
+				});
+				qc.invalidateQueries({ queryKey: ["client-projects"] });
+				qc.invalidateQueries({ queryKey: ["categories"] });
+				qc.invalidateQueries({ queryKey: ["project", id] });
+			},
 		},
-	});
+	);
 }
 
 export function useFeaturedProjects(count?: number) {

@@ -5,8 +5,8 @@ import {
 	successResponse,
 	errorResponse,
 } from "@/lib/apiResponse";
-import { createUploadSignature } from "@/lib/cloudinary";
 import { AppError } from "@/lib/errors";
+import { createUploadSignature } from "@/services/image";
 
 export async function GET(request: NextRequest) {
 	try {

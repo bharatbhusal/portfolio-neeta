@@ -16,17 +16,14 @@ export async function comparePassword(
 }
 
 export function signToken(payload: JwtPayload): string {
-	return jwt.sign(
-		payload,
-		getEnvConfig().CLOUDINARY_API_SECRET,
-	);
+	return jwt.sign(payload, getEnvConfig().JWT_SECRET);
 }
 
 export function verifyToken(token: string): JwtPayload {
 	try {
 		return jwt.verify(
 			token,
-			getEnvConfig().CLOUDINARY_API_SECRET,
+			getEnvConfig().JWT_SECRET,
 		) as JwtPayload;
 	} catch {
 		throw new AppError(

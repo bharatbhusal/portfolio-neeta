@@ -91,6 +91,15 @@ export async function updateProjectController(
 	data: Record<string, unknown>,
 ) {
 	await connectToDatabase();
+	if (typeof data.key === "string" && data.key.length > 0) {
+		const duplicate = await ProjectModel.exists({
+			key: data.key,
+			_id: { $ne: id },
+		});
+		if (duplicate) {
+			throw new AppError("project already exists", 409);
+		}
+	}
 	const project = await updateProjectService(id, data);
 	if (!project) {
 		throw new AppError("project not found", 404);

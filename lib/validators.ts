@@ -16,6 +16,7 @@ export const ProjectInputSchema = z.object({
 });
 
 export const ProjectUpdateSchema = z.object({
+	key: z.string().min(1).optional(),
 	title: z.string().min(1).optional(),
 	category: z.string().min(1).optional(),
 	story: optionalString,
