@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useMemo } from "react";
 import { Separator } from "@/components/ui/separator";
 import type {
 	SiteData,
@@ -7,6 +8,7 @@ import type {
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
+import { useAuthMe, useLogout } from "@/hooks/useApi";
 
 type FooterProps = {
 	site: SiteData;
@@ -14,6 +16,12 @@ type FooterProps = {
 
 export function Footer({ site }: FooterProps) {
 	const currentYear = new Date().getFullYear();
+	const authQuery = useAuthMe();
+	const logoutMutation = useLogout();
+
+	const authed = useMemo(() => {
+		return Boolean(authQuery.data);
+	}, [authQuery.data]);
 
 	return (
 		<footer className="border-t border-border/60 bg-background/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">
@@ -52,12 +60,34 @@ export function Footer({ site }: FooterProps) {
 									{item.label}
 								</Link>
 							))}
-							<Link
-								href={`/admin/login`}
-								className="text-sm text-muted-foreground transition hover:text-foreground"
-							>
-								Login
-							</Link>
+							{authed ? (
+								<>
+									<Link
+										href={`/admin/projects/new`}
+										className="text-sm text-muted-foreground transition hover:text-foreground"
+									>
+										New Project
+									</Link>
+
+									<div
+										onClick={() =>
+											logoutMutation
+												.mutateAsync()
+												.then(() => window.location.reload())
+										}
+										className="text-sm text-muted-foreground transition hover:text-foreground cursor-pointer"
+									>
+										{"Logout"}
+									</div>
+								</>
+							) : (
+								<Link
+									href={`/admin/login`}
+									className="text-sm text-muted-foreground transition hover:text-foreground"
+								>
+									Login
+								</Link>
+							)}
 						</nav>
 					</div>
 
