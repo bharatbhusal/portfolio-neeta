@@ -3,7 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import {
+	useMemo,
+	useState,
+	useEffect,
+	useRef,
+} from "react";
+import { FiPlus, FiEdit2 } from "react-icons/fi";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -137,6 +143,10 @@ function ProjectFormContent({
 	const [link, setLink] = useState(project?.link ?? "");
 	const [selectedFile, setSelectedFile] =
 		useState<File | null>(null);
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<
+		string | null
+	>(project?.imageUrl ?? null);
 	const [uploadProgress, setUploadProgress] = useState<
 		number | null
 	>(null);
@@ -155,7 +165,7 @@ function ProjectFormContent({
 		if (!selectedFile) {
 			return project?.key ?? "";
 		}
-		// return normalizeFileKey(selectedFile.name);
+
 		return selectedFile.name;
 	}, [project?.key, selectedFile]);
 
@@ -163,9 +173,25 @@ function ProjectFormContent({
 		selectedFile ? selectedKey : "",
 	);
 
+	useEffect(() => {
+		let objectUrl: string | null = null;
+		if (selectedFile) {
+			objectUrl = URL.createObjectURL(selectedFile);
+			// eslint-disable-next-line react-hooks/set-state-in-effect
+			setPreviewUrl(objectUrl);
+		} else {
+			setPreviewUrl(project?.imageUrl ?? null);
+		}
+
+		return () => {
+			if (objectUrl) URL.revokeObjectURL(objectUrl);
+		};
+	}, [selectedFile, project?.imageUrl]);
+
 	async function handleSubmit(
 		event: React.FormEvent<HTMLFormElement>,
 	) {
+		console.log("Triggered Sumit");
 		event.preventDefault();
 		setLocalError(null);
 
@@ -248,169 +274,175 @@ function ProjectFormContent({
 
 	const isSubmitting =
 		activeMutation.isPending || uploadProgress !== null;
-	const headline =
-		mode === "edit" ? "Update project" : "Create project";
-	const descriptionText =
-		mode === "edit"
-			? "Upload a replacement image if you want a new key. Otherwise update the details and save."
-			: "Upload the image first. The final project key will be derived from the image filename and extension.";
-
 	return (
-		<div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+		<div className="grid gap-6">
 			<form
 				className="space-y-6 rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm"
 				onSubmit={handleSubmit}
 			>
 				<div className="space-y-2">
-					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-						Admin
-					</p>
-					<h2 className="text-2xl font-semibold tracking-tight">
-						{headline}
-					</h2>
-					<p className="text-sm text-muted-foreground">
-						{descriptionText}
-					</p>
+					<Label htmlFor="project-image">Project image</Label>
+					<div className="flex justify-center">
+						<div className="relative">
+							<div className="w-[250px] h-[250px] overflow-hidden rounded-md bg-muted m-2">
+								{previewUrl ? (
+									<Image
+										src={previewUrl}
+										alt={title || "Project preview"}
+										width={250}
+										height={250}
+										className="h-full w-full object-cover"
+										unoptimized
+									/>
+								) : (
+									<div className="flex h-full items-center justify-center px-6 text-center text-sm text-muted-foreground">
+										{selectedFile
+											? `Selected file: ${selectedFile.name}`
+											: "Choose an image to preview the cover."}
+									</div>
+								)}
+							</div>
+
+							<Button
+								type="button"
+								size="icon"
+								variant="outline"
+								className="absolute top-2 right-2 z-10 inline-flex items-center justify-center h-8 w-8 rounded-full p-0"
+								onClick={() => fileInputRef.current?.click()}
+								aria-label={
+									mode === "edit" ? "Edit image" : "Add image"
+								}
+							>
+								{mode === "edit" ? (
+									<FiEdit2 className="h-4 w-4" />
+								) : (
+									<FiPlus className="h-4 w-4" />
+								)}
+							</Button>
+
+							<Input
+								id="project-image"
+								ref={fileInputRef}
+								type="file"
+								accept="image/*"
+								className="hidden"
+								onChange={(event) => {
+									const file = event.target.files?.[0] ?? null;
+									setSelectedFile(
+										file ? renameFileForUpload(file) : null,
+									);
+									setLocalError(null);
+								}}
+							/>
+						</div>
+					</div>
 				</div>
 
-				<div className="space-y-4">
+				<div className="grid gap-4 md:grid-cols-2">
 					<div className="space-y-2">
-						<Label htmlFor="project-image">Project image</Label>
+						<Label htmlFor="title">Title</Label>
 						<Input
-							id="project-image"
-							type="file"
-							accept="image/*"
-							onChange={(event) => {
-								const file = event.target.files?.[0] ?? null;
-								setSelectedFile(
-									file ? renameFileForUpload(file) : null,
-								);
-								setLocalError(null);
-							}}
+							id="title"
+							value={title}
+							onChange={(event) => setTitle(event.target.value)}
+							required
 						/>
+					</div>
+					<div className="space-y-2">
+						<Label htmlFor="category">Category</Label>
+						<Input
+							id="category"
+							value={category}
+							onChange={(event) => setCategory(event.target.value)}
+							placeholder="Branding, editorial, product..."
+						/>
+					</div>
+				</div>
+
+				<div className="grid gap-4 md:grid-cols-2">
+					<div className="space-y-2">
+						<Label htmlFor="year">Year</Label>
+						<Input
+							id="year"
+							type="number"
+							min="1"
+							value={year}
+							onChange={(event) => setYear(event.target.value)}
+							placeholder={String(new Date().getFullYear())}
+						/>
+					</div>
+					<div className="space-y-2">
+						<Label htmlFor="client">Client</Label>
+						<Input
+							id="client"
+							value={client}
+							onChange={(event) => setClient(event.target.value)}
+							placeholder="Optional client name"
+						/>
+					</div>
+				</div>
+
+				<div className="space-y-2">
+					<Label htmlFor="link">Project link</Label>
+					<Input
+						id="link"
+						type="url"
+						value={link}
+						onChange={(event) => setLink(event.target.value)}
+						placeholder="https://..."
+					/>
+				</div>
+
+				<div className="space-y-2">
+					<Label htmlFor="tags">Tags</Label>
+					<Input
+						id="tags"
+						value={tags}
+						onChange={(event) => setTags(event.target.value)}
+						placeholder="branding, motion, poster"
+					/>
+				</div>
+
+				<div className="space-y-2">
+					<Label htmlFor="story">Story</Label>
+					<Textarea
+						id="story"
+						value={story}
+						onChange={(event) => setStory(event.target.value)}
+						placeholder="A short narrative about the project..."
+					/>
+				</div>
+
+				<div className="space-y-2">
+					<Label htmlFor="description">Description</Label>
+					<Textarea
+						id="description"
+						value={description}
+						onChange={(event) =>
+							setDescription(event.target.value)
+						}
+						placeholder="Project details for the public page..."
+					/>
+				</div>
+
+				<div className="flex items-center gap-3 rounded-lg border border-border/60 bg-background/70 px-3 py-3">
+					<Checkbox
+						id="featured"
+						checked={featured}
+						onCheckedChange={(checked) =>
+							setFeatured(checked === true)
+						}
+					/>
+					<div className="space-y-1">
+						<Label
+							htmlFor="featured"
+							className="cursor-pointer text-[11px]"
+						>
+							Featured project
+						</Label>
 						<p className="text-xs text-muted-foreground">
-							{mode === "edit"
-								? "Leave this empty to keep the current image and key."
-								: "This image upload determines the project key."}
+							Feature this project in highlighted sections.
 						</p>
-					</div>
-
-					<div className="space-y-2">
-						<Label>Project key</Label>
-						<div className="rounded-lg border border-dashed border-border/70 bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
-							{selectedKey ||
-								"The key will be generated after image upload."}
-						</div>
-					</div>
-
-					<div className="grid gap-4 md:grid-cols-2">
-						<div className="space-y-2">
-							<Label htmlFor="title">Title</Label>
-							<Input
-								id="title"
-								value={title}
-								onChange={(event) => setTitle(event.target.value)}
-								required
-							/>
-						</div>
-						<div className="space-y-2">
-							<Label htmlFor="category">Category</Label>
-							<Input
-								id="category"
-								value={category}
-								onChange={(event) =>
-									setCategory(event.target.value)
-								}
-								placeholder="Branding, editorial, product..."
-							/>
-						</div>
-					</div>
-
-					<div className="grid gap-4 md:grid-cols-2">
-						<div className="space-y-2">
-							<Label htmlFor="year">Year</Label>
-							<Input
-								id="year"
-								type="number"
-								min="1"
-								value={year}
-								onChange={(event) => setYear(event.target.value)}
-								placeholder={String(new Date().getFullYear())}
-							/>
-						</div>
-						<div className="space-y-2">
-							<Label htmlFor="client">Client</Label>
-							<Input
-								id="client"
-								value={client}
-								onChange={(event) => setClient(event.target.value)}
-								placeholder="Optional client name"
-							/>
-						</div>
-					</div>
-
-					<div className="space-y-2">
-						<Label htmlFor="link">Project link</Label>
-						<Input
-							id="link"
-							type="url"
-							value={link}
-							onChange={(event) => setLink(event.target.value)}
-							placeholder="https://..."
-						/>
-					</div>
-
-					<div className="space-y-2">
-						<Label htmlFor="tags">Tags</Label>
-						<Input
-							id="tags"
-							value={tags}
-							onChange={(event) => setTags(event.target.value)}
-							placeholder="branding, motion, poster"
-						/>
-					</div>
-
-					<div className="space-y-2">
-						<Label htmlFor="story">Story</Label>
-						<Textarea
-							id="story"
-							value={story}
-							onChange={(event) => setStory(event.target.value)}
-							placeholder="A short narrative about the project..."
-						/>
-					</div>
-
-					<div className="space-y-2">
-						<Label htmlFor="description">Description</Label>
-						<Textarea
-							id="description"
-							value={description}
-							onChange={(event) =>
-								setDescription(event.target.value)
-							}
-							placeholder="Project details for the public page..."
-						/>
-					</div>
-
-					<div className="flex items-center gap-3 rounded-lg border border-border/60 bg-background/70 px-3 py-3">
-						<Checkbox
-							id="featured"
-							checked={featured}
-							onCheckedChange={(checked) =>
-								setFeatured(checked === true)
-							}
-						/>
-						<div className="space-y-1">
-							<Label
-								htmlFor="featured"
-								className="cursor-pointer text-[11px]"
-							>
-								Featured project
-							</Label>
-							<p className="text-xs text-muted-foreground">
-								Feature this project in highlighted sections.
-							</p>
-						</div>
 					</div>
 				</div>
 
@@ -456,58 +488,6 @@ function ProjectFormContent({
 					</Button>
 				</div>
 			</form>
-
-			<div className="space-y-4 rounded-2xl border border-border/60 bg-card/60 p-4 shadow-sm">
-				<div className="space-y-1">
-					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-						Preview
-					</p>
-					<h3 className="text-lg font-semibold tracking-tight">
-						{title || "Untitled project"}
-					</h3>
-				</div>
-
-				<div className="overflow-hidden rounded-2xl border border-border/60 bg-muted/40">
-					<div className="relative aspect-[4/3] w-full">
-						{project?.imageUrl ? (
-							<Image
-								src={project.imageUrl}
-								alt={title || "Project preview"}
-								fill
-								className="object-cover"
-							/>
-						) : (
-							<div className="flex h-full items-center justify-center px-6 text-center text-sm text-muted-foreground">
-								{selectedFile
-									? `Selected file: ${selectedFile.name}`
-									: "Choose an image to preview the cover."}
-							</div>
-						)}
-					</div>
-					{selectedFile && (
-						<div className="border-t border-border/60 px-4 py-3 text-xs text-muted-foreground">
-							New image selected:{" "}
-							<span className="font-medium text-foreground">
-								{selectedFile.name}
-							</span>
-						</div>
-					)}
-				</div>
-
-				<div className="space-y-2 rounded-2xl border border-dashed border-border/60 px-4 py-3 text-sm text-muted-foreground">
-					<p>
-						{mode === "edit"
-							? "If you choose a new file, the project key will change to match that filename."
-							: "The uploaded image filename becomes the project key."}
-					</p>
-					<p>
-						Current key:{" "}
-						<span className="font-medium text-foreground">
-							{selectedKey || "pending"}
-						</span>
-					</p>
-				</div>
-			</div>
 		</div>
 	);
 }
