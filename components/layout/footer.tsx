@@ -52,6 +52,12 @@ export function Footer({ site }: FooterProps) {
 									{item.label}
 								</Link>
 							))}
+							<Link
+								href={`/admin/login`}
+								className="text-sm text-muted-foreground transition hover:text-foreground"
+							>
+								Login
+							</Link>
 						</nav>
 					</div>
 

@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLogin } from "@/hooks/useApi";
+import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
+	const router = useRouter();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -17,7 +18,12 @@ export default function AdminLoginPage() {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-		mutation.mutate({ username, password });
+		mutation
+			.mutateAsync({ username, password })
+			.then(() => {
+				router.back();
+			})
+			.catch(() => {});
 	};
 
 	return (
@@ -69,16 +75,6 @@ export default function AdminLoginPage() {
 						{mutation.isPending ? "Signing in..." : "Sign in"}
 					</Button>
 				</form>
-
-				<p className="text-sm text-muted-foreground">
-					Need an account?{" "}
-					<Link
-						className="font-medium text-foreground underline-offset-4 hover:underline"
-						href="/admin/signup"
-					>
-						Sign up
-					</Link>
-				</p>
 			</div>
 		</main>
 	);
