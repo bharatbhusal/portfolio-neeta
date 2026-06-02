@@ -9,7 +9,11 @@ import {
 	findUserByUsername,
 } from "@/repositories/user";
 import { LoginInput, SignupInput } from "@/lib/validators";
+import { getEnvConfig } from "@/lib/env";
 
+export function isOnboardingDisabled() {
+	return getEnvConfig().DISABLE_ONBOARDING === "true";
+}
 export async function registerUser(
 	input: SignupInput,
 ): Promise<{

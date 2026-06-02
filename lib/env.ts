@@ -11,6 +11,8 @@ type EnvConfig = {
 	CLOUDINARY_API_KEY: string;
 	CLOUDINARY_API_SECRET: string;
 	CLOUDINARY_FOLDER_NAME: string;
+
+	DISABLE_ONBOARDING: string;
 };
 
 function requireEnv(name: string) {
@@ -42,5 +44,7 @@ export function getEnvConfig(): EnvConfig {
 		CLOUDINARY_FOLDER_NAME: requireEnv(
 			"CLOUDINARY_FOLDER_NAME",
 		),
+
+		DISABLE_ONBOARDING: requireEnv("DISABLE_ONBOARDING"),
 	};
 }
