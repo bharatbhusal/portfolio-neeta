@@ -41,21 +41,8 @@ type ProjectFormPayload = {
 	link?: string;
 };
 
-function normalizeFileKey(name: string) {
-	const parts = name.split(".");
-	const extension =
-		(parts.pop() ?? "jpg")
-			.toLowerCase()
-			.replace(/[^a-z0-9]+/g, "") || "jpg";
-	const baseName =
-		parts
-			.join(".")
-			.toLowerCase()
-			.trim()
-			.replace(/[^a-z0-9]+/g, "-")
-			.replace(/^-+|-+$/g, "") || "project";
-
-	return `${baseName}.${extension}`;
+function renameFileForUpload(file: File) {
+	return new File([file], `${crypto.randomUUID()}`);
 }
 
 function deriveKeyFromAsset(
@@ -168,7 +155,8 @@ function ProjectFormContent({
 		if (!selectedFile) {
 			return project?.key ?? "";
 		}
-		return normalizeFileKey(selectedFile.name);
+		// return normalizeFileKey(selectedFile.name);
+		return selectedFile.name;
 	}, [project?.key, selectedFile]);
 
 	const signatureQuery = useGetSignature(
@@ -294,7 +282,9 @@ function ProjectFormContent({
 							accept="image/*"
 							onChange={(event) => {
 								const file = event.target.files?.[0] ?? null;
-								setSelectedFile(file);
+								setSelectedFile(
+									file ? renameFileForUpload(file) : null,
+								);
 								setLocalError(null);
 							}}
 						/>

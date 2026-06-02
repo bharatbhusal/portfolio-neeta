@@ -24,6 +24,41 @@ import type {
 	Project,
 } from "@/types/portfolio";
 
+async function refetchProjectRelatedQueries(
+	qc: ReturnType<typeof useQueryClient>,
+	id?: string,
+) {
+	const tasks = [
+		qc.invalidateQueries({
+			queryKey: ["projects"],
+			refetchType: "all",
+		}),
+		qc.invalidateQueries({
+			queryKey: ["featured-projects"],
+			refetchType: "all",
+		}),
+		qc.invalidateQueries({
+			queryKey: ["client-projects"],
+			refetchType: "all",
+		}),
+		qc.invalidateQueries({
+			queryKey: ["categories"],
+			refetchType: "all",
+		}),
+	];
+
+	if (id) {
+		tasks.push(
+			qc.invalidateQueries({
+				queryKey: ["project", id],
+				refetchType: "all",
+			}),
+		);
+	}
+
+	await Promise.all(tasks);
+}
+
 export function useAuthMe(options?: { enabled?: boolean }) {
 	return useQuery<AuthUser, ApiClientError>({
 		queryKey: ["auth", "me"],
@@ -134,13 +169,8 @@ export function useCreateProject() {
 				method: "POST",
 				body: payload,
 			}),
-		onSuccess: () => {
-			qc.invalidateQueries({ queryKey: ["projects"] });
-			qc.invalidateQueries({
-				queryKey: ["featured-projects"],
-			});
-			qc.invalidateQueries({ queryKey: ["client-projects"] });
-			qc.invalidateQueries({ queryKey: ["categories"] });
+		onSuccess: async () => {
+			await refetchProjectRelatedQueries(qc);
 		},
 	});
 }
@@ -157,14 +187,8 @@ export function useUpdateProject(id: string) {
 						body: payload,
 					},
 				),
-			onSuccess: () => {
-				qc.invalidateQueries({ queryKey: ["projects"] });
-				qc.invalidateQueries({
-					queryKey: ["featured-projects"],
-				});
-				qc.invalidateQueries({ queryKey: ["client-projects"] });
-				qc.invalidateQueries({ queryKey: ["categories"] });
-				qc.invalidateQueries({ queryKey: ["project", id] });
+			onSuccess: async () => {
+				await refetchProjectRelatedQueries(qc, id);
 			},
 		},
 	);

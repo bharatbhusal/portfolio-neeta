@@ -8,7 +8,7 @@ export async function GET() {
 	try {
 		const categories = await getCategoriesController();
 		return successResponse(categories, 200, {
-			revalidate: 3600,
+			revalidate: false,
 		});
 	} catch (error) {
 		return errorResponse(error);

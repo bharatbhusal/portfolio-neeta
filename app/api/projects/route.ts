@@ -52,7 +52,7 @@ export async function GET(request: Request) {
 				pageSize,
 			);
 		return successResponse(response, 200, {
-			revalidate: 3600, // Cache for 1 hour
+			revalidate: false,
 		});
 	} catch (error) {
 		return errorResponse(error);

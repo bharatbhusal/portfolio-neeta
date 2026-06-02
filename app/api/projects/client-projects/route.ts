@@ -11,6 +11,6 @@ export async function GET(request: Request) {
 	const results = await getClientProjectsController(count);
 
 	return successResponse(results, 200, {
-		revalidate: 3600, // Cache for 1 hour
+		revalidate: false,
 	});
 }

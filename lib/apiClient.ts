@@ -58,12 +58,19 @@ export async function apiRequest<T>(
 	path: string,
 	options: ApiRequestOptions = {},
 ): Promise<T> {
+	const method = (options.method ?? "GET").toUpperCase();
+	const cache =
+		typeof options.cache === "undefined" && method === "GET"
+			? "no-store"
+			: options.cache;
+
 	const hasBody = options.body !== undefined;
 	const body = hasBody ? options.body : undefined;
 	const rawBody = isRawBody(body);
 
 	const response = await fetch(getPath(path), {
 		...options,
+		cache,
 		credentials: "include",
 		headers: {
 			...(rawBody

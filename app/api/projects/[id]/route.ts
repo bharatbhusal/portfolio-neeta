@@ -29,7 +29,7 @@ export async function GET(
 		const project = await getProjectByIdController(id);
 
 		return successResponse(project, 200, {
-			revalidate: 3600,
+			revalidate: false,
 		});
 	} catch (error) {
 		return errorResponse(error);
