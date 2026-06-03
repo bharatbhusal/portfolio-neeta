@@ -17,8 +17,10 @@ export default function ProjectPageClient({
 	whatsappPhone,
 	initialProject,
 }: Props) {
+	const hasInitialProjectAttempt =
+		typeof initialProject !== "undefined";
 	const { data, isLoading, error } = useProject(id, {
-		enabled: !initialProject,
+		enabled: !hasInitialProjectAttempt,
 		initialData: initialProject ?? undefined,
 	});
 	const project = data ?? initialProject;
