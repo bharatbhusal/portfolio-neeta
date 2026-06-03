@@ -152,11 +152,19 @@ export function useProjects(params: {
 	});
 }
 
-export function useProject(id: string) {
+export function useProject(
+	id: string,
+	options?: {
+		enabled?: boolean;
+		initialData?: Project | null;
+	},
+) {
 	return useQuery<Project, ApiClientError>({
 		queryKey: ["project", id],
 		queryFn: () => apiRequest<Project>(`/projects/${id}`),
-		enabled: Boolean(id),
+		enabled:
+			(options?.enabled ?? true) && Boolean(id),
+		initialData: options?.initialData ?? undefined,
 		retry: 1,
 	});
 }
