@@ -156,7 +156,7 @@ export function useProject(
 	id: string,
 	options?: {
 		enabled?: boolean;
-		initialData?: Project | null;
+		initialData?: Project;
 	},
 ) {
 	return useQuery<Project, ApiClientError>({
@@ -164,7 +164,7 @@ export function useProject(
 		queryFn: () => apiRequest<Project>(`/projects/${id}`),
 		enabled:
 			(options?.enabled ?? true) && Boolean(id),
-		initialData: options?.initialData ?? undefined,
+		initialData: options?.initialData,
 		retry: 1,
 	});
 }
