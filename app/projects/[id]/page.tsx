@@ -14,7 +14,8 @@ type ProjectPageProps = {
 async function getProjectById(id: string) {
 	try {
 		return await getProjectByIdController(id);
-	} catch {
+	} catch (error) {
+		console.error("Failed to load project by id", error);
 		return null;
 	}
 }
