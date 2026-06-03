@@ -162,8 +162,7 @@ export function useProject(
 	return useQuery<Project, ApiClientError>({
 		queryKey: ["project", id],
 		queryFn: () => apiRequest<Project>(`/projects/${id}`),
-		enabled:
-			(options?.enabled ?? true) && Boolean(id),
+		enabled: (options?.enabled ?? true) && Boolean(id),
 		initialData: options?.initialData,
 		retry: 1,
 	});

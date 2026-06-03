@@ -25,10 +25,10 @@ export default function ProjectPageClient({
 
 	if (isLoading && !project)
 		return <ProjectPageSkeleton />;
-	if (error && !project)
-		return <div>Unable to load project.</div>;
-
-	if (!project) return <div>Project not found.</div>;
+	if (!project) {
+		if (error) return <div>Unable to load project.</div>;
+		return <div>Project not found.</div>;
+	}
 
 	return (
 		<ProjectPageContent
