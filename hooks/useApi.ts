@@ -133,6 +133,9 @@ export function useProjects(params: {
 	pageSize?: number;
 	category?: string;
 	q?: string;
+},
+options?: {
+	initialData?: PaginatedProjectsData;
 }) {
 	const { page, pageSize = 10, category, q } = params;
 	const qs = new URLSearchParams();
@@ -148,6 +151,10 @@ export function useProjects(params: {
 			apiRequest<PaginatedProjectsData>(
 				`/projects?${qs.toString()}`,
 			),
+		initialData: options?.initialData,
+		refetchOnMount: options?.initialData
+			? false
+			: undefined,
 		retry: 1,
 	});
 }
@@ -229,10 +236,16 @@ export function useClientProjects(count?: number) {
 	});
 }
 
-export function useCategories() {
+export function useCategories(options?: {
+	initialData?: string[];
+}) {
 	return useQuery<string[], ApiClientError>({
 		queryKey: ["categories"],
 		queryFn: () => apiRequest<string[]>(`/categories`),
+		initialData: options?.initialData,
+		refetchOnMount: options?.initialData
+			? false
+			: undefined,
 		retry: 1,
 	});
 }

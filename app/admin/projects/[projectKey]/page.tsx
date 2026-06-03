@@ -1,4 +1,5 @@
 import ProjectForm from "@/components/forms/project-form";
+import { getProjectByIdController } from "@/controllers/projects";
 
 type EditProjectPageProps = {
 	params: Promise<{
@@ -10,6 +11,7 @@ export default async function EditProjectPage({
 	params,
 }: EditProjectPageProps) {
 	const { projectKey } = await params;
+	const project = await getProjectByIdController(projectKey);
 
 	return (
 		<>
@@ -25,7 +27,11 @@ export default async function EditProjectPage({
 					rename the key.
 				</p>
 			</div>
-			<ProjectForm mode="edit" projectKey={projectKey} />
+			<ProjectForm
+				mode="edit"
+				projectKey={projectKey}
+				project={project ?? undefined}
+			/>
 		</>
 	);
 }

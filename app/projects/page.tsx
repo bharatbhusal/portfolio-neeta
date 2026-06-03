@@ -1,4 +1,8 @@
 import { ProjectGrid } from "@/components/sections/project-grid";
+import {
+	getCategoriesController,
+	getProjectsWithPaginationController,
+} from "@/controllers/projects";
 import { getJson } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
 import type { SiteData } from "@/types/portfolio";
@@ -10,6 +14,10 @@ type ProjectsPageProps = {
 		q?: string;
 	}>;
 };
+
+function escapeRegex(value: string) {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 export async function generateMetadata() {
 	const site = await getJson<SiteData>("/site.json");
@@ -30,6 +38,31 @@ export default async function ProjectsPage({
 		Number(params.page) > 0 ? Number(params.page) : 1;
 	const category = params.category ?? "All";
 	const q = params.q?.trim();
+	const filter: Record<string, unknown> = {};
+
+	if (category !== "All") {
+		filter.category = category;
+	}
+
+	if (q) {
+		const regex = new RegExp(escapeRegex(q), "i");
+		filter.$or = [
+			{ title: regex },
+			{ category: regex },
+			{ summary: regex },
+			{ story: regex },
+			{ description: regex },
+			{ year: regex },
+			{ tags: regex },
+			{ client: regex },
+		];
+	}
+
+	const [initialProjectsData, initialCategories] =
+		await Promise.all([
+			getProjectsWithPaginationController(filter, page, 9),
+			getCategoriesController(),
+		]);
 
 	return (
 		<main className="pb-8 lg:pb-12">
@@ -40,6 +73,8 @@ export default async function ProjectsPage({
 				basePath="/projects"
 				title="Explore the full archive"
 				description="Filter by category to review branding, editorial, product, and motion work."
+				initialProjectsData={initialProjectsData}
+				initialCategories={initialCategories}
 			/>
 		</main>
 	);

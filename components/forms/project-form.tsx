@@ -81,10 +81,18 @@ export function ProjectForm({
 	projectKey,
 	project,
 }: ProjectFormProps) {
-	const projectQuery = useProject(projectKey ?? "");
+	const shouldFetchProject =
+		mode === "edit" &&
+		!project &&
+		Boolean(projectKey);
+	const projectQuery = useProject(projectKey ?? "", {
+		enabled: shouldFetchProject,
+		initialData: project,
+	});
+	const resolvedProject = project ?? projectQuery.data;
 
 	if (mode === "edit") {
-		if (projectQuery.isLoading) {
+		if (projectQuery.isLoading && !resolvedProject) {
 			return (
 				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
 					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-muted-foreground shadow-sm">
@@ -94,11 +102,13 @@ export function ProjectForm({
 			);
 		}
 
-		if (projectQuery.error || !projectQuery.data) {
+		if (!resolvedProject) {
 			return (
 				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
 					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-destructive shadow-sm">
-						Unable to load project.
+						{projectQuery.error
+							? "Unable to load project."
+							: "Project not found."}
 					</div>
 				</main>
 			);
@@ -107,7 +117,7 @@ export function ProjectForm({
 		return (
 			<ProjectFormContent
 				mode={mode}
-				project={projectQuery.data}
+				project={resolvedProject}
 			/>
 		);
 	}

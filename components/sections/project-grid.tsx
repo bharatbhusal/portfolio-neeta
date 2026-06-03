@@ -13,6 +13,7 @@ import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
 import { useProjects, useCategories } from "@/hooks/useApi";
+import type { PaginatedProjectsData } from "@/types/portfolio";
 
 type ProjectGridQuery = {
 	page: number;
@@ -27,6 +28,8 @@ export type ProjectGridProps = {
 	initialQuery?: string;
 	initialPage?: number;
 	initialCategory?: string;
+	initialProjectsData?: PaginatedProjectsData;
+	initialCategories?: string[];
 };
 
 export function ProjectGrid({
@@ -36,6 +39,8 @@ export function ProjectGrid({
 	initialQuery,
 	initialPage = 1,
 	initialCategory = "All",
+	initialProjectsData,
+	initialCategories,
 }: ProjectGridProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
@@ -55,7 +60,7 @@ export function ProjectGrid({
 		pageSize: 9,
 		category: currentCategory,
 		q: debouncedQuery,
-	});
+	}, { initialData: initialProjectsData });
 
 	useEffect(() => {
 		const handle = setTimeout(() => {
@@ -124,7 +129,7 @@ export function ProjectGrid({
 	const {
 		data: categoriesData,
 		isLoading: isCategoriesLoading,
-	} = useCategories();
+	} = useCategories({ initialData: initialCategories });
 	const categories = categoriesData ?? ["All"];
 	const pagination = data?.pagination ?? {
 		page: 1,
