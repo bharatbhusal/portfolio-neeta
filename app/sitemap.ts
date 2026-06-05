@@ -1,9 +1,8 @@
-import { fetchJson } from "@/lib/data";
-import { SiteData } from "@/types/portfolio";
+import { getSiteData } from "@/lib/data";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getSiteData();
 	const now = new Date();
 
 	return [

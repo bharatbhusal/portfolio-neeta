@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { QueryProvider } from "@/components/providers/query-provider";
-import { fetchJson } from "@/lib/data";
-import { SiteData } from "@/types/portfolio";
+import { getSiteData } from "@/lib/data";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -19,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getSiteData();
 
 	return buildPageMetadata(site, {
 		title: site.seo.title,
@@ -28,17 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
 	});
 }
 
-export const dynamic = "force-dynamic";
-
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const [site] = await Promise.all([
-		fetchJson<SiteData>("/site.json"),
-	]);
-
 	return (
 		<html
 			lang="en"
@@ -49,13 +39,7 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-background text-foreground`}
 			>
-				<QueryProvider>
-					<div className="flex min-h-dvh flex-col">
-						<Navbar site={site} />
-						<div className="flex-1">{children}</div>
-						<Footer site={site} />
-					</div>
-				</QueryProvider>
+				{children}
 			</body>
 		</html>
 	);

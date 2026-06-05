@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useTransition } from "react";
 import { Separator } from "@/components/ui/separator";
 import type {
 	SiteData,
@@ -8,20 +8,28 @@ import type {
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
-import { useAuthMe, useLogout } from "@/hooks/useApi";
+import { logoutAction } from "@/app/actions/auth";
 
 type FooterProps = {
 	site: SiteData;
+	isAuthenticated: boolean;
 };
 
-export function Footer({ site }: FooterProps) {
+export function Footer({
+	site,
+	isAuthenticated,
+}: FooterProps) {
 	const currentYear = new Date().getFullYear();
-	const authQuery = useAuthMe();
-	const logoutMutation = useLogout();
+	const [isPending, startTransition] = useTransition();
 
-	const authed = useMemo(() => {
-		return Boolean(authQuery.data);
-	}, [authQuery.data]);
+	function handleLogout() {
+		startTransition(async () => {
+			const result = await logoutAction();
+			if (!result.error) {
+				window.location.reload();
+			}
+		});
+	}
 
 	return (
 		<footer className="border-t border-border/60 bg-background/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">
@@ -60,7 +68,7 @@ export function Footer({ site }: FooterProps) {
 									{item.label}
 								</Link>
 							))}
-							{authed ? (
+							{isAuthenticated ? (
 								<>
 									<Link
 										href={`/admin/projects/new`}
@@ -69,16 +77,14 @@ export function Footer({ site }: FooterProps) {
 										New Project
 									</Link>
 
-									<div
-										onClick={() =>
-											logoutMutation
-												.mutateAsync()
-												.then(() => window.location.reload())
-										}
+									<button
+										type="button"
+										onClick={handleLogout}
+										disabled={isPending}
 										className="text-sm text-muted-foreground transition hover:text-foreground cursor-pointer"
 									>
-										{"Logout"}
-									</div>
+										{isPending ? "Logging out..." : "Logout"}
+									</button>
 								</>
 							) : (
 								<Link

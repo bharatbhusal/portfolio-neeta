@@ -9,20 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
 import type { Project, SiteData } from "@/types/portfolio";
-import { useFeaturedProjects } from "@/hooks/useApi";
-import Skeleton from "../ui/skeleton";
-import ProjectCardSkeleton from "../cards/project-card-skeleton";
 
 type AboutProps = {
 	site: SiteData;
+	featuredProjects: Project[];
 };
 
-export function About({ site }: AboutProps) {
+export function About({
+	site,
+	featuredProjects,
+}: AboutProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
-
-	const { data: featuredProjects, isLoading } =
-		useFeaturedProjects(3);
 
 	return (
 		<section
@@ -49,50 +47,29 @@ export function About({ site }: AboutProps) {
 					</Reveal>
 
 					<Reveal>
-						{!isLoading ? (
-							featuredProjects &&
-							featuredProjects?.length > 0 && (
-								<div className="grid gap-6">
-									<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
-										<div className="flex items-end justify-between gap-3">
-											<div className="space-y-2">
-												<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-													Featured projects
-												</p>
-												<p className="text-sm leading-6 text-muted-foreground">
-													A short selection from the current portfolio.
-												</p>
-											</div>
-											<Button asChild variant="outline" size="sm">
-												<Link href="/projects">View all</Link>
-											</Button>
-										</div>
-
-										<div className="grid gap-4 lg:grid-cols-3">
-											{featuredProjects.map((project) => (
-												<ProjectCard
-													key={project.key}
-													project={project}
-												/>
-											))}
-										</div>
-									</div>
-								</div>
-							)
-						) : (
+						{featuredProjects.length > 0 && (
 							<div className="grid gap-6">
 								<div className="space-y-4 rounded-3xl border border-border/60 bg-card/55 p-4 backdrop-blur">
-									<div className="space-y-2">
-										<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-											Featured projects
-										</p>
-										<p className="text-sm leading-6 text-muted-foreground">
-											A short selection from the current portfolio.
-										</p>
+									<div className="flex items-end justify-between gap-3">
+										<div className="space-y-2">
+											<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
+												Featured projects
+											</p>
+											<p className="text-sm leading-6 text-muted-foreground">
+												A short selection from the current portfolio.
+											</p>
+										</div>
+										<Button asChild variant="outline" size="sm">
+											<Link href="/projects">View all</Link>
+										</Button>
 									</div>
+
 									<div className="grid gap-4 lg:grid-cols-3">
-										{Array.from({ length: 3 }).map((_, i) => (
-											<ProjectCardSkeleton key={i} />
+										{featuredProjects.map((project) => (
+											<ProjectCard
+												key={project.key}
+												project={project}
+											/>
 										))}
 									</div>
 								</div>

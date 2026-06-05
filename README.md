@@ -29,14 +29,11 @@ Complete knowledge base for the portfolio-neeta project.
   - Data loading & caching strategy
   - Content update workflow
 
-### 🔌 API Routes
+### 🔌 Server Actions & Services
 
-- **[API-ROUTES.md](./docs/API-ROUTES.md)**
-  - `/api/projects` endpoint (filtering, sorting)
-  - `/api/images` endpoint
-  - Query parameters
-  - Response formats
-  - Caching & revalidation
+- Public pages read through service → repository → database.
+- Admin mutations use Server Actions.
+- Cloudinary display/download URLs are generated directly.
 
 ### 🎨 Components & UI
 

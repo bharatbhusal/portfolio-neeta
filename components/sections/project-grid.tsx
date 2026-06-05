@@ -5,14 +5,16 @@ import {
 	useEffect,
 	useRef,
 	useState,
+	useTransition,
 } from "react";
+import { useRouter } from "next/navigation";
 
 import { ProjectCard } from "@/components/cards/project-card";
 import { ProjectCardSkeleton } from "@/components/cards/project-card-skeleton";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
-import { useProjects, useCategories } from "@/hooks/useApi";
+import type { PaginatedProjectsData } from "@/types/portfolio";
 
 type ProjectGridQuery = {
 	page: number;
@@ -21,6 +23,8 @@ type ProjectGridQuery = {
 };
 
 export type ProjectGridProps = {
+	data: PaginatedProjectsData;
+	categories: string[];
 	basePath: string;
 	title: string;
 	description: string;
@@ -30,6 +34,8 @@ export type ProjectGridProps = {
 };
 
 export function ProjectGrid({
+	data,
+	categories,
 	basePath,
 	title,
 	description,
@@ -37,9 +43,9 @@ export function ProjectGrid({
 	initialPage = 1,
 	initialCategory = "All",
 }: ProjectGridProps) {
+	const router = useRouter();
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
-	const [page, setPage] = useState(initialPage);
 	const [currentCategory, setCurrentCategory] =
 		useState(initialCategory);
 	const [searchValue, setSearchValue] = useState(
@@ -48,14 +54,8 @@ export function ProjectGrid({
 	const [debouncedQuery, setDebouncedQuery] = useState(
 		initialQuery?.trim() ?? "",
 	);
+	const [isPending, startTransition] = useTransition();
 	const didDebounceRef = useRef(false);
-
-	const { data, isLoading } = useProjects({
-		page,
-		pageSize: 9,
-		category: currentCategory,
-		q: debouncedQuery,
-	});
 
 	useEffect(() => {
 		const handle = setTimeout(() => {
@@ -75,11 +75,11 @@ export function ProjectGrid({
 				paramsValue.set("q", params.q);
 			}
 			const url = `${basePath}?${paramsValue.toString()}`;
-			if (typeof window !== "undefined") {
-				window.history.replaceState(null, "", url);
-			}
+			startTransition(() => {
+				router.replace(url, { scroll: false });
+			});
 		},
-		[basePath],
+		[basePath, router],
 	);
 
 	useEffect(() => {
@@ -87,7 +87,6 @@ export function ProjectGrid({
 			didDebounceRef.current = true;
 			return;
 		}
-		setPage(1);
 		updateUrl({
 			page: 1,
 			category: currentCategory,
@@ -98,7 +97,6 @@ export function ProjectGrid({
 	const handleCategoryChange = useCallback(
 		(category: string, query: string) => {
 			setCurrentCategory(category);
-			setPage(1);
 			updateUrl({
 				page: 1,
 				category,
@@ -110,7 +108,6 @@ export function ProjectGrid({
 
 	const handlePageChange = useCallback(
 		(newPage: number) => {
-			setPage(newPage);
 			updateUrl({
 				page: newPage,
 				category: currentCategory,
@@ -120,18 +117,8 @@ export function ProjectGrid({
 		[currentCategory, debouncedQuery, updateUrl],
 	);
 
-	const projects = data?.projects ?? [];
-	const {
-		data: categoriesData,
-		isLoading: isCategoriesLoading,
-	} = useCategories();
-	const categories = categoriesData ?? ["All"];
-	const pagination = data?.pagination ?? {
-		page: 1,
-		pageSize: 9,
-		totalCount: 0,
-		totalPages: 1,
-	};
+	const projects = data.projects;
+	const pagination = data.pagination;
 
 	return (
 		<section
@@ -160,58 +147,47 @@ export function ProjectGrid({
 
 					<Reveal>
 						<div className="flex flex-wrap gap-2">
-							{isCategoriesLoading
-								? Array.from({ length: 4 }).map((_, i) => (
-										<div
-											key={i}
-											className="h-6 w-20 rounded-md bg-slate-200/60 dark:bg-slate-700/40 animate-pulse"
-										/>
-									))
-								: categories.map((category) => (
-										<Button
-											key={category}
-											variant={
-												currentCategory === category
-													? "default"
-													: "outline"
-											}
-											size="sm"
-											onClick={() =>
-												handleCategoryChange(category, debouncedQuery)
-											}
-										>
-											{category}
-										</Button>
-									))}
+							{categories.map((category) => (
+								<Button
+									key={category}
+									variant={
+										currentCategory === category
+											? "default"
+											: "outline"
+									}
+									size="sm"
+									onClick={() =>
+										handleCategoryChange(category, debouncedQuery)
+									}
+								>
+									{category}
+								</Button>
+							))}
 						</div>
 					</Reveal>
 
 					<Reveal>
-						{!isCategoriesLoading || !isLoading ? (
-							<div className="w-full sm:w-72">
-								<label className="sr-only" htmlFor="project-search">
-									Search projects
-								</label>
-								<input
-									id="project-search"
-									type="search"
-									value={searchValue}
-									onChange={(event) =>
-										setSearchValue(event.target.value)
-									}
-									placeholder="Search projects"
-									className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-									aria-label="Search projects"
-								/>
-							</div>
-						) : (
-							<div className="w-full sm:w-72 h-8 rounded-md bg-slate-200/60 dark:bg-slate-700/40 animate-pulse" />
-						)}
+						<div className="w-full sm:w-72">
+							<label className="sr-only" htmlFor="project-search">
+								Search projects
+							</label>
+							<input
+								id="project-search"
+								type="search"
+								value={searchValue}
+								onChange={(event) =>
+									setSearchValue(event.target.value)
+								}
+								placeholder="Search projects"
+								className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+								aria-label="Search projects"
+							/>
+						</div>
 					</Reveal>
 				</div>
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-						{isLoading ? (
+						{isPending ? (
 							<>
 								{Array.from({ length: 9 }).map((_, i) => (
 									<ProjectCardSkeleton key={i} />

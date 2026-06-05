@@ -49,6 +49,17 @@ export async function deleteProjectById(id: string) {
 	).lean<Project | null>();
 }
 
+export async function projectExistsByKey(
+	key: unknown,
+	excludeId?: string,
+) {
+	const filter: Record<string, unknown> = { key };
+	if (excludeId) {
+		filter._id = { $ne: excludeId };
+	}
+	return ProjectModel.exists(filter);
+}
+
 export async function countProjects(
 	filter: Record<string, unknown> = {},
 ) {

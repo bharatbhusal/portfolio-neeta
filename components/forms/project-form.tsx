@@ -11,17 +11,16 @@ import {
 } from "react";
 import { FiPlus, FiEdit2 } from "react-icons/fi";
 
+import {
+	createProjectAction,
+	createUploadSignatureAction,
+	updateProjectAction,
+} from "@/app/actions/projects";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-	useCreateProject,
-	useGetSignature,
-	useProject,
-	useUpdateProject,
-} from "@/hooks/useApi";
 import { uploadImageToCloudinary } from "@/lib/cloudinary";
 import type { Project } from "@/types/portfolio";
 import type { UploadedAsset } from "@/types/upload";
@@ -30,7 +29,6 @@ type ProjectFormMode = "create" | "edit";
 
 type ProjectFormProps = {
 	mode: ProjectFormMode;
-	projectKey?: string;
 	project?: Project;
 };
 
@@ -78,40 +76,8 @@ function normalizeTags(value: string) {
 
 export function ProjectForm({
 	mode,
-	projectKey,
 	project,
 }: ProjectFormProps) {
-	const projectQuery = useProject(projectKey ?? "");
-
-	if (mode === "edit") {
-		if (projectQuery.isLoading) {
-			return (
-				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-muted-foreground shadow-sm">
-						Loading project...
-					</div>
-				</main>
-			);
-		}
-
-		if (projectQuery.error || !projectQuery.data) {
-			return (
-				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-destructive shadow-sm">
-						Unable to load project.
-					</div>
-				</main>
-			);
-		}
-
-		return (
-			<ProjectFormContent
-				mode={mode}
-				project={projectQuery.data}
-			/>
-		);
-	}
-
 	return (
 		<ProjectFormContent mode={mode} project={project} />
 	);
@@ -153,13 +119,10 @@ function ProjectFormContent({
 	const [localError, setLocalError] = useState<
 		string | null
 	>(null);
-
-	const createMutation = useCreateProject();
-	const updateMutation = useUpdateProject(
-		project?._id ?? "",
-	);
-	const activeMutation =
-		mode === "edit" ? updateMutation : createMutation;
+	const [actionError, setActionError] = useState<
+		string | null
+	>(null);
+	const [isSaving, setIsSaving] = useState(false);
 
 	const selectedKey = useMemo(() => {
 		if (!selectedFile) {
@@ -168,10 +131,6 @@ function ProjectFormContent({
 
 		return selectedFile.name;
 	}, [project?.key, selectedFile]);
-
-	const signatureQuery = useGetSignature(
-		selectedFile ? selectedKey : "",
-	);
 
 	useEffect(() => {
 		let objectUrl: string | null = null;
@@ -191,12 +150,14 @@ function ProjectFormContent({
 	async function handleSubmit(
 		event: React.FormEvent<HTMLFormElement>,
 	) {
-		console.log("Triggered Sumit");
 		event.preventDefault();
 		setLocalError(null);
+		setActionError(null);
+		setIsSaving(true);
 
 		if (!title.trim()) {
 			setLocalError("Title is required.");
+			setIsSaving(false);
 			return;
 		}
 
@@ -204,6 +165,7 @@ function ProjectFormContent({
 			setLocalError(
 				"Upload an image before creating the project.",
 			);
+			setIsSaving(false);
 			return;
 		}
 
@@ -211,11 +173,13 @@ function ProjectFormContent({
 
 		try {
 			if (selectedFile) {
-				const signatureResult = await signatureQuery.refetch();
+				const signatureResult =
+					await createUploadSignatureAction(selectedKey);
 
-				if (!signatureResult.data) {
+				if (signatureResult.error || !signatureResult.data) {
 					throw new Error(
-						"Unable to create an upload signature.",
+						signatureResult.error ??
+							"Unable to create an upload signature.",
 					);
 				}
 
@@ -225,7 +189,6 @@ function ProjectFormContent({
 					signatureResult.data,
 					(progress) => setUploadProgress(progress),
 				);
-				console.log("uploaded: ", uploaded);
 				finalKey = deriveKeyFromAsset(
 					uploaded,
 					selectedFile.name,
@@ -256,24 +219,33 @@ function ProjectFormContent({
 				throw new Error("Year must be a valid number.");
 			}
 
-			const savedProject =
-				await activeMutation.mutateAsync(payload);
+			const result =
+				mode === "edit" && project?._id
+					? await updateProjectAction(project._id, payload)
+					: await createProjectAction(payload);
 
-			router.push(`/projects/${savedProject._id}`);
-			// router.refresh();
+			if (result.error || !result.data) {
+				throw new Error(
+					result.error ?? "Unable to save project.",
+				);
+			}
+
+			router.push(`/projects/${result.data._id}`);
+			router.refresh();
 		} catch (error) {
-			setLocalError(
+			setActionError(
 				error instanceof Error
 					? error.message
 					: "Unable to save project.",
 			);
 		} finally {
 			setUploadProgress(null);
+			setIsSaving(false);
 		}
 	}
 
 	const isSubmitting =
-		activeMutation.isPending || uploadProgress !== null;
+		isSaving || uploadProgress !== null;
 	return (
 		<div className="grid gap-6">
 			<form
@@ -452,9 +424,9 @@ function ProjectFormContent({
 					</p>
 				)}
 
-				{activeMutation.isError && (
+				{actionError && (
 					<p className="text-sm text-destructive">
-						{activeMutation.error.message}
+						{actionError}
 					</p>
 				)}
 

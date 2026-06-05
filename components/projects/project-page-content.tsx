@@ -3,11 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiEdit2 } from "react-icons/fi";
-import { useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/portfolio";
-import { useAuthMe } from "@/hooks/useApi";
 
 type ProjectPageContentProps = {
 	project: Project;
@@ -36,16 +34,6 @@ export function ProjectPageContent({
 		);
 	};
 
-	const authQuery = useAuthMe({
-		enabled: typeof isAuthenticated === "undefined",
-	});
-
-	const authed = useMemo(() => {
-		if (typeof isAuthenticated !== "undefined")
-			return isAuthenticated;
-		return Boolean(authQuery.data);
-	}, [isAuthenticated, authQuery.data]);
-
 	return (
 		<section className="mx-auto w-full max-w-5xl space-y-6 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 			<div className="space-y-2">
@@ -57,7 +45,7 @@ export function ProjectPageContent({
 					<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
 						{project.title}
 					</h1>
-					{authed && (
+					{isAuthenticated && (
 						<Button asChild variant="outline" size="icon-sm">
 							<Link
 								href={`/admin/projects/${project._id}`}
@@ -78,7 +66,7 @@ export function ProjectPageContent({
 
 			<div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/60">
 				<Image
-					src={`/api/images?publicId=${encodeURIComponent(project.key)}&w=1600&h=1200&crop=fill&format=auto&q=auto`}
+					src={project.imageUrl ?? ""}
 					alt={project.title}
 					fill
 					priority
@@ -97,8 +85,7 @@ export function ProjectPageContent({
 					<Button
 						onClick={() =>
 							window.open(
-								project.downloadUrl ??
-									`/api/images?publicId=${encodeURIComponent(project.key)}&download=1&watermark=${encodeURIComponent("Neeta Bhusal")}`,
+								project.downloadUrl,
 							)
 						}
 					>

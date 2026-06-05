@@ -25,10 +25,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 		>
 			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
 				<Image
-					src={
-						project.imageUrl ??
-						`/api/images?publicId=${encodeURIComponent(project.key)}&w=1200&h=900&crop=fill&format=auto&q=auto`
-					}
+					src={project.imageUrl ?? ""}
 					alt={project.title}
 					fill
 					className="object-cover transition duration-700"
