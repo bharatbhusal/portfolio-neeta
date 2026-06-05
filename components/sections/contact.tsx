@@ -15,6 +15,7 @@ import {
 } from "@/hooks/useApi";
 import Skeleton from "@/components/ui/skeleton";
 import ProjectCardSkeleton from "@/components/cards/project-card-skeleton";
+import { SocialLinks } from "../social-links";
 
 type ContactProps = {
 	social: SocialLink[];
@@ -35,67 +36,25 @@ export function Contact({ social }: ContactProps) {
 	} = useClientProjects();
 
 	return (
-		<section
-			ref={scopeRef}
-			className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
-		>
-			<div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start">
-				<div className="space-y-6">
-					<Reveal>
-						<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-							Contact
-						</p>
-					</Reveal>
-					<Reveal>
-						<h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-							Let’s build something measured and memorable.
-						</h2>
-					</Reveal>
-					<Reveal>
-						<p className="max-w-xl text-base leading-7 text-muted-foreground">
-							Open for select collaborations, freelance
-							engagements, and creative direction partnerships.
-						</p>
-					</Reveal>
+		<section ref={scopeRef} className="">
+			<div className="grid gap-8">
+				{/* Channels with Icons */}
+				<Reveal>
+					<div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
+						<SocialLinks socials={social} />
+					</div>
+				</Reveal>
 
-					{/* Channels with Icons */}
-					<Reveal>
-						<div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
-							{social.map((channel: SocialLink) => {
-								const IconComponent = iconMap[channel.icon];
-								return (
-									<Button
-										key={channel.label}
-										className="flex items-center gap-2 transition hover:bg-foreground/10"
-										variant="outline"
-										onClick={() =>
-											window.open(
-												channel.href,
-												"_blank",
-												"noopener,noreferrer",
-											)
-										}
-									>
-										<IconComponent className="w-4 h-4" />
-
-										<span>{channel.label}</span>
-									</Button>
-								);
-							})}
-						</div>
-					</Reveal>
-
-					{/* Client Projects Section */}
-					{!isFeaturedProjectLoading ? (
-						featuredProject && (
-							<Reveal>
-								<ProjectCard project={featuredProject[0]} />
-							</Reveal>
-						)
-					) : (
-						<ProjectCardSkeleton />
-					)}
-				</div>
+				{/* Client Projects Section */}
+				{!isFeaturedProjectLoading ? (
+					featuredProject && (
+						<Reveal>
+							<ProjectCard project={featuredProject[0]} />
+						</Reveal>
+					)
+				) : (
+					<ProjectCardSkeleton />
+				)}
 
 				{/* Featured Project on Right */}
 				{!isClientProjectsLoading ? (

@@ -22,7 +22,7 @@ export function Hero({ site }: HeroProps) {
 	return (
 		<section
 			ref={scopeRef}
-			className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+			className="mx-auto w-full max-w-7xl"
 		>
 			<div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
 				<div className="space-y-8">

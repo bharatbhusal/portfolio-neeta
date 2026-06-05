@@ -27,7 +27,7 @@ export function About({ site }: AboutProps) {
 	return (
 		<section
 			ref={scopeRef}
-			className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+			className="mx-auto w-full max-w-7xl"
 		>
 			<div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
 				<div className="space-y-6">

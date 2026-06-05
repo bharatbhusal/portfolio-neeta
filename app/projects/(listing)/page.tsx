@@ -32,15 +32,11 @@ export default async function ProjectsPage({
 	const q = params.q?.trim();
 
 	return (
-		<main className="pb-8 lg:pb-12">
-			<ProjectGrid
-				initialPage={page}
-				initialQuery={q}
-				initialCategory={category}
-				basePath="/projects"
-				title="Explore the full archive"
-				description="Filter by category to review branding, editorial, product, and motion work."
-			/>
-		</main>
+		<ProjectGrid
+			initialPage={page}
+			initialQuery={q}
+			initialCategory={category}
+			basePath="/projects"
+		/>
 	);
 }

@@ -27,7 +27,7 @@ export default function AdminLoginPage() {
 	};
 
 	return (
-		<main className="mx-auto flex min-h-[70vh] w-full max-w-lg items-center px-4 py-12 sm:px-6">
+		<main className="mx-auto flex min-h-[70vh] w-full max-w-lg items-center">
 			<div className="w-full space-y-6 rounded-2xl border border-border/60 bg-card/60 p-6 shadow-sm">
 				<div className="space-y-2">
 					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">

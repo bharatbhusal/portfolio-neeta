@@ -47,7 +47,7 @@ export function ProjectPageContent({
 	}, [isAuthenticated, authQuery.data]);
 
 	return (
-		<section className="mx-auto w-full max-w-5xl space-y-6 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+		<section className="mx-auto w-full max-w-5xl space-y-6">
 			<div className="space-y-2">
 				<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
 					Project
