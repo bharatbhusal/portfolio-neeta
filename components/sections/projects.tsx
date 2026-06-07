@@ -1,9 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { useRouter } from "next/navigation";
 
-import { ProjectCard } from "@/components/cards/project-card";
+import { ErrorState } from "@/components/ui/error-state";
+import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@/hooks/useGSAP";
@@ -16,12 +22,11 @@ type PaginationData = {
 	totalPages: number;
 };
 
-export type ProjectGridProps = {
+type ProjectGridContentProps = {
 	projects: Project[];
 	categories: string[];
 	pagination: PaginationData;
 	basePath: string;
-	currentPage: number;
 	currentCategory: string;
 	currentQuery: string;
 };
@@ -43,20 +48,20 @@ function buildUrl(
 	return `${basePath}?${params.toString()}`;
 }
 
-export function ProjectGrid({
+export function ProjectGridContent({
 	projects,
 	categories,
 	pagination,
 	basePath,
-	currentPage,
 	currentCategory,
 	currentQuery,
-}: ProjectGridProps) {
+}: ProjectGridContentProps) {
 	const router = useRouter();
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
 
-	const [searchValue, setSearchValue] = useState(currentQuery);
+	const [searchValue, setSearchValue] =
+		useState(currentQuery);
 
 	useEffect(() => {
 		const handle = setTimeout(() => {
@@ -68,7 +73,13 @@ export function ProjectGrid({
 			}
 		}, 300);
 		return () => clearTimeout(handle);
-	}, [searchValue, currentCategory, currentQuery, basePath, router]);
+	}, [
+		searchValue,
+		currentCategory,
+		currentQuery,
+		basePath,
+		router,
+	]);
 
 	const handleCategoryChange = useCallback(
 		(category: string) => {
@@ -82,7 +93,12 @@ export function ProjectGrid({
 	const handlePageChange = useCallback(
 		(newPage: number) => {
 			router.push(
-				buildUrl(basePath, newPage, currentCategory, currentQuery),
+				buildUrl(
+					basePath,
+					newPage,
+					currentCategory,
+					currentQuery,
+				),
 			);
 		},
 		[basePath, currentCategory, currentQuery, router],
@@ -106,9 +122,7 @@ export function ProjectGrid({
 											: "outline"
 									}
 									size="sm"
-									onClick={() =>
-										handleCategoryChange(category)
-									}
+									onClick={() => handleCategoryChange(category)}
 								>
 									{category}
 								</Button>
@@ -135,21 +149,30 @@ export function ProjectGrid({
 						</div>
 					</Reveal>
 				</div>
+
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 						{projects.length === 0 ? (
-							<p className="text-sm text-muted-foreground">
-								No projects match your search.
-							</p>
+							<div className="col-span-full">
+								<ErrorState
+									variant="empty"
+									title="No projects found"
+									message="No projects match your current search or filter criteria."
+								/>
+							</div>
 						) : (
 							<>
 								{projects.map((project) => (
-									<ProjectCard key={project.key} project={project} />
+									<ProjectCardBox
+										key={project.key}
+										project={project}
+									/>
 								))}
 							</>
 						)}
 					</div>
 				</Reveal>
+
 				{pagination.totalPages > 1 && (
 					<div className="flex items-center justify-between gap-3">
 						<Button

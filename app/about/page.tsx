@@ -1,4 +1,4 @@
-import { About } from "@/components/sections/about";
+import { AboutContent } from "../../components/sections/about";
 import { getFeaturedProjectsController } from "@/controllers/projects";
 import { fetchJson } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
@@ -21,5 +21,10 @@ export default async function AboutPage() {
 		getFeaturedProjectsController(3),
 	]);
 
-	return <About site={site} featuredProjects={featuredProjects ?? []} />;
+	return (
+		<AboutContent
+			site={site}
+			featuredProjects={featuredProjects ?? []}
+		/>
+	);
 }

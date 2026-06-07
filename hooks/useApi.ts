@@ -22,7 +22,6 @@ import type {
 import type { Project } from "@/types/portfolio";
 
 export function useLogin() {
-	const qc = useQueryClient();
 	return useMutation<AuthUser, ApiClientError, LoginPayload>(
 		{
 			mutationFn: (payload) =>
@@ -30,14 +29,11 @@ export function useLogin() {
 					method: "POST",
 					body: payload,
 				}),
-			onSuccess: () =>
-				qc.invalidateQueries({ queryKey: ["auth", "me"] }),
 		},
 	);
 }
 
 export function useSignup() {
-	const qc = useQueryClient();
 	return useMutation<
 		AuthUser,
 		ApiClientError,
@@ -48,13 +44,10 @@ export function useSignup() {
 				method: "POST",
 				body: payload,
 			}),
-		onSuccess: () =>
-			qc.invalidateQueries({ queryKey: ["auth", "me"] }),
 	});
 }
 
 export function useLogout() {
-	const qc = useQueryClient();
 	return useMutation<
 		{ message: string },
 		ApiClientError,
@@ -64,11 +57,9 @@ export function useLogout() {
 			apiRequest<{ message: string }>("/auth/logout", {
 				method: "POST",
 			}),
-		onSuccess: () =>
-			qc.invalidateQueries({ queryKey: ["auth", "me"] }),
 	});
-}
 
+}
 export function useGetSignature(publicId: string) {
 	return useQuery<UploadSignaturePayload, ApiClientError>({
 		queryKey: ["uploads", "signature", publicId],

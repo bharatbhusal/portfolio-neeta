@@ -54,7 +54,7 @@ export default async function RootLayout({
 				<QueryProvider>
 					<div className="flex min-h-dvh flex-col">
 						<Navbar site={site} />
-						<div className="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-16">
+						<div className="flex-1 mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
 							{children}
 						</div>
 						<Footer site={site} isAuthenticated={authed} />

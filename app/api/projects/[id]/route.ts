@@ -1,9 +1,6 @@
 import { NextRequest } from "next/server";
 
-import {
-	updateProjectController,
-	deleteProjectController,
-} from "@/controllers/projects";
+import { updateProjectController } from "@/controllers/projects";
 import { ProjectUpdateSchema } from "@/lib/validators";
 import {
 	errorResponse,
@@ -42,32 +39,6 @@ export async function PATCH(
 		return successResponse(updated, 200, {
 			revalidate: false,
 		});
-	} catch (error) {
-		return errorResponse(error);
-	}
-}
-
-export async function DELETE(
-	request: NextRequest,
-	{ params }: RouteContext,
-) {
-	try {
-		await getAuthPayload();
-
-		const { id } = await params;
-
-		const deleted = await deleteProjectController(id);
-
-		return successResponse(
-			{
-				deleted: true,
-				key: deleted.key,
-			},
-			200,
-			{
-				revalidate: false,
-			},
-		);
 	} catch (error) {
 		return errorResponse(error);
 	}

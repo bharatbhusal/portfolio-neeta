@@ -58,7 +58,6 @@ export type Project = {
 	key: string;
 	title: string;
 	category: string;
-	summary?: string;
 	story?: string;
 	description: string;
 	year: string;

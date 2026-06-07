@@ -1,4 +1,4 @@
-import { Contact } from "@/components/sections/contact";
+import { ContactContent } from "../../components/sections/contact";
 import {
 	getClientProjectsController,
 	getFeaturedProjectsController,
@@ -23,11 +23,11 @@ export default async function ContactPage() {
 		await Promise.all([
 			fetchJson<SiteData>("/site.json"),
 			getFeaturedProjectsController(1),
-			getClientProjectsController(4),
+			getClientProjectsController(3),
 		]);
 
 	return (
-		<Contact
+		<ContactContent
 			social={site.social}
 			featuredProject={featuredProjects?.[0] ?? null}
 			clientProjects={clientProjects ?? []}

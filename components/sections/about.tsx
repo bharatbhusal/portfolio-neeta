@@ -4,39 +4,28 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { ProjectCard } from "@/components/cards/project-card";
+import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
 import type { Project, SiteData } from "@/types/portfolio";
 
-type AboutProps = {
+type AboutContentProps = {
 	site: SiteData;
 	featuredProjects: Project[];
 };
 
-export function About({ site, featuredProjects }: AboutProps) {
+export function AboutContent({
+	site,
+	featuredProjects,
+}: AboutContentProps) {
 	const scopeRef = useRef<HTMLElement | null>(null);
 	useGSAP({ scope: scopeRef });
 
 	return (
-		<section
-			ref={scopeRef}
-			className="mx-auto w-full max-w-7xl"
-		>
+		<section ref={scopeRef}>
 			<div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-				<div className="space-y-6">
-					<Reveal>
-						<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-							{"About the practice"}
-						</p>
-					</Reveal>
-					<Reveal>
-						<h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-							Minimal systems, artistic detail, and a clear point
-							of view.
-						</h2>
-					</Reveal>
+				<div className="space-y-4">
 					<Reveal>
 						<p className="max-w-xl text-base leading-7 text-muted-foreground">
 							{site.about.bio}
@@ -61,9 +50,9 @@ export function About({ site, featuredProjects }: AboutProps) {
 										</Button>
 									</div>
 
-									<div className="grid gap-4 lg:grid-cols-3">
+									<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 										{featuredProjects.map((project) => (
-											<ProjectCard
+											<ProjectCardBox
 												key={project.key}
 												project={project}
 											/>
@@ -82,14 +71,18 @@ export function About({ site, featuredProjects }: AboutProps) {
 					<p className="text-lg leading-8">
 						{site.about.vision}
 					</p>
+
 					<Separator className="bg-border/70" />
+
 					<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
 						Mission
 					</p>
 					<p className="text-base leading-7 text-muted-foreground">
 						{site.about.mission}
 					</p>
+
 					<Separator className="bg-border/70" />
+
 					<p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
 						Values
 					</p>

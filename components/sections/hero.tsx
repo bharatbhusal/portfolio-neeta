@@ -25,7 +25,7 @@ export function Hero({ site }: HeroProps) {
 			className="mx-auto w-full max-w-7xl"
 		>
 			<div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-				<div className="space-y-8">
+				<div className="space-y-6">
 					<Reveal>
 						<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
 							{site.hero.eyebrow}
@@ -66,12 +66,12 @@ export function Hero({ site }: HeroProps) {
 						))}
 					</Reveal>
 
-					<div className="grid gap-3 sm:grid-cols-3">
+					<div className="flex gap-3">
 						{site.about.stats.map((stat) => (
 							<div
 								key={stat.label}
 								data-reveal
-								className="rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur"
+								className="rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur w-full"
 							>
 								<p className="text-sm text-muted-foreground">
 									{stat.label}

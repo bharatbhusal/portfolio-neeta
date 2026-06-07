@@ -1,6 +1,7 @@
+import { ErrorState } from "@/components/ui/error-state";
 import { buildPageMetadata } from "@/lib/seo";
 
-import { ProjectPageContent } from "@/components/projects/project-page-content";
+import { ProjectContent } from "../../../components/sections/project";
 import { isAuthenticated } from "@/lib/server-auth";
 import { fetchJson } from "@/lib/data";
 import { getProjectByIdController } from "@/controllers/projects";
@@ -47,14 +48,17 @@ export default async function ProjectPage({
 
 	if (!project) {
 		return (
-			<div className="text-center py-12 text-muted-foreground">
-				Project not found.
-			</div>
+			<ErrorState
+				variant="not-found"
+				title="Project not found"
+				message="This project could not be found."
+				action={{ label: "Browse projects", href: "/projects" }}
+			/>
 		);
 	}
 
 	return (
-		<ProjectPageContent
+		<ProjectContent
 			project={project}
 			whatsappPhone={site.phone}
 			isAuthenticated={authed}

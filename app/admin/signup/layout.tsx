@@ -1,26 +1,25 @@
 import { Reveal } from "@/components/animations/reveal";
 import { PagesProps } from "@/types";
 
-export default async function ContactsLayout({
+export default function AdminSignupLayout({
 	children,
 }: PagesProps) {
 	return (
-		<main>
+		<main className="mx-auto w-full max-w-lg">
 			<div className="space-y-4">
 				<Reveal>
 					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-						Contact
+						Admin
 					</p>
 				</Reveal>
 				<Reveal>
-					<h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-						Let’s build something measured and memorable.
-					</h2>
+					<h1 className="text-2xl font-semibold tracking-tight">
+						Sign up
+					</h1>
 				</Reveal>
 				<Reveal>
-					<p className="max-w-xl text-base leading-7 text-muted-foreground">
-						Open for select collaborations, freelance engagements,
-						and creative direction partnerships.
+					<p className="text-sm text-muted-foreground">
+						Create an admin account to manage projects.
 					</p>
 				</Reveal>
 			</div>

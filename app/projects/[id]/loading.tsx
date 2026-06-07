@@ -1,9 +1,6 @@
-"use client";
+import Skeleton from "@/components/ui/skeleton";
 
-import React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-
-export function ProjectPageSkeleton() {
+export default function ProjectDetailLoading() {
 	return (
 		<section className="mx-auto w-full max-w-5xl space-y-6 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
 			<div className="space-y-2">
@@ -52,5 +49,3 @@ export function ProjectPageSkeleton() {
 		</section>
 	);
 }
-
-export default ProjectPageSkeleton;

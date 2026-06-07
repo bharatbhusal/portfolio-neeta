@@ -1,3 +1,4 @@
+import { ErrorState } from "@/components/ui/error-state";
 import ProjectForm from "@/components/forms/project-form";
 import { getProjectByIdController } from "@/controllers/projects";
 
@@ -15,9 +16,15 @@ export default async function EditProjectPage({
 
 	if (!project) {
 		return (
-			<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-destructive shadow-sm">
-				Unable to load project.
-			</div>
+			<ErrorState
+				variant="error"
+				title="Unable to load project"
+				message="The project you're trying to edit could not be found."
+				action={{
+					label: "Back to admin",
+					href: "/admin/projects",
+				}}
+			/>
 		);
 	}
 

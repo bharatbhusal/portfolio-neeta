@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/animations/reveal";
 import { PagesProps } from "@/types";
 
-export default async function ContactsLayout({
+export default function AboutLayout({
 	children,
 }: PagesProps) {
 	return (
@@ -9,18 +9,18 @@ export default async function ContactsLayout({
 			<div className="space-y-4">
 				<Reveal>
 					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-						Contact
+						About
 					</p>
 				</Reveal>
 				<Reveal>
 					<h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-						Let’s build something measured and memorable.
+						About the practice
 					</h2>
 				</Reveal>
 				<Reveal>
-					<p className="max-w-xl text-base leading-7 text-muted-foreground">
-						Open for select collaborations, freelance engagements,
-						and creative direction partnerships.
+					<p className="text-base leading-7 text-muted-foreground">
+						Learn about the design philosophy, vision, mission,
+						and creative direction.
 					</p>
 				</Reveal>
 			</div>

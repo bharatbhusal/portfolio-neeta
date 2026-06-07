@@ -1,4 +1,4 @@
-import { ProjectGrid } from "@/components/sections/project-grid";
+import { ProjectGridContent } from "../../../components/sections/projects";
 import {
 	getCategoriesController,
 	getProjectsWithPaginationController,
@@ -71,12 +71,11 @@ export default async function ProjectsPage({
 	]);
 
 	return (
-		<ProjectGrid
+		<ProjectGridContent
 			projects={projectsData.projects}
 			categories={categories}
 			pagination={projectsData.pagination}
 			basePath="/projects"
-			currentPage={page}
 			currentCategory={category}
 			currentQuery={q ?? ""}
 		/>
