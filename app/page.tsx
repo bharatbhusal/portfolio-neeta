@@ -1,9 +1,10 @@
 import { Hero } from "@/components/sections/hero";
-import { fetchJson } from "@/lib/data";
-import { SiteData } from "@/types/portfolio";
+import { getCachedSiteData } from "@/lib/data";
+
+export const revalidate = 3600;
 
 export default async function HomePage() {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getCachedSiteData();
 
 	return <Hero site={site} />;
 }

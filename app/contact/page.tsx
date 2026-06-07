@@ -3,12 +3,11 @@ import {
 	getClientProjectsController,
 	getFeaturedProjectsController,
 } from "@/controllers/projects";
-import { fetchJson } from "@/lib/data";
+import { getCachedSiteData } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
-import { SiteData } from "@/types/portfolio";
 
 export async function generateMetadata() {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getCachedSiteData();
 
 	return buildPageMetadata(site, {
 		title: "Contact | Neeta Bhusal",
@@ -18,10 +17,12 @@ export async function generateMetadata() {
 	});
 }
 
+export const revalidate = 3600;
+
 export default async function ContactPage() {
 	const [site, featuredProjects, clientProjects] =
 		await Promise.all([
-			fetchJson<SiteData>("/site.json"),
+			getCachedSiteData(),
 			getFeaturedProjectsController(1),
 			getClientProjectsController(3),
 		]);

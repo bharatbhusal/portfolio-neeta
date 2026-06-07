@@ -1,9 +1,6 @@
 import { hydrateProject } from "@/lib/projectAssets";
 import { ProjectModel } from "@/models/project";
-import type {
-	Project,
-	PaginatedProjectsData,
-} from "@/types/portfolio";
+import type { PaginatedProjectsData } from "@/types/portfolio";
 import type { SortOrder } from "mongoose";
 import {
 	findProjectByKey,
@@ -50,9 +47,10 @@ export async function findProjects(
 	return (docs || []).map((p) => hydrateProject(p));
 }
 
-function buildSortOption(
-	sort?: { sortBy: "createdAt" | "title"; sortOrder: "asc" | "desc" },
-): Record<string, SortOrder> {
+function buildSortOption(sort?: {
+	sortBy: "createdAt" | "title";
+	sortOrder: "asc" | "desc";
+}): Record<string, SortOrder> {
 	if (!sort) {
 		return { createdAt: -1 as SortOrder };
 	}

@@ -1,73 +1,16 @@
-import { headers } from "next/headers";
+import { promises as fs } from "fs";
+import path from "path";
 import { cache } from "react";
+import type { SiteData } from "@/types/portfolio";
 
-async function getOrigin() {
-	const headerList = await headers();
-	const protocol =
-		headerList.get("x-forwarded-proto") ?? "http";
-	const host =
-		headerList.get("x-forwarded-host") ??
-		headerList.get("host") ??
-		"localhost:3000";
-
-	return `${protocol}://${host}`;
-}
-
-export async function fetchJson<T>(
-	path: string,
-): Promise<T> {
-	const resolvedPath = path.startsWith("/")
-		? path
-		: `/${path}`;
-	const response = await fetch(
-		`${await getOrigin()}${resolvedPath}`,
-		{
-			cache: "force-cache",
-			next: {
-				revalidate: 60 * 60,
-			},
-		},
+async function getSiteData(): Promise<SiteData> {
+	const filePath = path.join(
+		process.cwd(),
+		"public",
+		"site.json",
 	);
-
-	if (!response.ok) {
-		throw new Error(
-			`Failed to fetch ${resolvedPath}: ${response.status} ${response.statusText}`,
-		);
-	}
-
-	return response.json() as Promise<T>;
+	const data = await fs.readFile(filePath, "utf-8");
+	return JSON.parse(data) as SiteData;
 }
 
-export async function fetchJsonNoStore<T>(
-	path: string,
-): Promise<T> {
-	const resolvedPath = path.startsWith("/")
-		? path
-		: `/${path}`;
-	const response = await fetch(
-		`${await getOrigin()}${resolvedPath}`,
-		{
-			cache: "no-store",
-		},
-	);
-
-	if (!response.ok) {
-		throw new Error(
-			`Failed to fetch ${resolvedPath}: ${response.status} ${response.statusText}`,
-		);
-	}
-
-	return response.json() as Promise<T>;
-}
-
-export const getJson = cache(fetchJson);
-
-export function toPositiveInt(
-	value: string | null,
-	fallback: number,
-) {
-	const parsed = Number(value);
-	return Number.isInteger(parsed) && parsed > 0
-		? parsed
-		: fallback;
-}
+export const getCachedSiteData = cache(getSiteData);

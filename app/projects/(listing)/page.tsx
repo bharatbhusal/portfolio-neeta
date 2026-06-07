@@ -3,9 +3,8 @@ import {
 	getCategoriesController,
 	getProjectsWithPaginationController,
 } from "@/controllers/projects";
-import { getJson } from "@/lib/data";
+import { getCachedSiteData } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
-import type { SiteData } from "@/types/portfolio";
 
 export type SortBy = "createdAt" | "title";
 export type SortOrder = "asc" | "desc";
@@ -74,7 +73,7 @@ function parseSortOrder(
 }
 
 export async function generateMetadata() {
-	const site = await getJson<SiteData>("/site.json");
+	const site = await getCachedSiteData();
 
 	return buildPageMetadata(site, {
 		title: "Projects | Neeta Bhusal",

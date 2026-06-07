@@ -1,12 +1,11 @@
-import { fetchJson } from "@/lib/data";
-import { SiteData } from "@/types/portfolio";
+import { getCachedSiteData } from "@/lib/data";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getCachedSiteData();
 	const now = new Date();
 
-	return ["", "/projects", "/profile", "/contact"].map(
+	return ["", "/home", "/projects", "/contact"].map(
 		(path) => ({
 			url: `${site.seo.url}${path}`,
 			lastModified: now,

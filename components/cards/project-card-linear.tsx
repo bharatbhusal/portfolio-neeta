@@ -1,13 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 import type { Project } from "@/types/portfolio";
 

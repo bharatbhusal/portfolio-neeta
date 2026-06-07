@@ -1,11 +1,13 @@
+import { cache } from "react";
 import { ErrorState } from "@/components/ui/error-state";
 import { buildPageMetadata } from "@/lib/seo";
 
 import { ProjectContent } from "../../../components/sections/project";
 import { isAuthenticated } from "@/lib/server-auth";
-import { fetchJson } from "@/lib/data";
+import { getCachedSiteData } from "@/lib/data";
 import { getProjectByIdController } from "@/controllers/projects";
-import { SiteData } from "@/types/portfolio";
+
+const getCachedProjectById = cache(getProjectByIdController);
 
 type ProjectPageProps = {
 	params: Promise<{
@@ -17,8 +19,8 @@ export async function generateMetadata({
 	params,
 }: ProjectPageProps) {
 	const { id } = await params;
-	const site = await fetchJson<SiteData>("/site.json");
-	const project = await getProjectByIdController(id);
+	const site = await getCachedSiteData();
+	const project = await getCachedProjectById(id);
 
 	if (!project) {
 		return buildPageMetadata(site, {
@@ -36,13 +38,15 @@ export async function generateMetadata({
 	});
 }
 
+export const revalidate = 3600;
+
 export default async function ProjectPage({
 	params,
 }: ProjectPageProps) {
 	const { id } = await params;
 	const [site, project, authed] = await Promise.all([
-		fetchJson<SiteData>("/site.json"),
-		getProjectByIdController(id),
+		getCachedSiteData(),
+		getCachedProjectById(id),
 		isAuthenticated(),
 	]);
 

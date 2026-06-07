@@ -7,14 +7,18 @@ import type {
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
-import { useLogout } from "@/hooks/useApi";
+import {
+	useIsAuthenticated,
+	useLogout,
+} from "@/hooks/useApi";
 
 type FooterProps = {
 	site: SiteData;
-	isAuthenticated: boolean;
 };
 
-export function Footer({ site, isAuthenticated: authed }: FooterProps) {
+export function Footer({ site }: FooterProps) {
+	const { data: auth } = useIsAuthenticated();
+	const authed = auth?.authenticated ?? false;
 	const currentYear = new Date().getFullYear();
 	const logoutMutation = useLogout();
 

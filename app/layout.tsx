@@ -5,9 +5,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { fetchJson } from "@/lib/data";
-import { isAuthenticated } from "@/lib/server-auth";
-import { SiteData } from "@/types/portfolio";
+import { getCachedSiteData } from "@/lib/data";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -20,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const site = await fetchJson<SiteData>("/site.json");
+	const site = await getCachedSiteData();
 
 	return buildPageMetadata(site, {
 		title: site.seo.title,
@@ -29,17 +27,12 @@ export async function generateMetadata(): Promise<Metadata> {
 	});
 }
 
-export const dynamic = "force-dynamic";
-
 export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const [site, authed] = await Promise.all([
-		fetchJson<SiteData>("/site.json"),
-		isAuthenticated(),
-	]);
+	const site = await getCachedSiteData();
 
 	return (
 		<html
@@ -57,7 +50,7 @@ export default async function RootLayout({
 						<div className="flex-1 mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
 							{children}
 						</div>
-						<Footer site={site} isAuthenticated={authed} />
+						<Footer site={site} />
 					</div>
 				</QueryProvider>
 			</body>

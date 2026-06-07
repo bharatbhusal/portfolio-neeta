@@ -19,3 +19,7 @@ export type SignupPayload = {
 	username: string;
 	password: string;
 };
+
+export type AuthStatus = {
+	authenticated: boolean;
+};

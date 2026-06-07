@@ -10,6 +10,7 @@ import {
 	ApiClientError,
 } from "@/lib/apiClient";
 import type {
+	AuthStatus,
 	AuthUser,
 	LoginPayload,
 	SignupPayload,
@@ -58,8 +59,17 @@ export function useLogout() {
 				method: "POST",
 			}),
 	});
-
 }
+
+export function useIsAuthenticated() {
+	return useQuery<AuthStatus, ApiClientError>({
+		queryKey: ["auth", "status"],
+		queryFn: () => apiRequest<AuthStatus>("/auth/status"),
+		staleTime: 5 * 60 * 1000,
+		retry: false,
+	});
+}
+
 export function useGetSignature(publicId: string) {
 	return useQuery<UploadSignaturePayload, ApiClientError>({
 		queryKey: ["uploads", "signature", publicId],
@@ -81,7 +91,10 @@ export function useCreateProject() {
 				body: payload,
 			}),
 		onSuccess: async () => {
-			await qc.invalidateQueries({ queryKey: ["projects"], refetchType: "all" });
+			await qc.invalidateQueries({
+				queryKey: ["projects"],
+				refetchType: "all",
+			});
 		},
 	});
 }
@@ -99,7 +112,10 @@ export function useUpdateProject(id: string) {
 					},
 				),
 			onSuccess: async () => {
-				await qc.invalidateQueries({ queryKey: ["projects"], refetchType: "all" });
+				await qc.invalidateQueries({
+					queryKey: ["projects"],
+					refetchType: "all",
+				});
 			},
 		},
 	);
