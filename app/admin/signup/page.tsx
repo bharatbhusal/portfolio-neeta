@@ -13,11 +13,13 @@ export default function AdminSignupPage() {
 		username: string;
 		password: string;
 	}) => {
-		await mutation.mutateAsync(data as {
-			name: string;
-			username: string;
-			password: string;
-		});
+		await mutation.mutateAsync(
+			data as {
+				name: string;
+				username: string;
+				password: string;
+			},
+		);
 		router.push("/admin/login");
 	};
 
@@ -27,11 +29,7 @@ export default function AdminSignupPage() {
 				mode="signup"
 				onSubmit={handleSubmit}
 				isPending={mutation.isPending}
-				error={
-					mutation.isError
-						? mutation.error.message
-						: null
-				}
+				error={mutation.isError ? mutation.error.message : null}
 			/>
 		</div>
 	);

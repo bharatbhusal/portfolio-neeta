@@ -16,7 +16,8 @@ export default function AdminSignupLoading() {
 					<Skeleton width={80} height={14} />
 					<Skeleton width="100%" height={40} />
 				</div>
-				<Skeleton width={140} height={40} className="rounded-lg" />
+				<Skeleton width={140} height={40} />
+				<Skeleton width={"70%"} height={20} />
 			</div>
 		</div>
 	);
