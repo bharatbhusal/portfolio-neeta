@@ -8,7 +8,6 @@ import { useGSAP } from "@/hooks/useGSAP";
 import { SocialLink } from "@/types/portfolio";
 import Image from "next/image";
 import Link from "next/link";
-import { iconMap } from "@/lib/iconMapper";
 import {
 	useClientProjects,
 	useFeaturedProjects,
@@ -77,14 +76,10 @@ export function Contact({ social }: ContactProps) {
 
 							<div className="grid gap-4">
 								{clientProjects.map((project) => (
-									<div
+									<Link
 										key={project.key}
-										className="group rounded-xl border border-border/60 bg-background/40 p-4 cursor-pointer hover:bg-background/60 transition"
-										onClick={() =>
-											location.assign(
-												`/projects/${encodeURIComponent(project._id)}`,
-											)
-										}
+										href={`/projects/${encodeURIComponent(project._id)}`}
+										className="group block rounded-xl border border-border/60 bg-background/40 p-4 hover:bg-background/60 transition"
 									>
 										<div className="flex">
 											<div className="flex-1 min-w-0">
@@ -116,7 +111,7 @@ export function Contact({ social }: ContactProps) {
 												<div className="absolute inset-0 bg-gradient-to-l from-transparent to-background/100 pointer-events-none" />
 											</div>
 										</div>
-									</div>
+									</Link>
 								))}
 							</div>
 						</div>

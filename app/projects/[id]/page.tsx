@@ -1,9 +1,9 @@
 import { buildPageMetadata } from "@/lib/seo";
 
-import ProjectPageClient from "@/components/projects/project-page-client";
-import { Project, SiteData } from "@/types/portfolio";
+import { ProjectPageContent } from "@/components/projects/project-page-content";
+import { SiteData } from "@/types/portfolio";
 import { fetchJson } from "@/lib/data";
-import { apiRequest } from "@/lib/apiClient";
+import { getProjectByIdController } from "@/controllers/projects";
 
 type ProjectPageProps = {
 	params: Promise<{
@@ -11,19 +11,12 @@ type ProjectPageProps = {
 	}>;
 };
 
-async function getProjectById(id: string) {
-	const project = await apiRequest<Project>(
-		`https://neetabhusal.vercel.app/api/projects/${id}`,
-	);
-	return project;
-}
-
 export async function generateMetadata({
 	params,
 }: ProjectPageProps) {
 	const { id } = await params;
 	const site = await fetchJson<SiteData>("/site.json");
-	const project = await getProjectById(id);
+	const project = await getProjectByIdController(id);
 
 	if (!project) {
 		return buildPageMetadata(site, {
@@ -46,7 +39,20 @@ export default async function ProjectPage({
 }: ProjectPageProps) {
 	const { id } = await params;
 	const site = await fetchJson<SiteData>("/site.json");
+	const project = await getProjectByIdController(id);
+
+	if (!project) {
+		return (
+			<div className="text-center py-12 text-muted-foreground">
+				Project not found.
+			</div>
+		);
+	}
+
 	return (
-		<ProjectPageClient id={id} whatsappPhone={site.phone} />
+		<ProjectPageContent
+			project={project}
+			whatsappPhone={site.phone}
+		/>
 	);
 }

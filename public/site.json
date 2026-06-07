@@ -9,7 +9,7 @@
 	"seo": {
 		"title": "Neeta Bhusal | Portfolio",
 		"description": "A portfolio portraying Neeta's projects, experience and academics.",
-		"url": "https://neetabhusal.vercal.app",
+		"url": "https://neetabhusal.vercel.app",
 		"ogImage": "/images/neetabhusal.jpg"
 	},
 	"nav": [

@@ -19,7 +19,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
 	useCreateProject,
 	useGetSignature,
-	useProject,
 	useUpdateProject,
 } from "@/hooks/useApi";
 import { uploadImageToCloudinary } from "@/lib/cloudinary";
@@ -30,7 +29,6 @@ type ProjectFormMode = "create" | "edit";
 
 type ProjectFormProps = {
 	mode: ProjectFormMode;
-	projectKey?: string;
 	project?: Project;
 };
 
@@ -78,40 +76,8 @@ function normalizeTags(value: string) {
 
 export function ProjectForm({
 	mode,
-	projectKey,
 	project,
 }: ProjectFormProps) {
-	const projectQuery = useProject(projectKey ?? "");
-
-	if (mode === "edit") {
-		if (projectQuery.isLoading) {
-			return (
-				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-muted-foreground shadow-sm">
-						Loading project...
-					</div>
-				</main>
-			);
-		}
-
-		if (projectQuery.error || !projectQuery.data) {
-			return (
-				<main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-					<div className="rounded-2xl border border-border/60 bg-card/60 p-6 text-sm text-destructive shadow-sm">
-						Unable to load project.
-					</div>
-				</main>
-			);
-		}
-
-		return (
-			<ProjectFormContent
-				mode={mode}
-				project={projectQuery.data}
-			/>
-		);
-	}
-
 	return (
 		<ProjectFormContent mode={mode} project={project} />
 	);

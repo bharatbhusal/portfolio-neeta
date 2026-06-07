@@ -27,6 +27,7 @@ export function hydrateProject(project: Project) {
 
 	return {
 		...project,
+		_id: project._id.toString(),
 		imageUrl,
 		downloadUrl,
 	} as Project;

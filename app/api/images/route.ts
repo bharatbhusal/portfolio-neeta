@@ -89,9 +89,13 @@ export async function GET(req: Request) {
 			asObject?.error?.message ??
 			asObject?.message ??
 			String(err);
-		return errorResponse({
-			error: "Cloudinary search failed.",
-			details: message,
-		});
+		return errorResponse(
+			new AppError(
+				"Cloudinary search failed.",
+				500,
+				"CLOUDINARY_ERROR",
+				message,
+			),
+		);
 	}
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import {
 	Card,
@@ -15,14 +16,11 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
 	return (
-		<Card
-			className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer"
-			onClick={() =>
-				location.assign(
-					`/projects/${encodeURIComponent(project._id)}`,
-				)
-			}
+		<Link
+			href={`/projects/${encodeURIComponent(project._id)}`}
+			className="block h-full"
 		>
+			<Card className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer">
 			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
 				<Image
 					src={
@@ -66,5 +64,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 				</div>
 			</CardContent>
 		</Card>
+		</Link>
 	);
 }

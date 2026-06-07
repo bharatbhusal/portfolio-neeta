@@ -8,9 +8,8 @@ import { ProjectCard } from "@/components/cards/project-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGSAP } from "@/hooks/useGSAP";
-import type { Project, SiteData } from "@/types/portfolio";
+import type { SiteData } from "@/types/portfolio";
 import { useFeaturedProjects } from "@/hooks/useApi";
-import Skeleton from "../ui/skeleton";
 import ProjectCardSkeleton from "../cards/project-card-skeleton";
 
 type AboutProps = {

@@ -78,7 +78,7 @@ export async function loginUser(
 
 	const token = signToken({
 		userId: user._id.toString(),
-		email: user.email,
+		username: user.username,
 	});
 
 	return {
