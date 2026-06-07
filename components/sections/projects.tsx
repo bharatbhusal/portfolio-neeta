@@ -8,12 +8,18 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { Search } from "lucide-react";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import {
+	InputGroup,
+	InputGroupInput,
+	InputGroupAddon,
+} from "@/components/ui/input-group";
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -345,21 +351,28 @@ export function ProjectGridContent({
 							</DropdownMenu>
 						</div>
 
-						<div className="w-full sm:w-60">
+						<div className="w-full sm:w-80">
 							<label className="sr-only" htmlFor="project-search">
 								Search projects
 							</label>
-							<input
-								id="project-search"
-								type="search"
-								value={searchValue}
-								onChange={(event) =>
-									setSearchValue(event.target.value)
-								}
-								placeholder="Search projects"
-								className="w-full rounded-full border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-								aria-label="Search projects"
-							/>
+							<InputGroup>
+								<InputGroupAddon>
+									<Search />
+								</InputGroupAddon>
+								<InputGroupInput
+									id="project-search"
+									type="search"
+									value={searchValue}
+									onChange={(event) =>
+										setSearchValue(event.target.value)
+									}
+									placeholder="Search projects"
+									aria-label="Search projects"
+								/>
+								<InputGroupAddon align="inline-end">
+									{pagination.total} results
+								</InputGroupAddon>
+							</InputGroup>
 						</div>
 					</div>
 				</Reveal>
