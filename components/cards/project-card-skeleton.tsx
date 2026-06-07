@@ -11,10 +11,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function ProjectCardSkeleton() {
 	return (
 		<Card className="h-full border-border/60 bg-card/70 backdrop-blur">
-			<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
+			<div className="relative aspect-[4/3] overflow-hidden bottom-4">
 				<Skeleton
 					width="100%"
 					height="100%"
+					variant="rect"
 					className="absolute inset-0"
 				/>
 				<div className="absolute left-4 top-4">

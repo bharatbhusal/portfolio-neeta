@@ -23,7 +23,7 @@ export function ProjectCardBox({
 			className="block h-full"
 		>
 			<Card className="group h-full border-border/60 bg-card/70 backdrop-blur cursor-pointer">
-				<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60">
+				<div className="relative aspect-[4/3] overflow-hidden border-b border-border/60 bottom-4">
 					<Image
 						src={
 							project.imageUrl ??

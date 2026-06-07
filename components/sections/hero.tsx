@@ -85,24 +85,21 @@ export function Hero({ site }: HeroProps) {
 				</div>
 
 				<Card className="overflow-hidden border-border/60 bg-card/70 backdrop-blur">
-					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60">
+					<div className="relative aspect-[4/5] overflow-hidden border-b border-border/60 bottom-4">
 						<Image
-							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=1000&h=1200&crop=fill&format=auto&q=auto`}
+							src={`/api/images?publicId=${encodeURIComponent(site.hero.image)}&w=600&h=700&crop=fill&format=auto&q=auto`}
 							alt={site.name}
 							fill
 							className="object-cover"
 							priority
-							sizes="(min-width: 1024px) 40vw, 100vw"
 						/>
 						<div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
 					</div>
-					<CardContent className="space-y-6 py-2">
-						<div className="space-y-2">
-							<p className="text-lg font-medium">{site.name}</p>
-							<p className="text-sm leading-6 text-muted-foreground">
-								{site.hero.bio}
-							</p>
-						</div>
+					<CardContent className=" space-y-2">
+						<p className="text-lg font-medium">{site.name}</p>
+						<p className="text-sm leading-6 text-muted-foreground">
+							{site.hero.bio}
+						</p>
 					</CardContent>
 				</Card>
 			</div>
