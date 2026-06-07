@@ -7,11 +7,18 @@ import { getJson } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
 import type { SiteData } from "@/types/portfolio";
 
+export type SortBy = "createdAt" | "title";
+export type SortOrder = "asc" | "desc";
+
 type ProjectsPageProps = {
 	searchParams: Promise<{
 		page?: string;
 		category?: string;
 		q?: string;
+		featured?: string;
+		client?: string;
+		sortBy?: string;
+		sortOrder?: string;
 	}>;
 };
 
@@ -22,6 +29,8 @@ function escapeRegex(value: string) {
 function buildProjectFilter(
 	category?: string,
 	q?: string,
+	featured?: string,
+	client?: string,
 ): Record<string, unknown> {
 	const filter: Record<string, unknown> = {};
 	if (category && category !== "All") {
@@ -40,7 +49,28 @@ function buildProjectFilter(
 			{ client: regex },
 		];
 	}
+	if (featured === "true") {
+		filter.featured = true;
+	}
+	if (client === "true") {
+		filter.client = { $exists: true, $ne: "" };
+	}
 	return filter;
+}
+
+function parseSortBy(value: string | undefined): SortBy {
+	switch (value) {
+		case "title":
+			return "title";
+		default:
+			return "createdAt";
+	}
+}
+
+function parseSortOrder(
+	value: string | undefined,
+): SortOrder {
+	return value === "asc" ? "asc" : "desc";
 }
 
 export async function generateMetadata() {
@@ -62,11 +92,23 @@ export default async function ProjectsPage({
 		Number(params.page) > 0 ? Number(params.page) : 1;
 	const category = params.category ?? "All";
 	const q = params.q?.trim();
+	const featured = params.featured;
+	const client = params.client;
+	const sortBy = parseSortBy(params.sortBy);
+	const sortOrder = parseSortOrder(params.sortOrder);
 
-	const filter = buildProjectFilter(category, q);
+	const filter = buildProjectFilter(
+		category,
+		q,
+		featured,
+		client,
+	);
 
 	const [projectsData, categories] = await Promise.all([
-		getProjectsWithPaginationController(filter, page, 9),
+		getProjectsWithPaginationController(filter, page, 9, {
+			sortBy,
+			sortOrder,
+		}),
 		getCategoriesController(),
 	]);
 
@@ -78,6 +120,10 @@ export default async function ProjectsPage({
 			basePath="/projects"
 			currentCategory={category}
 			currentQuery={q ?? ""}
+			currentSortBy={sortBy}
+			currentSortOrder={sortOrder}
+			currentFeatured={featured === "true"}
+			currentClient={client === "true"}
 		/>
 	);
 }

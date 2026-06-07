@@ -6,8 +6,6 @@ import type {
 } from "@/types/portfolio";
 import type { SortOrder } from "mongoose";
 import {
-	findClientProjectsSample,
-	findFeaturedProjectsSample,
 	findProjectByKey,
 	findProjectById,
 	findProjectsByFilter,
@@ -17,28 +15,17 @@ import {
 } from "@/repositories/project";
 
 export async function getFeaturedProjects(count = 3) {
-	const docs = await findFeaturedProjectsSample(count);
-
-	const projects = (docs as Project[]).map((p) =>
-		hydrateProject(p),
+	return findProjects(
+		{ featured: true },
+		{ sort: { createdAt: -1 as SortOrder }, limit: count },
 	);
-	return projects;
-}
-
-export async function getRandomFeaturedProject(
-	count: number,
-) {
-	const items = await getFeaturedProjects(count);
-	return items.length ? items[0] : null;
 }
 
 export async function getClientProjects(count = 4) {
-	const docs = await findClientProjectsSample(count);
-
-	const projects = (docs as Project[]).map((p) =>
-		hydrateProject(p),
+	return findProjects(
+		{ client: { $exists: true, $ne: "" } },
+		{ sort: { createdAt: -1 as SortOrder }, limit: count },
 	);
-	return projects;
 }
 
 export async function getProjectByKey(key: string) {
@@ -63,10 +50,30 @@ export async function findProjects(
 	return (docs || []).map((p) => hydrateProject(p));
 }
 
+function buildSortOption(
+	sort?: { sortBy: "createdAt" | "title"; sortOrder: "asc" | "desc" },
+): Record<string, SortOrder> {
+	if (!sort) {
+		return { createdAt: -1 as SortOrder };
+	}
+	const order: SortOrder = sort.sortOrder === "asc" ? 1 : -1;
+	switch (sort.sortBy) {
+		case "title":
+			return { title: order };
+		case "createdAt":
+		default:
+			return { createdAt: order };
+	}
+}
+
 export async function getProjectsWithPagination(
 	filter: Record<string, unknown> = {},
 	page: number = 1,
 	pageSize: number = 9,
+	sort?: {
+		sortBy: "createdAt" | "title";
+		sortOrder: "asc" | "desc";
+	},
 ): Promise<PaginatedProjectsData> {
 	const total = await countProjects(filter);
 
@@ -78,7 +85,7 @@ export async function getProjectsWithPagination(
 	const start = (safePage - 1) * pageSize;
 
 	const projects = await findProjects(filter, {
-		sort: { featured: -1, key: 1 },
+		sort: buildSortOption(sort),
 		skip: start,
 		limit: pageSize,
 	});
@@ -118,7 +125,6 @@ export async function deleteProjectService(id: string) {
 
 const projectsService = {
 	getFeaturedProjects,
-	getRandomFeaturedProject,
 	getClientProjects,
 	getProjectByKey,
 	getProjectById,

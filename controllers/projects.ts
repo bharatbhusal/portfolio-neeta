@@ -57,9 +57,13 @@ export async function getProjectsWithPaginationController(
 	filter: Record<string, unknown> = {},
 	page: number = 1,
 	pageSize: number = 9,
+	sort?: {
+		sortBy: "createdAt" | "title";
+		sortOrder: "asc" | "desc";
+	},
 ) {
 	await connectToDatabase();
-	return getProjectsWithPagination(filter, page, pageSize);
+	return getProjectsWithPagination(filter, page, pageSize, sort);
 }
 
 export async function getCategoriesController() {

@@ -46,7 +46,7 @@ export function AboutContent({
 											</p>
 										</div>
 										<Button asChild variant="outline" size="sm">
-											<Link href="/projects">View all</Link>
+											<Link href="/projects?featured=true">View all</Link>
 										</Button>
 									</div>
 

@@ -33,7 +33,7 @@ export function ContactContent({
 			ref={scopeRef}
 			className="flex gap-4 flex-col sm:flex-row"
 		>
-			<div className="flex-1">
+			<div className="flex-1 flex gap-4 flex-col">
 				<Reveal>
 					<div className="flex gap-2 md:gap-4 flex-wrap">
 						<SocialLinks socials={social} />
@@ -58,7 +58,7 @@ export function ContactContent({
 							</p>
 						</div>
 						<Button asChild variant="outline" size="sm">
-							<Link href="/projects">View all</Link>
+							<Link href="/projects?client=true">View all</Link>
 						</Button>
 					</div>
 

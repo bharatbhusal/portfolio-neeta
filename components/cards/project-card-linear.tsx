@@ -24,7 +24,7 @@ export function ProjectCardLinear({
 			className="block"
 		>
 			<Card className="group overflow-hidden border-border/60 bg-card/70 backdrop-blur cursor-pointer transition-colors hover:bg-card flex flex-row">
-				<div>
+				<div className="px-4">
 					<div className="flex items-start justify-between gap-3">
 						<div className="min-w-0">
 							<p className="text-lg font-bold text-wrap">
@@ -42,6 +42,16 @@ export function ProjectCardLinear({
 					<p className="text-sm leading-6 line-clamp-3">
 						{project.description}
 					</p>
+					<div className="flex flex-wrap gap-2 hidden md:flex py-4">
+						{project.tags.map((tag) => (
+							<span
+								key={tag}
+								className="rounded-full border border-border/60 bg-secondary/80 px-3 py-1 text-xs text-secondary-foreground"
+							>
+								{tag}
+							</span>
+						))}
+					</div>
 				</div>
 
 				<div className="relative hidden md:block w-60 flex-shrink-0 border-r border-border/60 pr-2">

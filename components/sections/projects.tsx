@@ -7,11 +7,22 @@ import {
 	useState,
 } from "react";
 import { useRouter } from "next/navigation";
+import {
+	ChevronDownIcon,
+} from "@radix-ui/react-icons";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Reveal } from "@/components/animations/reveal";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import {
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu";
 import { useGSAP } from "@/hooks/useGSAP";
 import type { Project } from "@/types/portfolio";
 
@@ -22,6 +33,9 @@ type PaginationData = {
 	totalPages: number;
 };
 
+type SortBy = "createdAt" | "title";
+type SortOrder = "asc" | "desc";
+
 type ProjectGridContentProps = {
 	projects: Project[];
 	categories: string[];
@@ -29,13 +43,33 @@ type ProjectGridContentProps = {
 	basePath: string;
 	currentCategory: string;
 	currentQuery: string;
+	currentSortBy: SortBy;
+	currentSortOrder: SortOrder;
+	currentFeatured: boolean;
+	currentClient: boolean;
 };
+
+const SORT_LABELS: Record<SortBy, string> = {
+	createdAt: "Latest",
+	title: "Title",
+};
+
+const DEFAULT_SORT: SortBy = "createdAt";
+const DEFAULT_ORDER: SortOrder = "desc";
+
+function sortDefaultOrder(field: SortBy): SortOrder {
+	return field === "title" ? "asc" : "desc";
+}
 
 function buildUrl(
 	basePath: string,
 	page: number,
 	category: string,
 	q: string,
+	featured: boolean,
+	client: boolean,
+	sortBy: SortBy,
+	sortOrder: SortOrder,
 ) {
 	const params = new URLSearchParams();
 	params.set("page", String(page));
@@ -44,6 +78,16 @@ function buildUrl(
 	}
 	if (q) {
 		params.set("q", q);
+	}
+	if (featured) {
+		params.set("featured", "true");
+	}
+	if (client) {
+		params.set("client", "true");
+	}
+	if (sortBy !== DEFAULT_SORT || sortOrder !== DEFAULT_ORDER) {
+		params.set("sortBy", sortBy);
+		params.set("sortOrder", sortOrder);
 	}
 	return `${basePath}?${params.toString()}`;
 }
@@ -55,6 +99,10 @@ export function ProjectGridContent({
 	basePath,
 	currentCategory,
 	currentQuery,
+	currentSortBy,
+	currentSortOrder,
+	currentFeatured,
+	currentClient,
 }: ProjectGridContentProps) {
 	const router = useRouter();
 	const scopeRef = useRef<HTMLElement | null>(null);
@@ -68,7 +116,16 @@ export function ProjectGridContent({
 			const trimmed = searchValue.trim();
 			if (trimmed !== currentQuery) {
 				router.push(
-					buildUrl(basePath, 1, currentCategory, trimmed),
+					buildUrl(
+						basePath,
+						1,
+						currentCategory,
+						trimmed,
+						currentFeatured,
+						currentClient,
+						currentSortBy,
+						currentSortOrder,
+					),
 				);
 			}
 		}, 300);
@@ -79,15 +136,108 @@ export function ProjectGridContent({
 		currentQuery,
 		basePath,
 		router,
+		currentFeatured,
+		currentClient,
+		currentSortBy,
+		currentSortOrder,
 	]);
+
+	const handleFilterChange = useCallback(
+		(filter: "featured" | "client") => {
+			const newFeatured =
+				filter === "featured" ? !currentFeatured : false;
+			const newClient =
+				filter === "client" ? !currentClient : false;
+			router.push(
+				buildUrl(
+					basePath,
+					1,
+					currentCategory,
+					currentQuery,
+					newFeatured,
+					newClient,
+					currentSortBy,
+					currentSortOrder,
+				),
+			);
+		},
+		[
+			basePath,
+			currentCategory,
+			currentQuery,
+			currentFeatured,
+			currentClient,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
+	);
+
+	const handleSortChange = useCallback(
+		(field: SortBy) => {
+			let newSortBy: SortBy;
+			let newSortOrder: SortOrder;
+
+			if (field !== currentSortBy) {
+				newSortBy = field;
+				newSortOrder = sortDefaultOrder(field);
+			} else if (currentSortOrder === sortDefaultOrder(field)) {
+				newSortBy = field;
+				newSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
+			} else {
+				newSortBy = DEFAULT_SORT;
+				newSortOrder = DEFAULT_ORDER;
+			}
+
+			router.push(
+				buildUrl(
+					basePath,
+					1,
+					currentCategory,
+					currentQuery,
+					currentFeatured,
+					currentClient,
+					newSortBy,
+					newSortOrder,
+				),
+			);
+		},
+		[
+			basePath,
+			currentCategory,
+			currentQuery,
+			currentFeatured,
+			currentClient,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
+	);
 
 	const handleCategoryChange = useCallback(
 		(category: string) => {
 			router.push(
-				buildUrl(basePath, 1, category, searchValue.trim()),
+				buildUrl(
+					basePath,
+					1,
+					category,
+					currentQuery,
+					currentFeatured,
+					currentClient,
+					currentSortBy,
+					currentSortOrder,
+				),
 			);
 		},
-		[basePath, searchValue, router],
+		[
+			basePath,
+			currentQuery,
+			currentFeatured,
+			currentClient,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
 	);
 
 	const handlePageChange = useCallback(
@@ -98,11 +248,32 @@ export function ProjectGridContent({
 					newPage,
 					currentCategory,
 					currentQuery,
+					currentFeatured,
+					currentClient,
+					currentSortBy,
+					currentSortOrder,
 				),
 			);
 		},
-		[basePath, currentCategory, currentQuery, router],
+		[
+			basePath,
+			currentCategory,
+			currentQuery,
+			currentFeatured,
+			currentClient,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
 	);
+
+	const isSortActive = (field: SortBy) =>
+		currentSortBy === field;
+
+	const sortArrow = (field: SortBy) => {
+		if (!isSortActive(field)) return "";
+		return currentSortOrder === "desc" ? " ↓" : " ↑";
+	};
 
 	return (
 		<section
@@ -110,28 +281,67 @@ export function ProjectGridContent({
 			className="mx-auto w-full max-w-7xl"
 		>
 			<div className="space-y-8">
-				<div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-					<Reveal>
-						<div className="flex flex-wrap gap-2">
-							{categories.map((category) => (
+				<Reveal>
+					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+						<div className="flex flex-wrap items-center gap-2">
+							<ButtonGroup>
 								<Button
-									key={category}
-									variant={
-										currentCategory === category
-											? "default"
-											: "outline"
-									}
+									variant={currentFeatured ? "default" : "outline"}
 									size="sm"
-									onClick={() => handleCategoryChange(category)}
+									onClick={() => handleFilterChange("featured")}
 								>
-									{category}
+									Featured
 								</Button>
-							))}
-						</div>
-					</Reveal>
+								<Button
+									variant={currentClient ? "default" : "outline"}
+									size="sm"
+									onClick={() => handleFilterChange("client")}
+								>
+									Clients
+								</Button>
+							</ButtonGroup>
 
-					<Reveal>
-						<div className="w-full sm:w-72">
+							<ButtonGroup>
+								{(["createdAt", "title"] as SortBy[]).map(
+									(field) => (
+										<Button
+											key={field}
+											variant={
+												isSortActive(field) ? "default" : "outline"
+											}
+											size="sm"
+											onClick={() => handleSortChange(field)}
+										>
+											{SORT_LABELS[field]}
+											{sortArrow(field)}
+										</Button>
+									),
+								)}
+							</ButtonGroup>
+
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button variant="outline" size="sm">
+										{currentCategory}
+										<ChevronDownIcon className="ml-1 size-3.5" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="start" className="w-40">
+									<DropdownMenuRadioGroup
+										value={currentCategory}
+										onValueChange={handleCategoryChange}
+									>
+										{categories.map((cat) => (
+											<DropdownMenuRadioItem key={cat} value={cat}>
+												{cat}
+											</DropdownMenuRadioItem>
+										))}
+									</DropdownMenuRadioGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
+
+						<div className="w-full sm:w-60">
 							<label className="sr-only" htmlFor="project-search">
 								Search projects
 							</label>
@@ -147,8 +357,8 @@ export function ProjectGridContent({
 								aria-label="Search projects"
 							/>
 						</div>
-					</Reveal>
-				</div>
+					</div>
+				</Reveal>
 
 				<Reveal>
 					<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

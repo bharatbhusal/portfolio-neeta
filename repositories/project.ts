@@ -2,28 +2,6 @@ import { ProjectModel } from "@/models/project";
 import type { Project } from "@/types/portfolio";
 import type { SortOrder } from "mongoose";
 
-export async function findFeaturedProjectsSample(
-	count: number,
-) {
-	const docs = await ProjectModel.aggregate([
-		{ $match: { featured: true } },
-		{ $sample: { size: Math.max(0, count) } },
-	]).exec();
-
-	return docs as Project[];
-}
-
-export async function findClientProjectsSample(
-	count: number,
-) {
-	const docs = await ProjectModel.aggregate([
-		{ $match: { client: { $exists: true, $ne: "" } } },
-		{ $sample: { size: Math.max(0, count) } },
-	]).exec();
-
-	return docs as Project[];
-}
-
 export async function findProjectByKey(key: string) {
 	return ProjectModel.findOne({
 		key,
