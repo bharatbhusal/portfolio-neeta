@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/animations/reveal";
+import { Reveal } from "@/app/animations/reveal";
 import { PagesProps } from "@/types";
 
 export default function AdminSignupLayout({

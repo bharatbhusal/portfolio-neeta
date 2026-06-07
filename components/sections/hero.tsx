@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MdArrowOutward } from "react-icons/md";
 import { useRef } from "react";
 
-import { Reveal } from "@/components/animations/reveal";
+import { Reveal } from "@/app/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGSAP } from "@/hooks/useGSAP";

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { Reveal } from "@/components/animations/reveal";
+import { Reveal } from "@/app/animations/reveal";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Button } from "@/components/ui/button";
 import { SocialLinks } from "@/components/social-links";

@@ -12,7 +12,7 @@ import { Search } from "lucide-react";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
-import { Reveal } from "@/components/animations/reveal";
+import { Reveal } from "@/app/animations/reveal";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {

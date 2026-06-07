@@ -113,3 +113,13 @@
 		color: var(--foreground);
 	}
 }
+
+html,
+body {
+	overflow-x: hidden;
+	touch-action: manipulation;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: transparent;
+}

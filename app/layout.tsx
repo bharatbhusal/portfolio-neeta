@@ -1,12 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { buildPageMetadata } from "@/lib/seo";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { QueryProvider } from "@/components/providers/query-provider";
+import { QueryProvider } from "@/app/providers/query-provider";
 import { getCachedSiteData } from "@/lib/data";
-import { ZoomLock } from "./zoom-lock";
+import { UiRestriction } from "./providers/ui-restriction";
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 1,
+	userScalable: false,
+};
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -23,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return buildPageMetadata(site, {
 		title: site.seo.title,
-		description: site.seo.description,
+		description: site.hero.summary,
 		path: "/",
 	});
 }
@@ -46,7 +53,7 @@ export default async function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-background text-foreground`}
 			>
 				<QueryProvider>
-					<ZoomLock>
+					<UiRestriction>
 						<div className="flex min-h-dvh flex-col">
 							<Navbar site={site} />
 							<div className="mx-auto flex-1 w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -54,7 +61,7 @@ export default async function RootLayout({
 							</div>
 							<Footer site={site} />
 						</div>
-					</ZoomLock>
+					</UiRestriction>
 				</QueryProvider>
 			</body>
 		</html>
