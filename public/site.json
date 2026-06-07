@@ -19,7 +19,7 @@
 		},
 		{
 			"label": "Projects",
-			"href": "/projects"
+			"href": "/projects?page=1&featured=true&sortBy=createdAt&sortOrder=asc"
 		},
 		{
 			"label": "About",
