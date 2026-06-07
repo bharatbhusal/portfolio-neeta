@@ -7,9 +7,7 @@ import {
 	useState,
 } from "react";
 import { useRouter } from "next/navigation";
-import {
-	ChevronDownIcon,
-} from "@radix-ui/react-icons";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
@@ -85,7 +83,10 @@ function buildUrl(
 	if (client) {
 		params.set("client", "true");
 	}
-	if (sortBy !== DEFAULT_SORT || sortOrder !== DEFAULT_ORDER) {
+	if (
+		sortBy !== DEFAULT_SORT ||
+		sortOrder !== DEFAULT_ORDER
+	) {
 		params.set("sortBy", sortBy);
 		params.set("sortOrder", sortOrder);
 	}
@@ -181,9 +182,12 @@ export function ProjectGridContent({
 			if (field !== currentSortBy) {
 				newSortBy = field;
 				newSortOrder = sortDefaultOrder(field);
-			} else if (currentSortOrder === sortDefaultOrder(field)) {
+			} else if (
+				currentSortOrder === sortDefaultOrder(field)
+			) {
 				newSortBy = field;
-				newSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
+				newSortOrder =
+					currentSortOrder === "asc" ? "desc" : "asc";
 			} else {
 				newSortBy = DEFAULT_SORT;
 				newSortOrder = DEFAULT_ORDER;
@@ -280,7 +284,7 @@ export function ProjectGridContent({
 			ref={scopeRef}
 			className="mx-auto w-full max-w-7xl"
 		>
-			<div className="space-y-8">
+			<div className="space-y-4">
 				<Reveal>
 					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 						<div className="flex flex-wrap items-center gap-2">

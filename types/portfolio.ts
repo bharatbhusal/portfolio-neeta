@@ -43,13 +43,8 @@ export type SiteData = {
 		accent: string;
 		image: string;
 		actions: ActionLink[];
-	};
-	about: {
-		bio: string;
-		vision: string;
-		mission: string;
-		values: string[];
 		stats: SectionStat[];
+		bio: string;
 	};
 };
 

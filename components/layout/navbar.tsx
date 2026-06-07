@@ -31,7 +31,7 @@ export function Navbar({ site }: NavbarProps) {
 						const isActive =
 							pathname === item.href ||
 							(item.href !== "/" &&
-								pathname.startsWith(item.href));
+								pathname.startsWith(item.href.split("?")[0]));
 
 						return (
 							<Link

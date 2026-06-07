@@ -67,7 +67,7 @@ export function Hero({ site }: HeroProps) {
 					</Reveal>
 
 					<div className="flex gap-3">
-						{site.about.stats.map((stat) => (
+						{site.hero.stats.map((stat) => (
 							<div
 								key={stat.label}
 								data-reveal
@@ -100,7 +100,7 @@ export function Hero({ site }: HeroProps) {
 						<div className="space-y-2">
 							<p className="text-lg font-medium">{site.name}</p>
 							<p className="text-sm leading-6 text-muted-foreground">
-								{site.about.bio}
+								{site.hero.bio}
 							</p>
 						</div>
 					</CardContent>

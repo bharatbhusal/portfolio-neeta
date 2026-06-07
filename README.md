@@ -34,14 +34,13 @@ Full-stack portfolio site for Neeta Bhusal — built with Next.js 16, MongoDB, a
 ```
 portfolio-neeta/
 ├── app/                    # Next.js App Router pages & API routes
-│   ├── about/              # About page
 │   ├── contact/            # Contact page
 │   ├── projects/           # Projects listing + [id] detail
 │   ├── admin/              # Admin: login, signup, project CRUD
 │   └── api/                # API routes: auth, projects, images
 ├── components/             # React components
 │   ├── layout/             # Navbar, Footer
-│   ├── sections/           # Hero, Projects, About, Contact
+│   ├── sections/           # Hero, Projects, Contact
 │   ├── cards/              # Project card variants
 │   ├── forms/              # Project form, Auth form
 │   ├── ui/                 # shadcn/ui primitives

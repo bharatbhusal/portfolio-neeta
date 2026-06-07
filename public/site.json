@@ -22,10 +22,6 @@
 			"href": "/projects?page=1&featured=true&sortBy=createdAt&sortOrder=asc"
 		},
 		{
-			"label": "About",
-			"href": "/about"
-		},
-		{
 			"label": "Contact",
 			"href": "/contact"
 		}
@@ -69,6 +65,8 @@
 		"summary": "I am Neeta Bhusal, a multidisciplinary creative exploring graphic design, visual communication, filmmaking, and digital experiences with a calm and expressive approach.",
 		"accent": "Minimal aesthetics, emotional storytelling, and thoughtful visual direction.",
 		"image": "neetabhusal.jpg",
+		"bio": "Neeta Bhusal is a Nepalese creative practitioner currently studying Humanities and Arts at GITAM University in India. Her work blends graphic design, visual storytelling, filmmaking, and digital creativity with emotionally driven narratives.",
+		"vision": "Create meaningful visual experiences that inspire",
 		"actions": [
 			{
 				"label": "Explore My Projects",
@@ -80,17 +78,6 @@
 				"href": "/contact",
 				"variant": "outline"
 			}
-		]
-	},
-	"about": {
-		"bio": "Neeta Bhusal is a Nepalese creative practitioner currently studying Humanities and Arts at GITAM University in India. Her work blends graphic design, visual storytelling, filmmaking, and digital creativity with emotionally driven narratives.",
-		"vision": "Create meaningful visual experiences that inspire emotion, connection, and self-expression through art and storytelling.",
-		"mission": "Transform personal experiences, creativity, and cultural influences into impactful digital and visual narratives.",
-		"values": [
-			"Creativity with purpose",
-			"Storytelling through visuals",
-			"Design that feels human",
-			"Growth through experimentation"
 		],
 		"stats": [
 			{
