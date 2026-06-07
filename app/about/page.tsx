@@ -1,4 +1,5 @@
 import { About } from "@/components/sections/about";
+import { getFeaturedProjectsController } from "@/controllers/projects";
 import { fetchJson } from "@/lib/data";
 import { buildPageMetadata } from "@/lib/seo";
 import { SiteData } from "@/types/portfolio";
@@ -15,7 +16,10 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-	const site = await fetchJson<SiteData>("/site.json");
+	const [site, featuredProjects] = await Promise.all([
+		fetchJson<SiteData>("/site.json"),
+		getFeaturedProjectsController(3),
+	]);
 
-	return <About site={site} />;
+	return <About site={site} featuredProjects={featuredProjects ?? []} />;
 }

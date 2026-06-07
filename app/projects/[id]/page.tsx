@@ -1,9 +1,10 @@
 import { buildPageMetadata } from "@/lib/seo";
 
 import { ProjectPageContent } from "@/components/projects/project-page-content";
-import { SiteData } from "@/types/portfolio";
+import { isAuthenticated } from "@/lib/server-auth";
 import { fetchJson } from "@/lib/data";
 import { getProjectByIdController } from "@/controllers/projects";
+import { SiteData } from "@/types/portfolio";
 
 type ProjectPageProps = {
 	params: Promise<{
@@ -38,8 +39,11 @@ export default async function ProjectPage({
 	params,
 }: ProjectPageProps) {
 	const { id } = await params;
-	const site = await fetchJson<SiteData>("/site.json");
-	const project = await getProjectByIdController(id);
+	const [site, project, authed] = await Promise.all([
+		fetchJson<SiteData>("/site.json"),
+		getProjectByIdController(id),
+		isAuthenticated(),
+	]);
 
 	if (!project) {
 		return (
@@ -53,6 +57,7 @@ export default async function ProjectPage({
 		<ProjectPageContent
 			project={project}
 			whatsappPhone={site.phone}
+			isAuthenticated={authed}
 		/>
 	);
 }

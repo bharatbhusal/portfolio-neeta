@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useMemo } from "react";
 import { Separator } from "@/components/ui/separator";
 import type {
 	SiteData,
@@ -8,20 +7,16 @@ import type {
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
-import { useAuthMe, useLogout } from "@/hooks/useApi";
+import { useLogout } from "@/hooks/useApi";
 
 type FooterProps = {
 	site: SiteData;
+	isAuthenticated: boolean;
 };
 
-export function Footer({ site }: FooterProps) {
+export function Footer({ site, isAuthenticated: authed }: FooterProps) {
 	const currentYear = new Date().getFullYear();
-	const authQuery = useAuthMe();
 	const logoutMutation = useLogout();
-
-	const authed = useMemo(() => {
-		return Boolean(authQuery.data);
-	}, [authQuery.data]);
 
 	return (
 		<footer className="border-t border-border/60 bg-background/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">

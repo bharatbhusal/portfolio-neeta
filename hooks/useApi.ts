@@ -1,8 +1,8 @@
 "use client";
 
 import {
-	useQuery,
 	useMutation,
+	useQuery,
 	useQueryClient,
 } from "@tanstack/react-query";
 import {
@@ -19,54 +19,7 @@ import type {
 	ProjectInput,
 	ProjectUpdate,
 } from "@/lib/validators";
-import type {
-	PaginatedProjectsData,
-	Project,
-} from "@/types/portfolio";
-
-async function refetchProjectRelatedQueries(
-	qc: ReturnType<typeof useQueryClient>,
-	id?: string,
-) {
-	const tasks = [
-		qc.invalidateQueries({
-			queryKey: ["projects"],
-			refetchType: "all",
-		}),
-		qc.invalidateQueries({
-			queryKey: ["featured-projects"],
-			refetchType: "all",
-		}),
-		qc.invalidateQueries({
-			queryKey: ["client-projects"],
-			refetchType: "all",
-		}),
-		qc.invalidateQueries({
-			queryKey: ["categories"],
-			refetchType: "all",
-		}),
-	];
-
-	if (id) {
-		tasks.push(
-			qc.invalidateQueries({
-				queryKey: ["project", id],
-				refetchType: "all",
-			}),
-		);
-	}
-
-	await Promise.all(tasks);
-}
-
-export function useAuthMe(options?: { enabled?: boolean }) {
-	return useQuery<AuthUser, ApiClientError>({
-		queryKey: ["auth", "me"],
-		queryFn: () => apiRequest<AuthUser>("/auth/me"),
-		enabled: options?.enabled ?? true,
-		retry: 1,
-	});
-}
+import type { Project } from "@/types/portfolio";
 
 export function useLogin() {
 	const qc = useQueryClient();
@@ -128,39 +81,6 @@ export function useGetSignature(publicId: string) {
 	});
 }
 
-export function useProjects(params: {
-	page: number;
-	pageSize?: number;
-	category?: string;
-	q?: string;
-}) {
-	const { page, pageSize = 10, category, q } = params;
-	const qs = new URLSearchParams();
-	qs.set("page", String(page));
-	qs.set("pageSize", String(pageSize));
-	if (category && category !== "All")
-		qs.set("category", category);
-	if (q) qs.set("q", q);
-
-	return useQuery<PaginatedProjectsData, ApiClientError>({
-		queryKey: ["projects", qs.toString()],
-		queryFn: () =>
-			apiRequest<PaginatedProjectsData>(
-				`/projects?${qs.toString()}`,
-			),
-		retry: 1,
-	});
-}
-
-export function useProject(id: string) {
-	return useQuery<Project, ApiClientError>({
-		queryKey: ["project", id],
-		queryFn: () => apiRequest<Project>(`/projects/${id}`),
-		enabled: Boolean(id),
-		retry: 1,
-	});
-}
-
 export function useCreateProject() {
 	const qc = useQueryClient();
 	return useMutation<Project, ApiClientError, ProjectInput>({
@@ -170,7 +90,7 @@ export function useCreateProject() {
 				body: payload,
 			}),
 		onSuccess: async () => {
-			await refetchProjectRelatedQueries(qc);
+			await qc.invalidateQueries({ queryKey: ["projects"], refetchType: "all" });
 		},
 	});
 }
@@ -188,44 +108,8 @@ export function useUpdateProject(id: string) {
 					},
 				),
 			onSuccess: async () => {
-				await refetchProjectRelatedQueries(qc, id);
+				await qc.invalidateQueries({ queryKey: ["projects"], refetchType: "all" });
 			},
 		},
 	);
-}
-
-export function useFeaturedProjects(count?: number) {
-	const key = count
-		? ["featured-projects", String(count)]
-		: ["featured-projects", "all"];
-	const query = count
-		? `/projects/featured-projects?count=${String(count)}`
-		: `/projects/featured-projects`;
-	return useQuery<Project[], ApiClientError>({
-		queryKey: key,
-		queryFn: () => apiRequest<Project[]>(query),
-		retry: 1,
-	});
-}
-
-export function useClientProjects(count?: number) {
-	const key = count
-		? ["client-projects", String(count)]
-		: ["client-projects", "all"];
-	const q = count
-		? `/projects/client-projects?count=${String(count)}`
-		: `/projects/client-projects`;
-	return useQuery<Project[], ApiClientError>({
-		queryKey: key,
-		queryFn: () => apiRequest<Project[]>(q),
-		retry: 1,
-	});
-}
-
-export function useCategories() {
-	return useQuery<string[], ApiClientError>({
-		queryKey: ["categories"],
-		queryFn: () => apiRequest<string[]>(`/categories`),
-		retry: 1,
-	});
 }

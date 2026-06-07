@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { fetchJson } from "@/lib/data";
+import { isAuthenticated } from "@/lib/server-auth";
 import { SiteData } from "@/types/portfolio";
 
 const geistSans = Geist({
@@ -35,8 +36,9 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const [site] = await Promise.all([
+	const [site, authed] = await Promise.all([
 		fetchJson<SiteData>("/site.json"),
+		isAuthenticated(),
 	]);
 
 	return (
@@ -55,7 +57,7 @@ export default async function RootLayout({
 						<div className="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-16">
 							{children}
 						</div>
-						<Footer site={site} />
+						<Footer site={site} isAuthenticated={authed} />
 					</div>
 				</QueryProvider>
 			</body>
