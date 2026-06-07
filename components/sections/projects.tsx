@@ -182,21 +182,14 @@ export function ProjectGridContent({
 
 	const handleSortChange = useCallback(
 		(field: SortBy) => {
-			let newSortBy: SortBy;
+			const newSortBy: SortBy = field;
 			let newSortOrder: SortOrder;
 
 			if (field !== currentSortBy) {
-				newSortBy = field;
 				newSortOrder = sortDefaultOrder(field);
-			} else if (
-				currentSortOrder === sortDefaultOrder(field)
-			) {
-				newSortBy = field;
+			} else {
 				newSortOrder =
 					currentSortOrder === "asc" ? "desc" : "asc";
-			} else {
-				newSortBy = DEFAULT_SORT;
-				newSortOrder = DEFAULT_ORDER;
 			}
 
 			router.push(
