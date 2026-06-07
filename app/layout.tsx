@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { getCachedSiteData } from "@/lib/data";
+import { ZoomLock } from "./zoom-lock";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -45,13 +46,15 @@ export default async function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-background text-foreground`}
 			>
 				<QueryProvider>
-					<div className="flex min-h-dvh flex-col">
-						<Navbar site={site} />
-						<div className="flex-1 mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-							{children}
+					<ZoomLock>
+						<div className="flex min-h-dvh flex-col">
+							<Navbar site={site} />
+							<div className="mx-auto flex-1 w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+								{children}
+							</div>
+							<Footer site={site} />
 						</div>
-						<Footer site={site} />
-					</div>
+					</ZoomLock>
 				</QueryProvider>
 			</body>
 		</html>
