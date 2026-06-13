@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { QueryProvider } from "@/app/providers/query-provider";
 import { getCachedSiteData } from "@/lib/data";
 import { UiRestriction } from "./providers/ui-restriction";
+import { Analytics } from "@vercel/analytics/next";
 
 export const viewport: Viewport = {
 	width: "device-width",
@@ -63,6 +64,7 @@ export default async function RootLayout({
 						</div>
 					</UiRestriction>
 				</QueryProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
