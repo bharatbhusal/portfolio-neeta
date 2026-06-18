@@ -37,6 +37,29 @@ export async function getDistinctCategories() {
 	return ProjectModel.distinct("category");
 }
 
+type ProjectStats = {
+	total: number;
+	featured: number;
+	clientProjects: number;
+	categories: number;
+};
+
+export async function getProjectStats(): Promise<ProjectStats> {
+	const [total, featured, clientProjects, categories] =
+		await Promise.all([
+			ProjectModel.countDocuments(),
+			ProjectModel.countDocuments({ featured: true }),
+			ProjectModel.countDocuments({
+				client: { $exists: true, $ne: "" },
+			}),
+			ProjectModel.distinct("category").then(
+				(cats) => cats.filter(Boolean).length,
+			),
+		]);
+
+	return { total, featured, clientProjects, categories };
+}
+
 export async function findProjectsByFilter(
 	filter: Record<string, unknown> = {},
 	options: {

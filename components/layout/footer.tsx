@@ -7,20 +7,13 @@ import type {
 } from "@/types/portfolio";
 import { Button } from "../ui/button";
 import { iconMap } from "@/lib/iconMapper";
-import {
-	useIsAuthenticated,
-	useLogout,
-} from "@/hooks/useApi";
 
 type FooterProps = {
 	site: SiteData;
 };
 
 export function Footer({ site }: FooterProps) {
-	const { data: auth } = useIsAuthenticated();
-	const authed = auth?.authenticated ?? false;
 	const currentYear = new Date().getFullYear();
-	const logoutMutation = useLogout();
 
 	return (
 		<footer className="border-t border-border/60 bg-background/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">
@@ -59,34 +52,12 @@ export function Footer({ site }: FooterProps) {
 									{item.label}
 								</Link>
 							))}
-							{authed ? (
-								<>
-									<Link
-										href={`/admin/projects/new`}
-										className="text-sm text-muted-foreground transition hover:text-foreground"
-									>
-										New Project
-									</Link>
-
-									<div
-										onClick={() =>
-											logoutMutation
-												.mutateAsync()
-												.then(() => window.location.reload())
-										}
-										className="text-sm text-muted-foreground transition hover:text-foreground cursor-pointer"
-									>
-										{"Logout"}
-									</div>
-								</>
-							) : (
-								<Link
-									href={`/admin/login`}
-									className="text-sm text-muted-foreground transition hover:text-foreground"
-								>
-									Login
-								</Link>
-							)}
+							<Link
+								href="/admin"
+								className="text-sm text-muted-foreground transition hover:text-foreground"
+							>
+								Admin
+							</Link>
 						</nav>
 					</div>
 

@@ -19,8 +19,9 @@ import type { UploadSignaturePayload } from "@/types/upload";
 import type {
 	ProjectInput,
 	ProjectUpdate,
+	ProjectRequestInput,
 } from "@/lib/validators";
-import type { Project } from "@/types/portfolio";
+import type { Project, ProjectRequest } from "@/types/portfolio";
 
 export function useLogin() {
 	return useMutation<AuthUser, ApiClientError, LoginPayload>(
@@ -96,6 +97,20 @@ export function useCreateProject() {
 				refetchType: "all",
 			});
 		},
+	});
+}
+
+export function useCreateProjectRequest() {
+	return useMutation<
+		ProjectRequest,
+		ApiClientError,
+		ProjectRequestInput
+	>({
+		mutationFn: (payload) =>
+			apiRequest<ProjectRequest>("/requests", {
+				method: "POST",
+				body: payload,
+			}),
 	});
 }
 

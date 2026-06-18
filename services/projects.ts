@@ -7,6 +7,7 @@ import {
 	findProjectById,
 	findProjectsByFilter,
 	countProjects,
+	getProjectStats,
 	updateProjectById,
 	deleteProjectById,
 } from "@/repositories/project";
@@ -115,6 +116,10 @@ export async function updateProjectService(
 ) {
 	const project = await updateProjectById(id, data);
 	return project;
+}
+
+export async function getProjectStatsService() {
+	return getProjectStats();
 }
 
 export async function deleteProjectService(id: string) {

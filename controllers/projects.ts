@@ -6,6 +6,7 @@ import {
 	getProjectById,
 	findProjects,
 	getProjectsWithPagination,
+	getProjectStatsService,
 	createProject,
 	updateProjectService,
 	deleteProjectService,
@@ -109,6 +110,12 @@ export async function updateProjectController(
 		throw new AppError("project not found", 404);
 	}
 	return project;
+}
+
+export async function getProjectStatsController() {
+	await connectToDatabase();
+	const stats = await getProjectStatsService();
+	return JSON.parse(JSON.stringify(stats));
 }
 
 export async function deleteProjectController(id: string) {

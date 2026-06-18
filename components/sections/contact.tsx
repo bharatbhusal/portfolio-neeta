@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import { MdArrowOutward } from "react-icons/md";
 import { Reveal } from "@/app/animations/reveal";
 import { ProjectCardBox } from "@/components/cards/project-card-box";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,14 @@ export function ContactContent({
 			className="flex gap-4 flex-col sm:flex-row"
 		>
 			<div className="flex-1 flex gap-4 flex-col">
+				<Reveal>
+					<Button asChild variant="default" size="lg" className="w-full sm:w-auto">
+						<Link href="/request/logo">
+							Request a Logo
+							<MdArrowOutward className="size-4" />
+						</Link>
+					</Button>
+				</Reveal>
 				<Reveal>
 					<div className="flex gap-2 md:gap-4 flex-wrap">
 						<SocialLinks socials={social} />

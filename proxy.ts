@@ -7,6 +7,8 @@ import { getEnvConfig } from "@/lib/env";
 const protectedPaths = [
 	"/admin/projects/new",
 	/\/admin\/projects\/[^/]+$/,
+	"/admin/requests",
+	/\/admin\/requests\/[^/]+$/,
 ];
 
 export function proxy(request: NextRequest) {

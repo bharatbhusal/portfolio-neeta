@@ -74,6 +74,11 @@
 				"variant": "default"
 			},
 			{
+				"label": "Request a Logo Design",
+				"href": "/request/logo",
+				"variant": "outline"
+			},
+			{
 				"label": "Let's Collaborate",
 				"href": "/contact",
 				"variant": "outline"

@@ -112,6 +112,29 @@ function DropdownMenuLabel({
   );
 }
 
+function DropdownMenuCheckboxItem({
+	className,
+	children,
+	checked,
+	onCheckedChange,
+	...props
+}: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+	return (
+		<DropdownMenuPrimitive.CheckboxItem
+			data-slot="dropdown-menu-checkbox-item"
+			className={cn(
+				"relative flex cursor-default items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+				className,
+			)}
+			checked={checked}
+			onCheckedChange={onCheckedChange}
+			{...props}
+		>
+			{children}
+		</DropdownMenuPrimitive.CheckboxItem>
+	);
+}
+
 function DropdownMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
@@ -195,17 +218,18 @@ function DropdownMenuSubContent({
 }
 
 export {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuPortal,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuGroup,
-  DropdownMenuSeparator,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuPortal,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuCheckboxItem,
+	DropdownMenuGroup,
+	DropdownMenuSeparator,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSub,
+	DropdownMenuSubTrigger,
+	DropdownMenuSubContent,
 };

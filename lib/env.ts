@@ -13,6 +13,11 @@ type EnvConfig = {
 	CLOUDINARY_FOLDER_NAME: string;
 
 	DISABLE_ONBOARDING: string;
+
+	SMTP_HOST: string;
+	SMTP_PORT: string;
+	SMTP_MAIL_ID: string;
+	SMTP_PASSWORD: string;
 };
 
 function requireEnv(name: string) {
@@ -46,5 +51,10 @@ export function getEnvConfig(): EnvConfig {
 		),
 
 		DISABLE_ONBOARDING: requireEnv("DISABLE_ONBOARDING"),
+
+		SMTP_HOST: requireEnv("SMTP_HOST"),
+		SMTP_PORT: requireEnv("SMTP_PORT"),
+		SMTP_MAIL_ID: requireEnv("SMTP_MAIL_ID"),
+		SMTP_PASSWORD: requireEnv("SMTP_PASSWORD"),
 	};
 }
