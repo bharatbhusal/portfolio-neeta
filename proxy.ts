@@ -5,10 +5,9 @@ import { verifyToken } from "@/lib/auth";
 import { getEnvConfig } from "@/lib/env";
 
 const protectedPaths = [
-	"/admin/projects/new",
+	"/admin",
 	/\/admin\/projects\/[^/]+$/,
 	"/admin/requests",
-	/\/admin\/requests\/[^/]+$/,
 ];
 
 export function proxy(request: NextRequest) {

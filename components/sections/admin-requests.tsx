@@ -256,7 +256,7 @@ export function AdminRequestsContent({
 						return (
 							<Link
 								key={request._id}
-								href={`/admin/requests/${request._id}`}
+								href={`/request/${request._id}`}
 								className="block rounded-2xl border border-border/60 bg-card/60 p-4 shadow-sm space-y-2 hover:border-foreground/30 transition-colors"
 							>
 								<div className="flex items-start justify-between gap-3">

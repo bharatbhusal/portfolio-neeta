@@ -42,7 +42,7 @@ function formatList(items: string[] | undefined): string {
 	return items.join(", ");
 }
 
-function wrapHtml(subject: string, body: string): string {
+function emailHeader(subject: string): string {
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +60,11 @@ function wrapHtml(subject: string, body: string): string {
     <div style="text-align:center;margin-bottom:28px;">
       <h2 style="color:#1a237e;margin:0;font-size:1.5em;letter-spacing:0.3px;">${subject}</h2>
     </div>
-    <div style="color:#333;font-size:1em;line-height:1.7;">${body}</div>
+    <div style="color:#333;font-size:1em;line-height:1.7;">`;
+}
+
+function emailFooter(): string {
+	return `</div>
     <hr style="border:none;border-top:1px solid #e3e8f0;margin:28px 0 16px;" />
     <div style="text-align:center;color:#888;font-size:0.9em;">
       <p style="margin:0 0 2px;">Best regards,</p>
@@ -70,6 +74,10 @@ function wrapHtml(subject: string, body: string): string {
   </div>
 </body>
 </html>`;
+}
+
+function wrapHtml(subject: string, body: string): string {
+	return emailHeader(subject) + body + emailFooter();
 }
 
 function ctaButton(url: string, label: string): string {
@@ -120,6 +128,7 @@ export async function sendAdminAlert(
 	const usage = data.usage;
 	const fileFormats = data.fileFormats;
 	const additionalNotes = data.additionalNotes ?? "";
+	const requestId = data._id ?? "";
 
 	const fields = [
 		`<strong>Client Name:</strong> ${name}`,
@@ -155,13 +164,14 @@ export async function sendAdminAlert(
 		.join("<br /><br />");
 
 	const subject = `New Logo Design Request: ${brandName}`;
+	const requestLink = `${BASE_URL}/request/${requestId}`;
 	const adminLink = `${BASE_URL}/admin/requests`;
 
 	const body = `${fields}
-<br />
+${ctaButton(requestLink, "View This Request")}
 <hr />
 <p style="color:#888;font-size:13px;">
-  <a href="${adminLink}" style="color:#1a237e;">View in admin dashboard</a>
+  <a href="${adminLink}" style="color:#1a237e;">View all requests in admin dashboard</a>
 </p>`;
 
 	await transporter.sendMail({
