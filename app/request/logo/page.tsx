@@ -6,7 +6,7 @@ export async function generateMetadata() {
 	const site = await getCachedSiteData();
 
 	return buildPageMetadata(site, {
-		title: "Request a Logo Design | Neeta Bhusal",
+		title: "Request a Design | Neeta Bhusal",
 		description:
 			"Tell me about your brand and vision. I'll design a logo that captures your identity.",
 		path: "/request/logo",

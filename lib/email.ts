@@ -1,21 +1,7 @@
 import nodemailer from "nodemailer";
 
 import { getEnvConfig } from "./env";
-
-const LOGO_TYPE_LABELS: Record<string, string> = {
-	text_logo: "Text Logo (Wordmark)",
-	icon_logo: "Icon Logo (Symbol)",
-	combination_logo: "Combination Logo",
-	mascot_logo: "Mascot Logo",
-	abstract_logo: "Abstract Logo",
-};
-
-const STATUS_LABELS: Record<string, string> = {
-	pending: "Pending",
-	reviewed: "Reviewed",
-	accepted: "Accepted",
-	declined: "Declined",
-};
+import { LOGO_TYPE_LABELS, STATUS_LABELS } from "./constants";
 
 const BASE_URL = "https://neetabhusal.vercel.app";
 
@@ -34,6 +20,28 @@ function getTransporter() {
 			user: SMTP_MAIL_ID,
 			pass: SMTP_PASSWORD,
 		},
+	});
+}
+
+async function sendMail(
+	to: string,
+	subject: string,
+	html: string,
+) {
+	const { NODE_ENV, SMTP_MAIL_ID } = getEnvConfig();
+
+	if (NODE_ENV === "development") {
+		console.log(`[DEV] Email would be sent to ${to}`);
+		console.log(`[DEV] Subject: ${subject}`);
+		return;
+	}
+
+	const transporter = getTransporter();
+	await transporter.sendMail({
+		from: SMTP_MAIL_ID,
+		to,
+		subject,
+		html,
 	});
 }
 
@@ -110,9 +118,6 @@ export async function sendAdminAlert(
 	data: RequestData,
 	recipientEmail: string,
 ) {
-	const { SMTP_MAIL_ID } = getEnvConfig();
-	const transporter = getTransporter();
-
 	const name = data.name ?? "Unknown";
 	const clientEmail = data.email ?? "";
 	const phone = data.phone ?? "";
@@ -174,21 +179,13 @@ ${ctaButton(requestLink, "View This Request")}
   <a href="${adminLink}" style="color:#1a237e;">View all requests in admin dashboard</a>
 </p>`;
 
-	await transporter.sendMail({
-		from: SMTP_MAIL_ID,
-		to: recipientEmail,
-		subject,
-		html: wrapHtml(subject, body),
-	});
+	await sendMail(recipientEmail, subject, wrapHtml(subject, body));
 }
 
 export async function sendClientConfirmation(
 	data: RequestData,
 	recipientEmail: string,
 ) {
-	const { SMTP_MAIL_ID } = getEnvConfig();
-	const transporter = getTransporter();
-
 	const brandName = data.brandName ?? "";
 	const name = data.name ?? "there";
 	const requestId = data._id ?? "";
@@ -208,21 +205,13 @@ export async function sendClientConfirmation(
 ${ctaButton(publicLink, "View Your Request Status")}
 <p style="margin-top:20px;color:#888;font-size:0.93em;">If you have any questions in the meantime, feel free to reply to this email.</p>`;
 
-	await transporter.sendMail({
-		from: SMTP_MAIL_ID,
-		to: recipientEmail,
-		subject,
-		html: wrapHtml(subject, body),
-	});
+	await sendMail(recipientEmail, subject, wrapHtml(subject, body));
 }
 
 export async function sendStatusUpdateEmail(
 	data: RequestData,
 	recipientEmail: string,
 ) {
-	const { SMTP_MAIL_ID } = getEnvConfig();
-	const transporter = getTransporter();
-
 	const brandName = data.brandName ?? "";
 	const name = data.name ?? "there";
 	const status = data.status ?? "pending";
@@ -247,10 +236,5 @@ export async function sendStatusUpdateEmail(
 ${ctaButton(publicLink, "View Your Request")}
 <p style="margin-top:20px;color:#888;font-size:0.93em;">If you have any questions, feel free to reply to this email.</p>`;
 
-	await transporter.sendMail({
-		from: SMTP_MAIL_ID,
-		to: recipientEmail,
-		subject,
-		html: wrapHtml(subject, body),
-	});
+	await sendMail(recipientEmail, subject, wrapHtml(subject, body));
 }

@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import {
+	useState,
+	useEffect,
+	useCallback,
+	useRef,
+} from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
@@ -23,35 +28,13 @@ import {
 	clearPersistedValues,
 } from "@/hooks/useFormPersistence";
 import type { ProjectRequestInput } from "@/lib/validators";
-
-const BRAND_KEYWORDS = [
-	"Modern", "Minimal", "Luxury", "Bold", "Friendly",
-	"Creative", "Professional", "Premium", "Futuristic",
-	"Elegant", "Playful", "Traditional", "Artistic", "Corporate",
-] as const;
-
-const LOGO_FEELINGS = [
-	"Trust", "Energy", "Luxury", "Fun", "Confidence",
-	"Innovation", "Calm", "Creativity", "Strength", "Happiness",
-] as const;
-
-const LOGO_TYPES = [
-	{ value: "text_logo", label: "Text Logo (Wordmark)" },
-	{ value: "icon_logo", label: "Icon Logo (Symbol)" },
-	{ value: "combination_logo", label: "Combination Logo" },
-	{ value: "mascot_logo", label: "Mascot Logo" },
-	{ value: "abstract_logo", label: "Abstract Logo" },
-] as const;
-
-const USAGE_OPTIONS = [
-	"Instagram", "Website", "Packaging", "Business Card",
-	"App", "Print", "YouTube", "Merchandise",
-] as const;
-
-const FILE_FORMATS = [
-	"PNG", "JPG", "SVG", "PDF", "AI File",
-	"Transparent Background", "Black & White Version", "Social Media Kit",
-] as const;
+import {
+	LOGO_TYPES,
+	BRAND_KEYWORDS,
+	LOGO_FEELINGS,
+	USAGE_OPTIONS,
+	FILE_FORMATS,
+} from "@/lib/constants";
 
 type FormFields = {
 	name: string;
@@ -89,20 +72,27 @@ const defaultValues: FormFields = {
 	additionalNotes: "",
 };
 
-function toggleArrayItem(arr: string[], item: string): string[] {
+function toggleArrayItem(
+	arr: string[],
+	item: string,
+): string[] {
 	return arr.includes(item)
 		? arr.filter((i) => i !== item)
 		: [...arr, item];
 }
 
 export function ProjectRequestForm() {
-	const [fields, setFields] = useState<FormFields>(defaultValues);
-	const persistTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const [fields, setFields] =
+		useState<FormFields>(defaultValues);
+	const persistTimeoutRef = useRef<ReturnType<
+		typeof setTimeout
+	> | null>(null);
 	const mutation = useCreateProjectRequest();
 	const [submitted, setSubmitted] = useState(false);
 
 	useEffect(() => {
-		const persisted = getPersistedValues<FormFields>(defaultValues);
+		const persisted =
+			getPersistedValues<FormFields>(defaultValues);
 		const hasData = Object.values(persisted).some(
 			(v) =>
 				(typeof v === "string" && v.length > 0) ||
@@ -115,13 +105,19 @@ export function ProjectRequestForm() {
 	}, []);
 
 	const updateField = useCallback(
-		<K extends keyof FormFields>(key: K, value: FormFields[K]) => {
+		<K extends keyof FormFields>(
+			key: K,
+			value: FormFields[K],
+		) => {
 			setFields((prev) => {
 				const next = { ...prev, [key]: value };
 				if (persistTimeoutRef.current) {
 					clearTimeout(persistTimeoutRef.current);
 				}
-				persistTimeoutRef.current = setTimeout(() => persistValues(next), 500);
+				persistTimeoutRef.current = setTimeout(
+					() => persistValues(next),
+					500,
+				);
 				return next;
 			});
 		},
@@ -129,13 +125,26 @@ export function ProjectRequestForm() {
 	);
 
 	const toggleField = useCallback(
-		(key: "brandKeywords" | "logoFeeling" | "usage" | "fileFormats", value: string) => {
+		(
+			key:
+				| "brandKeywords"
+				| "logoFeeling"
+				| "usage"
+				| "fileFormats",
+			value: string,
+		) => {
 			setFields((prev) => {
-				const next = { ...prev, [key]: toggleArrayItem(prev[key], value) };
+				const next = {
+					...prev,
+					[key]: toggleArrayItem(prev[key], value),
+				};
 				if (persistTimeoutRef.current) {
 					clearTimeout(persistTimeoutRef.current);
 				}
-				persistTimeoutRef.current = setTimeout(() => persistValues(next), 500);
+				persistTimeoutRef.current = setTimeout(
+					() => persistValues(next),
+					500,
+				);
 				return next;
 			});
 		},
@@ -149,27 +158,48 @@ export function ProjectRequestForm() {
 			email: fields.email.trim(),
 			phone: fields.phone.trim() || undefined,
 			brandName: fields.brandName.trim(),
-			businessDescription: fields.businessDescription.trim() || undefined,
-			targetAudience: fields.targetAudience.trim() || undefined,
-			brandKeywords: fields.brandKeywords.length > 0 ? fields.brandKeywords : undefined,
-			logoFeeling: fields.logoFeeling.length > 0 ? fields.logoFeeling : undefined,
+			businessDescription:
+				fields.businessDescription.trim() || undefined,
+			targetAudience:
+				fields.targetAudience.trim() || undefined,
+			brandKeywords:
+				fields.brandKeywords.length > 0
+					? fields.brandKeywords
+					: undefined,
+			logoFeeling:
+				fields.logoFeeling.length > 0
+					? fields.logoFeeling
+					: undefined,
 			logoType: fields.logoType || undefined,
 			colors: fields.colors.trim() || undefined,
 			symbols: fields.symbols.trim() || undefined,
 			inspiration: fields.inspiration.trim() || undefined,
-			usage: fields.usage.length > 0 ? fields.usage : undefined,
-			fileFormats: fields.fileFormats.length > 0 ? fields.fileFormats : undefined,
-			additionalNotes: fields.additionalNotes.trim() || undefined,
+			usage:
+				fields.usage.length > 0 ? fields.usage : undefined,
+			fileFormats:
+				fields.fileFormats.length > 0
+					? fields.fileFormats
+					: undefined,
+			additionalNotes:
+				fields.additionalNotes.trim() || undefined,
 		};
 	}
 
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(
+		event: React.FormEvent<HTMLFormElement>,
+	) {
 		event.preventDefault();
-		if (!fields.name.trim() || !fields.email.trim() || !fields.brandName.trim()) {
+		if (
+			!fields.name.trim() ||
+			!fields.email.trim() ||
+			!fields.brandName.trim()
+		) {
 			return;
 		}
 		try {
-			await mutation.mutateAsync(buildPayload() as ProjectRequestInput);
+			await mutation.mutateAsync(
+				buildPayload() as ProjectRequestInput,
+			);
 			clearPersistedValues();
 			setSubmitted(true);
 		} catch {
@@ -196,12 +226,15 @@ export function ProjectRequestForm() {
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="space-y-2">
 							<Label htmlFor="name">
-								Your Name <span className="text-destructive">*</span>
+								Your Name{" "}
+								<span className="text-destructive">*</span>
 							</Label>
 							<Input
 								id="name"
 								value={fields.name}
-								onChange={(e) => updateField("name", e.target.value)}
+								onChange={(e) =>
+									updateField("name", e.target.value)
+								}
 								required
 								placeholder="e.g. Jane Doe"
 							/>
@@ -214,7 +247,9 @@ export function ProjectRequestForm() {
 								id="email"
 								type="email"
 								value={fields.email}
-								onChange={(e) => updateField("email", e.target.value)}
+								onChange={(e) =>
+									updateField("email", e.target.value)
+								}
 								required
 								placeholder="you@example.com"
 							/>
@@ -226,7 +261,9 @@ export function ProjectRequestForm() {
 							id="phone"
 							type="tel"
 							value={fields.phone}
-							onChange={(e) => updateField("phone", e.target.value)}
+							onChange={(e) =>
+								updateField("phone", e.target.value)
+							}
 							placeholder="+91 98765 43210"
 						/>
 					</div>
@@ -238,38 +275,51 @@ export function ProjectRequestForm() {
 					</legend>
 					<div className="space-y-2">
 						<Label htmlFor="brandName">
-							Brand / Company Name <span className="text-destructive">*</span>
+							Brand / Company Name{" "}
+							<span className="text-destructive">*</span>
 						</Label>
 						<Input
 							id="brandName"
 							value={fields.brandName}
-							onChange={(e) => updateField("brandName", e.target.value)}
+							onChange={(e) =>
+								updateField("brandName", e.target.value)
+							}
 							required
 							placeholder="Your brand or business name"
 						/>
 					</div>
 					<div className="space-y-2">
-						<Label htmlFor="businessDescription">What does your business do?</Label>
+						<Label htmlFor="businessDescription">
+							What does your business do?
+						</Label>
 						<Textarea
 							id="businessDescription"
 							value={fields.businessDescription}
-							onChange={(e) => updateField("businessDescription", e.target.value)}
+							onChange={(e) =>
+								updateField("businessDescription", e.target.value)
+							}
 							placeholder="Describe your business, products, or services..."
 							className="min-h-[80px]"
 						/>
 					</div>
 					<div className="space-y-2">
-						<Label htmlFor="targetAudience">Who is your target audience?</Label>
+						<Label htmlFor="targetAudience">
+							Who is your target audience?
+						</Label>
 						<Textarea
 							id="targetAudience"
 							value={fields.targetAudience}
-							onChange={(e) => updateField("targetAudience", e.target.value)}
+							onChange={(e) =>
+								updateField("targetAudience", e.target.value)
+							}
 							placeholder="Describe your ideal customers or audience..."
 							className="min-h-[80px]"
 						/>
 					</div>
 					<div className="space-y-2">
-						<Label>Describe your brand in 3&ndash;5 keywords</Label>
+						<Label>
+							Describe your brand in 3&ndash;5 keywords
+						</Label>
 						<div className="flex flex-wrap gap-3">
 							{BRAND_KEYWORDS.map((kw) => (
 								<label
@@ -278,7 +328,9 @@ export function ProjectRequestForm() {
 								>
 									<Checkbox
 										checked={fields.brandKeywords.includes(kw)}
-										onCheckedChange={() => toggleField("brandKeywords", kw)}
+										onCheckedChange={() =>
+											toggleField("brandKeywords", kw)
+										}
 									/>
 									{kw}
 								</label>
@@ -301,7 +353,9 @@ export function ProjectRequestForm() {
 								>
 									<Checkbox
 										checked={fields.logoFeeling.includes(feeling)}
-										onCheckedChange={() => toggleField("logoFeeling", feeling)}
+										onCheckedChange={() =>
+											toggleField("logoFeeling", feeling)
+										}
 									/>
 									{feeling}
 								</label>
@@ -312,9 +366,15 @@ export function ProjectRequestForm() {
 						<Label>What type of logo do you want?</Label>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant="outline" size="sm" className="w-full sm:w-auto">
+								<Button
+									variant="outline"
+									size="sm"
+									className="w-full sm:w-auto"
+								>
 									{fields.logoType
-										? LOGO_TYPES.find((t) => t.value === fields.logoType)?.label
+										? LOGO_TYPES.find(
+												(t) => t.value === fields.logoType,
+											)?.label
 										: "Select logo type"}
 									<ChevronDownIcon className="ml-1 size-3.5" />
 								</Button>
@@ -325,7 +385,10 @@ export function ProjectRequestForm() {
 									onValueChange={(v) => updateField("logoType", v)}
 								>
 									{LOGO_TYPES.map((type) => (
-										<DropdownMenuRadioItem key={type.value} value={type.value}>
+										<DropdownMenuRadioItem
+											key={type.value}
+											value={type.value}
+										>
 											{type.label}
 										</DropdownMenuRadioItem>
 									))}
@@ -334,21 +397,29 @@ export function ProjectRequestForm() {
 						</DropdownMenu>
 					</div>
 					<div className="space-y-2">
-						<Label htmlFor="colors">Any preferred colors or colors to avoid?</Label>
+						<Label htmlFor="colors">
+							Any preferred colors or colors to avoid?
+						</Label>
 						<Textarea
 							id="colors"
 							value={fields.colors}
-							onChange={(e) => updateField("colors", e.target.value)}
+							onChange={(e) =>
+								updateField("colors", e.target.value)
+							}
 							placeholder="e.g. I love deep blues and golds. Please avoid neon colors."
 							className="min-h-[80px]"
 						/>
 					</div>
 					<div className="space-y-2">
-						<Label htmlFor="symbols">Any symbols/icons you want included or avoided?</Label>
+						<Label htmlFor="symbols">
+							Any symbols/icons you want included or avoided?
+						</Label>
 						<Textarea
 							id="symbols"
 							value={fields.symbols}
-							onChange={(e) => updateField("symbols", e.target.value)}
+							onChange={(e) =>
+								updateField("symbols", e.target.value)
+							}
 							placeholder="e.g. I'd like a mountain icon. Please avoid generic globes."
 							className="min-h-[80px]"
 						/>
@@ -360,11 +431,15 @@ export function ProjectRequestForm() {
 						References &amp; Usage
 					</legend>
 					<div className="space-y-2">
-						<Label htmlFor="inspiration">Share 2&ndash;3 logos or brands you like</Label>
+						<Label htmlFor="inspiration">
+							Share 2&ndash;3 logos or brands you like
+						</Label>
 						<Textarea
 							id="inspiration"
 							value={fields.inspiration}
-							onChange={(e) => updateField("inspiration", e.target.value)}
+							onChange={(e) =>
+								updateField("inspiration", e.target.value)
+							}
 							placeholder="Links or descriptions of logos/brands that inspire you..."
 							className="min-h-[80px]"
 						/>
@@ -396,7 +471,9 @@ export function ProjectRequestForm() {
 								>
 									<Checkbox
 										checked={fields.fileFormats.includes(fmt)}
-										onCheckedChange={() => toggleField("fileFormats", fmt)}
+										onCheckedChange={() =>
+											toggleField("fileFormats", fmt)
+										}
 									/>
 									{fmt}
 								</label>
@@ -410,11 +487,15 @@ export function ProjectRequestForm() {
 						Additional
 					</legend>
 					<div className="space-y-2">
-						<Label htmlFor="additionalNotes">Any additional ideas or vision for the logo?</Label>
+						<Label htmlFor="additionalNotes">
+							Any additional ideas or vision for the logo?
+						</Label>
 						<Textarea
 							id="additionalNotes"
 							value={fields.additionalNotes}
-							onChange={(e) => updateField("additionalNotes", e.target.value)}
+							onChange={(e) =>
+								updateField("additionalNotes", e.target.value)
+							}
 							placeholder="Anything else you'd like me to know..."
 							className="min-h-[80px]"
 						/>
@@ -422,7 +503,9 @@ export function ProjectRequestForm() {
 				</fieldset>
 
 				{mutation.isError && (
-					<p className="text-sm text-destructive">{mutation.error.message}</p>
+					<p className="text-sm text-destructive">
+						{mutation.error.message}
+					</p>
 				)}
 
 				<div className="flex flex-wrap gap-3">

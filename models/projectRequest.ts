@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { STATUS_VALUES, LOGO_TYPE_VALUES } from "@/lib/constants";
 
 export type ProjectRequestDoc = mongoose.Document & {
 	requestType: "logo_design";
@@ -40,7 +41,7 @@ const ProjectRequestSchema = new Schema<ProjectRequestDoc>(
 		phone: { type: String },
 		status: {
 			type: String,
-			enum: ["pending", "reviewed", "accepted", "declined"],
+			enum: [...STATUS_VALUES],
 			default: "pending",
 		},
 		notes: { type: String },
@@ -52,13 +53,7 @@ const ProjectRequestSchema = new Schema<ProjectRequestDoc>(
 		logoFeeling: { type: [String], default: [] },
 		logoType: {
 			type: String,
-			enum: [
-				"text_logo",
-				"icon_logo",
-				"combination_logo",
-				"mascot_logo",
-				"abstract_logo",
-			],
+			enum: [...LOGO_TYPE_VALUES],
 		},
 		colors: { type: String },
 		symbols: { type: String },

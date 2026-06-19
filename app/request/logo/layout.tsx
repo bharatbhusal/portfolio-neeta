@@ -9,7 +9,7 @@ export default function LogoRequestLayout({
 			<div className="space-y-4">
 				<Reveal>
 					<p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary">
-						Request a Logo Design
+						Request a Design
 					</p>
 				</Reveal>
 				<Reveal>
@@ -19,8 +19,8 @@ export default function LogoRequestLayout({
 				</Reveal>
 				<Reveal>
 					<p className="max-w-xl text-base leading-7 text-muted-foreground">
-						Fill out the details below and I&apos;ll get back to you
-						within 48 hours with ideas and a quote.
+						Fill out the details below and I&apos;ll get back to
+						you within 48 hours with ideas and a quote.
 					</p>
 				</Reveal>
 			</div>

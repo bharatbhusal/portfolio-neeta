@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
+import { isAuthenticated } from "@/lib/server-auth";
 import { getProjectRequestByIdController } from "@/controllers/projectRequests";
+import { RequestStatusControl } from "@/components/sections/request-status-control";
+import { LOGO_TYPE_LABELS } from "@/lib/constants";
 
 type Props = {
 	params: Promise<{ id: string }>;
@@ -9,7 +11,9 @@ type Props = {
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: Props): Promise<Metadata> {
 	const { id } = await params;
 	const request = await getProjectRequestByIdController(id);
 
@@ -23,22 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-const STATUS_CONFIG: Record<string, { label: string; variant: "default" | "secondary" | "outline" | "destructive" }> = {
-	pending: { label: "Pending", variant: "outline" },
-	reviewed: { label: "Reviewed", variant: "secondary" },
-	accepted: { label: "Accepted", variant: "default" },
-	declined: { label: "Declined", variant: "destructive" },
-};
-
-const LOGO_TYPE_LABELS: Record<string, string> = {
-	text_logo: "Text Logo (Wordmark)",
-	icon_logo: "Icon Logo (Symbol)",
-	combination_logo: "Combination Logo",
-	mascot_logo: "Mascot Logo",
-	abstract_logo: "Abstract Logo",
-};
-
-export default async function PublicRequestPage({ params }: Props) {
+export default async function PublicRequestPage({
+	params,
+}: Props) {
 	const { id } = await params;
 	const request = await getProjectRequestByIdController(id);
 
@@ -46,7 +37,9 @@ export default async function PublicRequestPage({ params }: Props) {
 		notFound();
 	}
 
-	const statusConfig = STATUS_CONFIG[request.status] ?? STATUS_CONFIG.pending;
+	const [isAdmin] = await Promise.all([
+		isAuthenticated().catch(() => false),
+	]);
 
 	return (
 		<div className="max-w-2xl mx-auto space-y-6">
@@ -58,17 +51,22 @@ export default async function PublicRequestPage({ params }: Props) {
 					<h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
 						{request.brandName}
 					</h2>
-					<Badge variant={statusConfig.variant}>
-						{statusConfig.label}
-					</Badge>
+					<RequestStatusControl
+						requestId={id}
+						currentStatus={request.status}
+						isAdmin={isAdmin}
+					/>
 				</div>
 				<p className="text-muted-foreground text-sm">
 					Submitted by {request.name} on{" "}
-					{new Date(request.createdAt).toLocaleDateString("en-IN", {
-						day: "numeric",
-						month: "long",
-						year: "numeric",
-					})}
+					{new Date(request.createdAt).toLocaleDateString(
+						"en-IN",
+						{
+							day: "numeric",
+							month: "long",
+							year: "numeric",
+						},
+					)}
 				</p>
 			</div>
 
@@ -81,22 +79,61 @@ export default async function PublicRequestPage({ params }: Props) {
 
 				<Section title="Brand">
 					<Field label="Brand Name" value={request.brandName} />
-					<Field label="Description" value={request.businessDescription} multiline />
-					<Field label="Target Audience" value={request.targetAudience} multiline />
-					<Field label="Keywords" value={request.brandKeywords?.join(", ")} />
+					<Field
+						label="Description"
+						value={request.businessDescription}
+						multiline
+					/>
+					<Field
+						label="Target Audience"
+						value={request.targetAudience}
+						multiline
+					/>
+					<Field
+						label="Keywords"
+						value={request.brandKeywords?.join(", ")}
+					/>
 				</Section>
 
 				<Section title="Design Direction">
-					<Field label="Desired Feeling" value={request.logoFeeling?.join(", ")} />
-					<Field label="Logo Type" value={request.logoType ? LOGO_TYPE_LABELS[request.logoType] : undefined} />
-					<Field label="Preferred Colors" value={request.colors} multiline />
-					<Field label="Symbols / Icons" value={request.symbols} multiline />
+					<Field
+						label="Desired Feeling"
+						value={request.logoFeeling?.join(", ")}
+					/>
+					<Field
+						label="Logo Type"
+						value={
+							request.logoType
+								? LOGO_TYPE_LABELS[request.logoType]
+								: undefined
+						}
+					/>
+					<Field
+						label="Preferred Colors"
+						value={request.colors}
+						multiline
+					/>
+					<Field
+						label="Symbols / Icons"
+						value={request.symbols}
+						multiline
+					/>
 				</Section>
 
 				<Section title="References &amp; Usage">
-					<Field label="Inspiration" value={request.inspiration} multiline />
-					<Field label="Usage" value={request.usage?.join(", ")} />
-					<Field label="File Formats" value={request.fileFormats?.join(", ")} />
+					<Field
+						label="Inspiration"
+						value={request.inspiration}
+						multiline
+					/>
+					<Field
+						label="Usage"
+						value={request.usage?.join(", ")}
+					/>
+					<Field
+						label="File Formats"
+						value={request.fileFormats?.join(", ")}
+					/>
 				</Section>
 
 				{request.additionalNotes && (

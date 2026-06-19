@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { MdMail, MdFolderOpen } from "react-icons/md";
 import { getProjectRequestStatsController } from "@/controllers/projectRequests";
 import { getProjectStatsController } from "@/controllers/projects";
 import { StatCard } from "@/components/cards/stat-card";

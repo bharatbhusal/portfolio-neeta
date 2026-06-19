@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Search } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Badge } from "@/components/ui/badge";
@@ -21,9 +20,13 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { apiRequest, ApiClientError } from "@/lib/apiClient";
 import type { ProjectRequest } from "@/types/portfolio";
-import type { ProjectRequestUpdate } from "@/lib/validators";
+import {
+	LOGO_TYPE_SHORT_LABELS,
+	STATUS_LABELS,
+	STATUS_VARIANTS,
+	STATUS_FILTERS,
+} from "@/lib/constants";
 
 type PaginationData = {
 	page: number;
@@ -32,7 +35,12 @@ type PaginationData = {
 	totalPages: number;
 };
 
-type SortBy = "createdAt" | "name" | "brandName" | "status" | "logoType";
+type SortBy =
+	| "createdAt"
+	| "name"
+	| "brandName"
+	| "status"
+	| "logoType";
 type SortOrder = "asc" | "desc";
 
 type AdminRequestsContentProps = {
@@ -42,37 +50,6 @@ type AdminRequestsContentProps = {
 	currentQuery: string;
 	currentSortBy: SortBy;
 	currentSortOrder: SortOrder;
-};
-
-const STATUS_CONFIG: Record<string, { label: string; variant: "default" | "secondary" | "outline" | "destructive" }> = {
-	pending: { label: "Pending", variant: "outline" },
-	reviewed: { label: "Reviewed", variant: "secondary" },
-	accepted: { label: "Accepted", variant: "default" },
-	declined: { label: "Declined", variant: "destructive" },
-};
-
-const LOGO_TYPE_LABELS: Record<string, string> = {
-	text_logo: "Wordmark",
-	icon_logo: "Icon Logo",
-	combination_logo: "Combination",
-	mascot_logo: "Mascot",
-	abstract_logo: "Abstract",
-};
-
-const STATUS_FILTERS = [
-	{ label: "All", value: "all" },
-	{ label: "Pending", value: "pending" },
-	{ label: "Reviewed", value: "reviewed" },
-	{ label: "Accepted", value: "accepted" },
-	{ label: "Declined", value: "declined" },
-];
-
-const STATUS_LABEL: Record<string, string> = {
-	all: "All",
-	pending: "Pending",
-	reviewed: "Reviewed",
-	accepted: "Accepted",
-	declined: "Declined",
 };
 
 const SORT_OPTIONS: { label: string; value: SortBy }[] = [
@@ -94,9 +71,13 @@ function buildUrl(
 ) {
 	const params = new URLSearchParams();
 	params.set("page", String(page));
-	if (status && status !== "all") params.set("status", status);
+	if (status && status !== "all")
+		params.set("status", status);
 	if (q) params.set("q", q);
-	if (sortBy !== DEFAULT_SORT || sortOrder !== DEFAULT_ORDER) {
+	if (
+		sortBy !== DEFAULT_SORT ||
+		sortOrder !== DEFAULT_ORDER
+	) {
 		params.set("sortBy", sortBy);
 		params.set("sortOrder", sortOrder);
 	}
@@ -116,7 +97,8 @@ export function AdminRequestsContent({
 	currentSortOrder,
 }: AdminRequestsContentProps) {
 	const router = useRouter();
-	const [searchValue, setSearchValue] = useState(currentQuery);
+	const [searchValue, setSearchValue] =
+		useState(currentQuery);
 
 	useEffect(() => {
 		const handle = setTimeout(() => {
@@ -146,7 +128,13 @@ export function AdminRequestsContent({
 	const handleStatusFilter = useCallback(
 		(status: string) => {
 			router.push(
-				buildUrl(1, status, currentQuery, currentSortBy, currentSortOrder),
+				buildUrl(
+					1,
+					status,
+					currentQuery,
+					currentSortBy,
+					currentSortOrder,
+				),
 			);
 		},
 		[currentQuery, currentSortBy, currentSortOrder, router],
@@ -156,22 +144,48 @@ export function AdminRequestsContent({
 		(field: SortBy) => {
 			const newSortOrder =
 				field === currentSortBy
-					? currentSortOrder === "asc" ? "desc" : "asc"
+					? currentSortOrder === "asc"
+						? "desc"
+						: "asc"
 					: sortDefaultOrder(field);
 			router.push(
-				buildUrl(1, currentStatus, currentQuery, field, newSortOrder),
+				buildUrl(
+					1,
+					currentStatus,
+					currentQuery,
+					field,
+					newSortOrder,
+				),
 			);
 		},
-		[currentStatus, currentQuery, currentSortBy, currentSortOrder, router],
+		[
+			currentStatus,
+			currentQuery,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
 	);
 
 	const handlePageChange = useCallback(
 		(newPage: number) => {
 			router.push(
-				buildUrl(newPage, currentStatus, currentQuery, currentSortBy, currentSortOrder),
+				buildUrl(
+					newPage,
+					currentStatus,
+					currentQuery,
+					currentSortBy,
+					currentSortOrder,
+				),
 			);
 		},
-		[currentStatus, currentQuery, currentSortBy, currentSortOrder, router],
+		[
+			currentStatus,
+			currentQuery,
+			currentSortBy,
+			currentSortOrder,
+			router,
+		],
 	);
 
 	const sortArrow = (field: SortBy) => {
@@ -186,7 +200,7 @@ export function AdminRequestsContent({
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="outline" size="sm">
-								{STATUS_LABEL[currentStatus] ?? "All"}
+								{STATUS_LABELS[currentStatus] ?? "All"}
 								<ChevronDownIcon className="ml-1 size-3.5" />
 							</Button>
 						</DropdownMenuTrigger>
@@ -196,7 +210,10 @@ export function AdminRequestsContent({
 								onValueChange={handleStatusFilter}
 							>
 								{STATUS_FILTERS.map((f) => (
-									<DropdownMenuRadioItem key={f.value} value={f.value}>
+									<DropdownMenuRadioItem
+										key={f.value}
+										value={f.value}
+									>
 										{f.label}
 									</DropdownMenuRadioItem>
 								))}
@@ -209,9 +226,7 @@ export function AdminRequestsContent({
 							<Button
 								key={opt.value}
 								variant={
-									currentSortBy === opt.value
-										? "default"
-										: "outline"
+									currentSortBy === opt.value ? "default" : "outline"
 								}
 								size="sm"
 								onClick={() => handleSortChange(opt.value)}
@@ -251,7 +266,8 @@ export function AdminRequestsContent({
 				<div className="space-y-3">
 					{requests.map((request) => {
 						const statusConfig =
-							STATUS_CONFIG[request.status] ?? STATUS_CONFIG.pending;
+							STATUS_VARIANTS[request.status] ??
+							STATUS_VARIANTS.pending;
 
 						return (
 							<Link
@@ -268,24 +284,28 @@ export function AdminRequestsContent({
 											{request.name} — {request.email}
 										</p>
 									</div>
-									<Badge variant={statusConfig.variant}>
-										{statusConfig.label}
+									<Badge variant={statusConfig}>
+										{STATUS_LABELS[request.status]}
 									</Badge>
 								</div>
 
 								<div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
 									{request.logoType && (
 										<span>
-											{LOGO_TYPE_LABELS[request.logoType] ?? request.logoType}
+											{LOGO_TYPE_SHORT_LABELS[request.logoType] ??
+												request.logoType}
 										</span>
 									)}
 									{request.phone && <span>{request.phone}</span>}
 									<span>
-										{new Date(request.createdAt).toLocaleDateString("en-IN", {
-											day: "numeric",
-											month: "short",
-											year: "numeric",
-										})}
+										{new Date(request.createdAt).toLocaleDateString(
+											"en-IN",
+											{
+												day: "numeric",
+												month: "short",
+												year: "numeric",
+											},
+										)}
 									</span>
 								</div>
 

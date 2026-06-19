@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { STATUS_VALUES, LOGO_TYPE_VALUES, BRAND_KEYWORDS, LOGO_FEELINGS, USAGE_OPTIONS, FILE_FORMATS } from "./constants";
 
 const optionalString = z.string().trim().optional();
 
@@ -43,57 +44,13 @@ export const loginSchema = z.object({
 	password: z.string().min(8),
 });
 
-const brandKeywordEnum = z.enum([
-	"Modern",
-	"Minimal",
-	"Luxury",
-	"Bold",
-	"Friendly",
-	"Creative",
-	"Professional",
-	"Premium",
-	"Futuristic",
-	"Elegant",
-	"Playful",
-	"Traditional",
-	"Artistic",
-	"Corporate",
-]);
+const brandKeywordEnum = z.enum(BRAND_KEYWORDS);
 
-const logoFeelingEnum = z.enum([
-	"Trust",
-	"Energy",
-	"Luxury",
-	"Fun",
-	"Confidence",
-	"Innovation",
-	"Calm",
-	"Creativity",
-	"Strength",
-	"Happiness",
-]);
+const logoFeelingEnum = z.enum(LOGO_FEELINGS);
 
-const usageEnum = z.enum([
-	"Instagram",
-	"Website",
-	"Packaging",
-	"Business Card",
-	"App",
-	"Print",
-	"YouTube",
-	"Merchandise",
-]);
+const usageEnum = z.enum(USAGE_OPTIONS);
 
-const fileFormatEnum = z.enum([
-	"PNG",
-	"JPG",
-	"SVG",
-	"PDF",
-	"AI File",
-	"Transparent Background",
-	"Black & White Version",
-	"Social Media Kit",
-]);
+const fileFormatEnum = z.enum(FILE_FORMATS);
 
 export const ProjectRequestSchema = z.object({
 	requestType: z
@@ -103,7 +60,7 @@ export const ProjectRequestSchema = z.object({
 	email: z.string().email("Valid email is required"),
 	phone: z.string().optional(),
 	status: z
-		.enum(["pending", "reviewed", "accepted", "declined"])
+		.enum(STATUS_VALUES)
 		.default("pending"),
 
 	brandName: z
@@ -114,13 +71,7 @@ export const ProjectRequestSchema = z.object({
 	brandKeywords: z.array(brandKeywordEnum).optional(),
 	logoFeeling: z.array(logoFeelingEnum).optional(),
 	logoType: z
-		.enum([
-			"text_logo",
-			"icon_logo",
-			"combination_logo",
-			"mascot_logo",
-			"abstract_logo",
-		])
+		.enum(LOGO_TYPE_VALUES)
 		.optional(),
 	colors: z.string().optional(),
 	symbols: z.string().optional(),
@@ -131,12 +82,7 @@ export const ProjectRequestSchema = z.object({
 });
 
 export const ProjectRequestUpdateSchema = z.object({
-	status: z.enum([
-		"pending",
-		"reviewed",
-		"accepted",
-		"declined",
-	]),
+	status: z.enum(STATUS_VALUES),
 	notes: z.string().optional(),
 });
 
@@ -144,12 +90,7 @@ export const ProjectRequestQuerySchema = z.object({
 	page: z.coerce.number().int().positive().default(1),
 	pageSize: z.coerce.number().int().positive().default(12),
 	status: z
-		.enum([
-			"pending",
-			"reviewed",
-			"accepted",
-			"declined",
-		])
+		.enum(STATUS_VALUES)
 		.optional(),
 	q: z.string().optional(),
 	sortBy: z
