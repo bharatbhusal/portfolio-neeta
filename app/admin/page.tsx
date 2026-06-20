@@ -1,6 +1,8 @@
 import { getProjectRequestStatsController } from "@/controllers/projectRequests";
 import { getProjectStatsController } from "@/controllers/projects";
 import { StatCard } from "@/components/cards/stat-card";
+import { FiPlusCircle } from "react-icons/fi";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -21,10 +23,16 @@ export default async function AdminDashboardPage() {
 			</div>
 
 			<section className="space-y-3">
-				<div className="flex items-center justify-between">
+				<div className="flex items-center gap-2">
 					<h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
 						Projects
 					</h3>
+					<Link
+						href="/admin/projects/new"
+						className="text-primary cursor-pointer"
+					>
+						<FiPlusCircle />
+					</Link>
 				</div>
 				<div className="flex flex-wrap gap-4">
 					<StatCard
