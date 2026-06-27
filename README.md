@@ -2,67 +2,54 @@
 
 Full-stack portfolio site for Neeta Bhusal — built with Next.js 16, MongoDB, and a custom admin CMS.
 
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?logo=next.js)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)](https://react.dev)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose_8-47A248?logo=mongodb)](https://mongoosejs.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/ARCHITECTURE.md) | High-level design, system layers, data flow, tech stack rationale |
+| [Low-Level Design](docs/LLD.md) | Module breakdown: routes, controllers, services, repos, models, hooks |
+| [API Reference](docs/API.md) | All endpoints, request/response shapes, validation schemas |
+| [Database Schema](docs/DATABASE.md) | Models, fields, indexes, enums, entity relationships |
+| [Component Tree](docs/COMPONENTS.md) | Full component hierarchy, server/client split, UI primitives |
+| [User Journeys](docs/USER_JOURNEY.md) | Flows for visitors, clients, and admin |
+| [Deployment Guide](docs/DEPLOYMENT.md) | Environment setup, Vercel deployment, troubleshooting |
+| [Security](docs/SECURITY.md) | Auth flow, middleware, XSS/CSRF prevention, input validation |
+
 ## Tech Stack
 
-| Layer           | Technology                                       |
-| --------------- | ------------------------------------------------ |
-| Framework       | Next.js 16.2.4 (App Router)                      |
-| UI              | React 19.2.4, shadcn/ui (Radix), Tailwind CSS v4 |
-| Database        | MongoDB + Mongoose 8                             |
-| Auth            | JWT (jose + jsonwebtoken), bcryptjs              |
-| Images          | Cloudinary (upload, transform, delivery)         |
-| Data Fetching   | TanStack React Query 5                           |
-| Animations      | GSAP 3.15                                        |
-| Validation      | Zod 3                                            |
-| Icons           | react-icons, @radix-ui/react-icons               |
-| Theme           | next-themes (dark/light)                         |
-| Package Manager | npm                                              |
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16.2.4 (App Router) |
+| UI | React 19.2.4, shadcn/ui (Radix), Tailwind CSS v4 |
+| Database | MongoDB + Mongoose 8 |
+| Auth | JWT (jose + jsonwebtoken), bcryptjs |
+| Images | Cloudinary (upload, transform, delivery) |
+| Data Fetching | TanStack React Query 5 |
+| Animations | GSAP 3.15 + ScrollTrigger |
+| Validation | Zod 3 |
+| Icons | react-icons, @radix-ui/react-icons |
+| Theme | next-themes (dark/light) |
+| Email | Nodemailer (SMTP) |
+| Analytics | Vercel Analytics |
+| Package Manager | npm |
 
 ## Features
 
 - **Portfolio** — Projects listing with search, filter by category, pagination, and detail pages
-- **Admin CMS** — Login/signup, create and edit projects with image upload
-- **Authentication** — JWT-based auth with cookie storage and middleware-protected routes
+- **Logo Request** — Multi-step form with auto-save, email notifications, and public status tracking
+- **Admin CMS** — Login/signup, create/edit projects with image upload, manage requests
+- **Authentication** — JWT-based auth with httpOnly cookies and middleware-protected routes
 - **Cloudinary Integration** — Image upload with signed signatures, responsive delivery via `hydrateProject()`
 - **SEO** — Dynamic metadata, sitemap, robots.txt, Open Graph / Twitter cards
-- **Animations** — GSAP scroll reveals, hover effects
-- **Dark Mode** — Default dark with next-themes
+- **Animations** — GSAP scroll reveals and hover effects
+- **Dark Mode** — Default dark with next-themes toggle
 - **Responsive** — Mobile-first, Tailwind responsive utilities
-
-## Directory Structure
-
-```
-portfolio-neeta/
-├── app/                    # Next.js App Router pages & API routes
-│   ├── contact/            # Contact page
-│   ├── projects/           # Projects listing + [id] detail
-│   ├── admin/              # Admin: login, signup, project CRUD
-│   └── api/                # API routes: auth, projects, images
-├── components/             # React components
-│   ├── layout/             # Navbar, Footer
-│   ├── sections/           # Hero, Projects, Contact
-│   ├── cards/              # Project card variants
-│   ├── forms/              # Project form, Auth form
-│   ├── ui/                 # shadcn/ui primitives
-│   ├── animations/         # Reveal wrapper
-│   └── providers/          # QueryProvider
-├── controllers/            # Request handling logic
-├── services/               # Business logic layer
-├── repositories/           # Data access layer
-├── models/                 # Mongoose schemas (User, Project)
-├── hooks/                  # Custom hooks (useApi, useGSAP)
-├── lib/                    # Utilities, helpers, configs
-├── types/                  # TypeScript type definitions
-├── styles/                 # Global CSS (Tailwind v4 theme)
-├── public/
-│   ├── site.json           # Site configuration & content
-│   └── images/             # Static images
-├── proxy.ts                # Middleware (admin route protection)
-├── next.config.ts          # Next.js configuration
-├── package.json            # Dependencies & scripts
-├── tsconfig.json           # TypeScript configuration
-└── postcss.config.mjs      # PostCSS config
-```
 
 ## Getting Started
 
@@ -90,12 +77,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Scripts
 
-| Script  | Command                | Purpose                 |
-| ------- | ---------------------- | ----------------------- |
-| `dev`   | `next dev --webpack`   | Start dev server        |
-| `build` | `next build --webpack` | Build for production    |
-| `start` | `next start`           | Start production server |
-| `lint`  | `eslint`               | Lint all files          |
+| Script | Command | Purpose |
+|--------|---------|---------|
+| `dev` | `next dev --webpack` | Start dev server |
+| `build` | `next build --webpack` | Build for production |
+| `start` | `next start` | Start production server |
+| `lint` | `eslint` | Lint all files |
 
 ## Architecture
 
@@ -115,29 +102,29 @@ Server components fetch `public/site.json` directly. Client components use TanSt
 ### Data Flow
 
 1. **Public pages** — Server component reads `public/site.json`, passes data as props to client components
-2. **Projects** — Client fetches `/api/projects` with query params (search, category, page), TanStack Query caches results
+2. **Projects** — Server component queries MongoDB via controller/service/repository, returns hydrated data
 3. **Admin** — Authenticated users CRUD projects via `/api/projects` (POST/PATCH), images via Cloudinary signed uploads
 
 ## Environment Variables
 
-| Variable                 | Required | Default   | Description               |
-| ------------------------ | -------- | --------- | ------------------------- |
-| `MONGODB_URI`            | Yes      | —         | MongoDB connection string |
-| `JWT_SECRET`             | Yes      | —         | Secret for signing JWTs   |
-| `CLOUDINARY_CLOUD_NAME`  | Yes      | —         | Cloudinary cloud name     |
-| `CLOUDINARY_API_KEY`     | Yes      | —         | Cloudinary API key        |
-| `CLOUDINARY_API_SECRET`  | Yes      | —         | Cloudinary API secret     |
-| `CLOUDINARY_FOLDER_NAME` | No       | —         | Upload folder             |
-| `AUTH_COOKIE_NAME`       | No       | `nb_auth` | Auth cookie name          |
-| `JWT_MAX_AGE`            | No       | `2592000` | Token lifetime (seconds)  |
-| `DISABLE_ONBOARDING`     | No       | `true`    | Disable signup route      |
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `MONGODB_URI` | Yes | — | MongoDB connection string |
+| `JWT_SECRET` | Yes | — | Secret for signing JWTs |
+| `CLOUDINARY_CLOUD_NAME` | Yes | — | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Yes | — | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Yes | — | Cloudinary API secret |
+| `CLOUDINARY_FOLDER_NAME` | No | — | Upload folder |
+| `AUTH_COOKIE_NAME` | No | `nb_auth` | Auth cookie name |
+| `JWT_MAX_AGE` | No | `2592000` | Token lifetime (seconds) |
+| `DISABLE_ONBOARDING` | No | `true` | Disable signup route |
 
 ## Deployment
 
 - **Live**: https://neetabhusal.vercel.app
 - **Repo**: https://github.com/bharatbhusal/portfolio-neeta
 
-Ensure all environment variables are set in the Vercel dashboard. The build command is `npm run build`.
+See [Deployment Guide](docs/DEPLOYMENT.md) for full setup instructions.
 
 ## Key Conventions
 
