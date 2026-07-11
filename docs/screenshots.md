@@ -92,38 +92,26 @@ Images are in `/public/assets/`. Each page has desktop (1280×800) and mobile (3
 
 ## Mobile
 
-| Page | Mobile Screenshot |
-|------|------------------|
-| Home | ![Home Mobile](/public/assets/home-mobile.png) |
-| Projects | ![Projects Mobile](/public/assets/projects-mobile.png) |
-| Project Detail | ![Project Detail Mobile](/public/assets/project-detail-mobile.png) |
-| Contact | ![Contact Mobile](/public/assets/contact-mobile.png) |
-| Request Logo | ![Request Logo Mobile](/public/assets/request-logo-mobile.png) |
-| Request Status | ![Request Status Mobile](/public/assets/request-status-mobile.png) |
-| Admin Login | ![Admin Login Mobile](/public/assets/admin-login-mobile.png) |
-| Admin Dashboard | ![Admin Dashboard Mobile](/public/assets/admin-mobile.png) |
-| New Project | ![New Project Mobile](/public/assets/admin-projects-new-mobile.png) |
-| Edit Project | ![Edit Project Mobile](/public/assets/admin-project-edit-mobile.png) |
-| Manage Requests | ![Manage Requests Mobile](/public/assets/admin-requests-mobile.png) |
+| Page            | Mobile Screenshot                                                    |
+| --------------- | -------------------------------------------------------------------- |
+| Home            | ![Home Mobile](/public/assets/home-mobile.png)                       |
+| Projects        | ![Projects Mobile](/public/assets/projects-mobile.png)               |
+| Project Detail  | ![Project Detail Mobile](/public/assets/project-detail-mobile.png)   |
+| Contact         | ![Contact Mobile](/public/assets/contact-mobile.png)                 |
+| Request Logo    | ![Request Logo Mobile](/public/assets/request-logo-mobile.png)       |
+| Request Status  | ![Request Status Mobile](/public/assets/request-status-mobile.png)   |
+| Admin Login     | ![Admin Login Mobile](/public/assets/admin-login-mobile.png)         |
+| Admin Dashboard | ![Admin Dashboard Mobile](/public/assets/admin-mobile.png)           |
+| New Project     | ![New Project Mobile](/public/assets/admin-projects-new-mobile.png)  |
+| Edit Project    | ![Edit Project Mobile](/public/assets/admin-project-edit-mobile.png) |
+| Manage Requests | ![Manage Requests Mobile](/public/assets/admin-requests-mobile.png)  |
 
 ---
 
-## Email Screenshots
+## Request Received Notification
 
-> **Attach email screenshots here.**  
-> The app sends transactional emails in these flows:
->
-> 1. **Request Confirmation** — sent to the client after submitting `/request/logo`
-> 2. **Admin Notification** — sent to the admin when a new request comes in
-> 3. **Status Update** — sent to the client when the admin changes request status
->
-> Place images in `/public/assets/` and add them below using the same `![Alt](/public/assets/<filename>.png)` format.
+![Alt](/public/assets/request-received-mail.png)
 
----
+## Request Status Change Notification
 
-## Tips
-
-- **Theme**: Dark mode is default. Toggle via the navbar button.
-- **Animations**: GSAP scroll reveals are present on the home page and project sections — wait 2–3s for full render.
-- **Admin credentials**: Username `neetabhusal`, password `neetabhusal` (dev only).
-- **Responsive**: The site is mobile-first. Some forms (request logo, new project) may require scrolling on mobile.
+![Alt](/public/assets/request-status-change-mail.png)
