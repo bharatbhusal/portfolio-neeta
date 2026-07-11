@@ -2,42 +2,37 @@
 
 Full-stack portfolio site for Neeta Bhusal — built with Next.js 16, MongoDB, and a custom admin CMS.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?logo=next.js)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)](https://react.dev)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose_8-47A248?logo=mongodb)](https://mongoosejs.com)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Architecture](docs/ARCHITECTURE.md) | High-level design, system layers, data flow, tech stack rationale |
-| [Low-Level Design](docs/LLD.md) | Module breakdown: routes, controllers, services, repos, models, hooks |
-| [API Reference](docs/API.md) | All endpoints, request/response shapes, validation schemas |
-| [Database Schema](docs/DATABASE.md) | Models, fields, indexes, enums, entity relationships |
-| [Component Tree](docs/COMPONENTS.md) | Full component hierarchy, server/client split, UI primitives |
-| [User Journeys](docs/USER_JOURNEY.md) | Flows for visitors, clients, and admin |
-| [Deployment Guide](docs/DEPLOYMENT.md) | Environment setup, Vercel deployment, troubleshooting |
-| [Security](docs/SECURITY.md) | Auth flow, middleware, XSS/CSRF prevention, input validation |
+| Document                               | Description                                                           |
+| -------------------------------------- | --------------------------------------------------------------------- |
+| [Architecture](docs/ARCHITECTURE.md)   | High-level design, system layers, data flow, tech stack rationale     |
+| [Low-Level Design](docs/LLD.md)        | Module breakdown: routes, controllers, services, repos, models, hooks |
+| [API Reference](docs/API.md)           | All endpoints, request/response shapes, validation schemas            |
+| [Database Schema](docs/DATABASE.md)    | Models, fields, indexes, enums, entity relationships                  |
+| [Component Tree](docs/COMPONENTS.md)   | Full component hierarchy, server/client split, UI primitives          |
+| [User Journeys](docs/USER_JOURNEY.md)  | Flows for visitors, clients, and admin                                |
+| [Deployment Guide](docs/DEPLOYMENT.md) | Environment setup, Vercel deployment, troubleshooting                 |
+| [Security](docs/SECURITY.md)           | Auth flow, middleware, XSS/CSRF prevention, input validation          |
+| [Screenshots](docs/screenshots.md)     | Page-by-page walkthrough with desktop and mobile viewport screenshots |
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16.2.4 (App Router) |
-| UI | React 19.2.4, shadcn/ui (Radix), Tailwind CSS v4 |
-| Database | MongoDB + Mongoose 8 |
-| Auth | JWT (jose + jsonwebtoken), bcryptjs |
-| Images | Cloudinary (upload, transform, delivery) |
-| Data Fetching | TanStack React Query 5 |
-| Animations | GSAP 3.15 + ScrollTrigger |
-| Validation | Zod 3 |
-| Icons | react-icons, @radix-ui/react-icons |
-| Theme | next-themes (dark/light) |
-| Email | Nodemailer (SMTP) |
-| Analytics | Vercel Analytics |
-| Package Manager | npm |
+| Layer           | Technology                                       |
+| --------------- | ------------------------------------------------ |
+| Framework       | Next.js 16.2.4 (App Router)                      |
+| UI              | React 19.2.4, shadcn/ui (Radix), Tailwind CSS v4 |
+| Database        | MongoDB + Mongoose 8                             |
+| Auth            | JWT (jose + jsonwebtoken), bcryptjs              |
+| Images          | Cloudinary (upload, transform, delivery)         |
+| Data Fetching   | TanStack React Query 5                           |
+| Animations      | GSAP 3.15 + ScrollTrigger                        |
+| Validation      | Zod 3                                            |
+| Icons           | react-icons, @radix-ui/react-icons               |
+| Theme           | next-themes (dark/light)                         |
+| Email           | Nodemailer (SMTP)                                |
+| Analytics       | Vercel Analytics                                 |
+| Package Manager | npm                                              |
 
 ## Features
 
@@ -77,12 +72,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Scripts
 
-| Script | Command | Purpose |
-|--------|---------|---------|
-| `dev` | `next dev --webpack` | Start dev server |
-| `build` | `next build --webpack` | Build for production |
-| `start` | `next start` | Start production server |
-| `lint` | `eslint` | Lint all files |
+| Script  | Command                | Purpose                 |
+| ------- | ---------------------- | ----------------------- |
+| `dev`   | `next dev --webpack`   | Start dev server        |
+| `build` | `next build --webpack` | Build for production    |
+| `start` | `next start`           | Start production server |
+| `lint`  | `eslint`               | Lint all files          |
 
 ## Architecture
 
@@ -107,17 +102,17 @@ Server components fetch `public/site.json` directly. Client components use TanSt
 
 ## Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `MONGODB_URI` | Yes | — | MongoDB connection string |
-| `JWT_SECRET` | Yes | — | Secret for signing JWTs |
-| `CLOUDINARY_CLOUD_NAME` | Yes | — | Cloudinary cloud name |
-| `CLOUDINARY_API_KEY` | Yes | — | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Yes | — | Cloudinary API secret |
-| `CLOUDINARY_FOLDER_NAME` | No | — | Upload folder |
-| `AUTH_COOKIE_NAME` | No | `nb_auth` | Auth cookie name |
-| `JWT_MAX_AGE` | No | `2592000` | Token lifetime (seconds) |
-| `DISABLE_ONBOARDING` | No | `true` | Disable signup route |
+| Variable                 | Required | Default   | Description               |
+| ------------------------ | -------- | --------- | ------------------------- |
+| `MONGODB_URI`            | Yes      | —         | MongoDB connection string |
+| `JWT_SECRET`             | Yes      | —         | Secret for signing JWTs   |
+| `CLOUDINARY_CLOUD_NAME`  | Yes      | —         | Cloudinary cloud name     |
+| `CLOUDINARY_API_KEY`     | Yes      | —         | Cloudinary API key        |
+| `CLOUDINARY_API_SECRET`  | Yes      | —         | Cloudinary API secret     |
+| `CLOUDINARY_FOLDER_NAME` | No       | —         | Upload folder             |
+| `AUTH_COOKIE_NAME`       | No       | `nb_auth` | Auth cookie name          |
+| `JWT_MAX_AGE`            | No       | `2592000` | Token lifetime (seconds)  |
+| `DISABLE_ONBOARDING`     | No       | `true`    | Disable signup route      |
 
 ## Deployment
 
@@ -134,3 +129,11 @@ See [Deployment Guide](docs/DEPLOYMENT.md) for full setup instructions.
 - **Animations** use `[data-reveal]` and `[data-hover-lift]` attributes consumed by `useGSAP` hook
 - **API responses** follow a standard `{ success, data/error }` format via `successResponse()` / `errorResponse()`
 - **Icons** are centralized in `lib/iconMapper.ts` mapping string names to react-icons components
+
+## Screenshots
+
+### Main Page
+
+![Main Page](/public/assets/home.png)
+
+Full page-by-page walkthrough with desktop and mobile views: [docs/screenshots.md](docs/screenshots.md).
