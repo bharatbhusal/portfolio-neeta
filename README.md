@@ -20,6 +20,7 @@ Full-stack portfolio site for Neeta Bhusal — built with Next.js 16, MongoDB, a
 | [User Journeys](docs/USER_JOURNEY.md) | Flows for visitors, clients, and admin |
 | [Deployment Guide](docs/DEPLOYMENT.md) | Environment setup, Vercel deployment, troubleshooting |
 | [Security](docs/SECURITY.md) | Auth flow, middleware, XSS/CSRF prevention, input validation |
+| [Screenshots](docs/screenshots.md) | Page-by-page walkthrough with desktop and mobile viewport screenshots |
 
 ## Tech Stack
 
@@ -134,3 +135,11 @@ See [Deployment Guide](docs/DEPLOYMENT.md) for full setup instructions.
 - **Animations** use `[data-reveal]` and `[data-hover-lift]` attributes consumed by `useGSAP` hook
 - **API responses** follow a standard `{ success, data/error }` format via `successResponse()` / `errorResponse()`
 - **Icons** are centralized in `lib/iconMapper.ts` mapping string names to react-icons components
+
+## Screenshots
+
+### Main Page
+
+![Main Page](/public/assets/home.png)
+
+Full page-by-page walkthrough with desktop and mobile views: [docs/screenshots.md](docs/screenshots.md).
